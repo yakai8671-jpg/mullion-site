@@ -1,0 +1,13 @@
+{
+  "id": "yue2.lyrics.add",
+  "params": {
+    "lyrics": {
+      "type": "list", "each": { "type": "yue2.lyric" }
+    }
+  },
+  "results": {
+    "lyrics": {
+      "type": "list", "each": { "type": "yue2.lyric" }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "reddi2ch.open",
+  "permissions": [
+    "window:write",
+    "items:write"
+  ],
+  "params": {
+    "app": {
+      "type": "ref"
+    },
+    "permalink": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

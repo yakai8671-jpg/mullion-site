@@ -1,0 +1,32 @@
+{
+  "id": "qwenpe.run",
+  "permissions": [
+    "comfy:run"
+  ],
+  "params": {
+    "mode": { "type": "enum" },
+    "model": { "type": "enum" },
+    "maxLength": { "type": "number" },
+    "request": { "type": "string" },
+    "image1": { "type": "image" },
+    "image2": { "type": "image" },
+    "image3": { "type": "image" },
+    "image4": { "type": "image" }
+  },
+  "results": {
+    "result": { "type": "string" },
+    "ratio": { "type": "string" },
+    "follow": { "type": "string" },
+    "parsed": { "type": "boolean" },
+    "truncated": { "type": "boolean" },
+    "thinking": { "type": "string" }
+  },
+  "concurrency": "ignore",
+  "cancellable": true,
+  "requires": {
+    "request": "nonEmpty",
+    "services": [
+      "comfyui"
+    ]
+  }
+}

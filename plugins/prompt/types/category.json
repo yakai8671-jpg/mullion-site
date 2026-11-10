@@ -1,0 +1,9 @@
+{
+  "id": "prompt.category",
+  "base": "string",
+  "label": "prompt.vtype.category",
+  "icon": "bookmark",
+  "sample": {
+    "default": ""
+  }
+}

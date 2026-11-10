@@ -1,0 +1,16 @@
+{
+  "id": "prompt.sentencecard",
+  "label": "prompt.control.sentencecard",
+  "script": true,
+  "why": "card for editing a sentence with optional AI generation",
+  "needs": [
+    "instruction",
+    "sentence",
+    "onGenerate",
+    "onImprove",
+    "models",
+    "loading",
+    "error"
+  ],
+  "params": {}
+}

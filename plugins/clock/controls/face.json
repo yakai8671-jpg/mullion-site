@@ -1,0 +1,34 @@
+{
+  "id": "clock.face",
+  "label": "clock.control.face",
+  "script": true,
+  "standalone": true,
+  "why": "Draws a clock face (digital text or an analog dial) and redraws it every second with its own timer, which no shell control does.",
+  "params": {
+    "mode": {
+      "type": "string",
+      "bind": "read"
+    },
+    "hours": {
+      "type": "string",
+      "bind": "read"
+    },
+    "seconds": {
+      "type": "boolean",
+      "bind": "read"
+    },
+    "caption": {
+      "type": "string",
+      "bind": "read"
+    },
+    "settings": {
+      "type": "action"
+    }
+  },
+  "sampleParams": {
+    "mode": "digital",
+    "hours": "h24",
+    "seconds": true,
+    "caption": ""
+  }
+}

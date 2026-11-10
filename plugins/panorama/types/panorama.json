@@ -1,0 +1,12 @@
+{
+  "id": "panorama",
+  "label": "panorama.vtype.panorama",
+  "icon": "globe",
+  "port": "panorama",
+  "portAccepts": ["image"],
+  "default": null,
+  "defaultControl": "panorama.card",
+  "defaults": {
+    "maxBytes": 10485760
+  }
+}

@@ -1,0 +1,17 @@
+// Image Edit -- change a picture by saying what to change. The workflow
+// plugin's run app with two engines: Qwen-Image 2.1 Turbo, and
+// Qwen-Image-Edit (Qwen-Rapid-AIO).
+{
+  "id": "imageedit.app",
+  "extends": "workflow.run",
+  "label": "imageedit.item.app",
+  "icon": "pencil-square",
+  "config": {
+    "promptText": true,
+    "attention": true,
+    "engines": [
+      { "key": "qwen21", "label": "imageedit.engine.qwen21", "template": "assets/qwen21.json" },
+      { "key": "edit", "label": "imageedit.engine.edit", "template": "assets/edit.json" },
+    ],
+  },
+}

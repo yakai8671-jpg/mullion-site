@@ -1,0 +1,22 @@
+{
+  "id": "h3.line",
+  "label": "h3.vtype.line",
+  "icon": "chat-quote",
+  "port": "h3.line",
+  "identity": "uid",
+  "defaultControl": "summary",
+  "fields": {
+    "speaker": { "type": "string", "port": false },
+    "lang": { "type": "string", "port": false },
+    "verb": { "type": "string" },
+    "text": { "type": "string" },
+    "voiceover": { "type": "boolean" }
+  },
+  "format": { "field": "text" },
+  "portKeep": ["uid"],
+  "list": {
+    "port": "h3.lines",
+    "label": "h3.prop.lines",
+    "icon": "chat-quote"
+  }
+}

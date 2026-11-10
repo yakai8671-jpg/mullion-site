@@ -1,0 +1,17 @@
+{
+  "id": "reddi2ch.board",
+  "label": "reddi2ch.control.board",
+  "why": "a board as a subject list with momentum: a document view no shell card draws",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "list": { "type": "any" },
+    "loading": { "type": "string" },
+    "error": { "type": "string" },
+    "current": { "type": "string" },
+    "onOpen": { "type": "function" }
+  },
+  "sampleParams": {
+    "loading": "読み込み中…"
+  }
+}

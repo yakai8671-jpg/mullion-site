@@ -1,0 +1,91 @@
+{
+  "id": "prompt",
+  "name": "Prompt Editor",
+  "version": "1.0.0",
+  "description": "Builds a prompt out of saved parts: a template of slots, each slot a shortlist with one of them chosen.",
+  "api": 1,
+  "items": [
+    "items/slots.json",
+    "items/generator.json",
+    "items/assembler.json"
+  ],
+  "apps": [
+    "apps/generator.json",
+    "apps/assembler.json"
+  ],
+  "types": [
+    "types/category.json",
+    "types/tag.json",
+    "types/description.json",
+    "types/text.json",
+    "types/sentence.json",
+    "types/slot.json",
+    "types/part.json"
+  ],
+  "controls": [
+    "controls/partedit.json",
+    "controls/promptline.json",
+    "controls/promptlist.json",
+    "controls/tagcard.json",
+    "controls/sentenceedit.json",
+    "controls/sentencecard.json",
+    "controls/tagline.json",
+    "controls/modelselect.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "translations": "i18n.json",
+  "styles": [
+    "prompt.css"
+  ],
+  "permissions": [
+    "store:read",
+    "window:write",
+    "ollama:run",
+    "store:write",
+    "services:read",
+    "services:write",
+    "tagdict:read"
+  ],
+  "provides": {
+    "itemTypes": [
+      "prompt.assembler",
+      "prompt.slots",
+      "prompt.generator"
+    ],
+    "valueTypes": [
+      "prompt.part",
+      "prompt.slot",
+      "prompt.tag",
+      "prompt.description",
+      "prompt.text",
+      "prompt.category",
+      "prompt.sentence"
+    ],
+    "controls": [
+      "prompt.partedit",
+      "prompt.promptline",
+      "prompt.promptlist",
+      "prompt.tagcard",
+      "prompt.sentenceedit",
+      "prompt.sentencecard",
+      "prompt.tagline",
+      "prompt.modelselect"
+    ],
+    "permissions": [],
+    "skins": [],
+    "actions": [
+      "prompt.generate",
+      "prompt.restore"
+    ]
+  },
+  "requires": [
+    "services",
+    "tagdict"
+  ],
+  "actions": [
+    "actions/generate.json",
+    "actions/restore.json"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "h3.i2v",
+  "extends": "workflow.run",
+  "label": "h3.item.i2v",
+  "icon": "camera-reels",
+  "config": {
+    "promptText": true,
+    "attention": true,
+    "engines": [
+      {
+        "key": "frames",
+        "label": "h3.engine.frames",
+        "template": "assets/i2v.json"
+      },
+      {
+        "key": "references",
+        "label": "h3.engine.references",
+        "template": "assets/r2v.json"
+      }
+    ]
+  },
+  "properties": {
+    "size": {
+      "default": [864, 480]
+    }
+  }
+}

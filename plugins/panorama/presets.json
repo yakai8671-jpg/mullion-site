@@ -1,0 +1,5 @@
+[
+  { "type": "workflow.image_size", "name": "パノラマ 2:1 (2048×1024)", "value": [2048, 1024] },
+  { "type": "workflow.image_size", "name": "パノラマ 2:1 (1536×768)", "value": [1536, 768] },
+  { "type": "workflow.image_size", "name": "パノラマ 2:1 (1024×512)", "value": [1024, 512] }
+]

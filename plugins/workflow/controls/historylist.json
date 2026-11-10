@@ -1,0 +1,30 @@
+{
+  "id": "workflow.historylist",
+  "label": "workflow.control.historylist",
+  "script": true,
+  "standalone": true,
+  "why": "draws the history of runs as cards",
+  "params": {
+    "entries": {
+      "type": "data"
+    },
+    "empty": {
+      "type": "string"
+    },
+    "bare": {
+      "type": "boolean"
+    }
+  },
+  "sampleParams": {
+    "entries": [
+      {
+        "key": "1",
+        "when": "2026/9/22 10:00",
+        "took": "took 8.4 s",
+        "app": "Text to Image",
+        "summary": "1girl, smile",
+        "output": ""
+      }
+    ]
+  }
+}

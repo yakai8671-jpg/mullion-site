@@ -1,0 +1,16 @@
+{
+  "id": "bays.remove",
+  "permissions": [
+    "bays:read",
+    "bays:write"
+  ],
+  "params": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

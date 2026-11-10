@@ -1,0 +1,11 @@
+{
+  "id": "character.referencepreview",
+  "label": "character.preview.references",
+  "why": "Preview references panel",
+  "script": true,
+  "params": {
+    "character": {
+      "type": "data"
+    }
+  }
+}

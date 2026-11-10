@@ -1,0 +1,17 @@
+{
+  "id": "workflow.template",
+  "label": "workflow.vtype.template",
+  "icon": "puzzle",
+  "sample": {
+    "default": {
+      "name": "",
+      "tool": "text_generation",
+      "workflow": {},
+      "blocks": {}
+    }
+  },
+  "groups": {
+    "label": "workflow.field.tool"
+  },
+  "defaultControl": "workflow.templatesummary"
+}

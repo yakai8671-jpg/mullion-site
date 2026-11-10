@@ -1,0 +1,19 @@
+{
+  "id": "yue2.lyrics.move",
+  "params": {
+    "lyrics": {
+      "type": "list", "each": { "type": "yue2.lyric" }
+    },
+    "id": {
+      "type": "string"
+    },
+    "direction": {
+      "type": "number"
+    }
+  },
+  "results": {
+    "lyrics": {
+      "type": "list", "each": { "type": "yue2.lyric" }
+    }
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "id": "yue2.lyricsEditor",
+  "label": "yue2.item.lyricsEditor",
+  "icon": "list-ol",
+  "standalone": true,
+  "properties": {
+    "lyrics": {
+      "label": "yue2.prop.lyrics",
+      "type": "list", "each": { "type": "yue2.lyric" },
+      "port": "text",
+      "default": []
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "lyrics",
+      "options": {
+        "label": "yue2.prop.lyrics"
+      },
+      "layout": [
+        {
+          "control": "list",
+          "key": "lyrics-list",
+          "options": {
+            "port": {
+              "bind": "lyrics"
+            },
+            "add": {
+              "action": "add",
+              "label": "yue2.action.addSection"
+            }
+          },
+          "layout": [
+            {
+              "control": "card",
+              "key": "lyric",
+              "each": {
+                "bind": "lyrics"
+              },
+              "as": "line",
+              "options": {
+                "label": {
+                  "bind": "line.name"
+                },
+                "discard": "remove",
+                "port": true
+              },
+              "slots": {
+                "tools": [
+                  {
+                    "key": "up",
+                    "icon": "arrow-up",
+                    "label": "yue2.action.moveUp",
+                    "action": "up"
+                  },
+                  {
+                    "key": "down",
+                    "icon": "arrow-down",
+                    "label": "yue2.action.moveDown",
+                    "action": "down"
+                  }
+                ],
+                "body": [
+                  {
+                    "control": "texteditor",
+                    "key": "name",
+                    "options": {
+                      "value": {
+                        "bind": "line.name"
+                      },
+                      "lines": 1
+                    }
+                  },
+                  {
+                    "control": "texteditor",
+                    "key": "text",
+                    "options": {
+                      "value": {
+                        "bind": "line.text"
+                      },
+                      "lines": 4
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "add": {
+      "use": "yue2.lyrics.add",
+      "inputs": [
+        "lyrics"
+      ],
+      "outputs": {
+        "lyrics": "lyrics"
+      }
+    },
+    "remove": {
+      "use": "yue2.lyrics.remove",
+      "inputs": {
+        "lyrics": "lyrics",
+        "id": {
+          "payload": "id"
+        }
+      },
+      "outputs": {
+        "lyrics": "lyrics"
+      }
+    },
+    "up": {
+      "use": "yue2.lyrics.move",
+      "inputs": {
+        "lyrics": "lyrics",
+        "id": {
+          "payload": "id"
+        }
+      },
+      "with": {
+        "direction": -1
+      },
+      "outputs": {
+        "lyrics": "lyrics"
+      }
+    },
+    "down": {
+      "use": "yue2.lyrics.move",
+      "inputs": {
+        "lyrics": "lyrics",
+        "id": {
+          "payload": "id"
+        }
+      },
+      "with": {
+        "direction": 1
+      },
+      "outputs": {
+        "lyrics": "lyrics"
+      }
+    }
+  }
+}

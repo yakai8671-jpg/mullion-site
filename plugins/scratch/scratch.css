@@ -1,0 +1,118 @@
+/* Where things are dropped: a dashed strip, the whole board while empty. */
+.scratch-zone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 3rem;
+  box-sizing: border-box;
+  padding: var(--space-2);
+  border: var(--border-width) dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.scratch-zone.is-empty {
+  min-height: 10rem;
+}
+
+/* One thing put down: a card, its header, what it is. */
+.scratch-card {
+  position: relative;
+}
+
+.scratch-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-2);
+}
+
+.scratch-card-text {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.scratch-card-picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10rem;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: repeating-conic-gradient(var(--bg-inset) 0 25%, var(--bg-elevated) 0 50%) 50% / 12px 12px;
+}
+
+.scratch-card-picture > img,
+.scratch-card-picture > video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.scratch-card-said {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.scratch-card-said.is-empty {
+  color: var(--fg-muted);
+  text-align: center;
+}
+
+/* Shrunk: a 4rem picture and one line of what it says. */
+.scratch-card.is-shrunk .scratch-card-picture {
+  height: 4rem;
+}
+
+.scratch-card.is-shrunk .scratch-card-said,
+.scratch-card.is-shrunk .scratch-card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scratch-card.is-shrunk .scratch-card-text {
+  height: 2rem;
+  resize: none;
+}
+
+/* The board's window is where things are put down: its guide covers it. */
+.mu-window.scratch-board-window > .mu-port-guides {
+  z-index: 50;
+}
+
+/* A card that has a name of its own (a property group's entry): a field
+ * above the value, folded away with the rest when the card is shrunk. */
+.scratch-card-name {
+  padding: var(--space-2) var(--space-2) 0;
+}
+
+.scratch-card-name .input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.scratch-card.is-shrunk .scratch-card-name {
+  display: none;
+}
+
+/* The value alone, inside a card of the shell's. */
+.scratch-card.is-bare {
+  border: 0;
+  background: none;
+}
+
+.scratch-card.is-bare .scratch-card-body {
+  padding: 0;
+}
+
+.scratch-card.is-bare > .scratch-card-head {
+  display: none !important;
+}

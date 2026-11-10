@@ -1,0 +1,196 @@
+/* The page that stands in for the shell when it cannot start (see
+ * backend/problems.py). It is drawn with the shell's own window, title bar,
+ * buttons and status dots, so it follows the theme and the skin; this file is
+ * only what is particular to it. Every colour and measurement is a variable. */
+
+.mu-problem-window .mu-window-title {
+  pointer-events: none;
+}
+
+.mu-problem-icon {
+  flex: none;
+  color: var(--danger);
+}
+
+.mu-problem-window-title {
+  overflow: hidden;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-problem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3);
+}
+
+.mu-problem-head h1 {
+  margin: 0 0 var(--space-2);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.mu-problem-head p {
+  margin: 0;
+  color: var(--fg-muted);
+  line-height: 1.75;
+}
+
+.mu-problem-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mu-problem-section h2 {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* What was found: a status dot, what it is, what it was. */
+.mu-problem-facts {
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.mu-problem-fact {
+  display: grid;
+  grid-template-columns: 0.6rem minmax(8rem, 14rem) minmax(0, 1fr);
+  gap: var(--space-2) var(--space-3);
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-top: var(--border-width) solid var(--border);
+}
+
+.mu-problem-fact:first-child {
+  border-top: 0;
+}
+
+.mu-problem-fact-label {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.mu-problem-fact-value {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  word-break: break-all;
+}
+
+.mu-problem-fact[data-state="failed"] .mu-problem-fact-value {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+@media (max-width: 36rem) {
+  .mu-problem-fact {
+    grid-template-columns: 0.6rem minmax(0, 1fr);
+  }
+
+  .mu-problem-fact-value {
+    grid-column: 2;
+  }
+}
+
+.mu-problem-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.mu-problem-action .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.9375rem;
+}
+
+.mu-problem-action .btn .bi-arrow-repeat {
+  animation: mu-problem-spin 1s linear infinite;
+}
+
+@keyframes mu-problem-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mu-problem-action p {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  line-height: 1.7;
+}
+
+.mu-problem-listing,
+.mu-problem-log {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  overflow: auto;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.mu-problem-log {
+  max-height: 16rem;
+}
+
+.mu-problem-log[hidden] {
+  display: none;
+}
+
+.mu-problem-log .is-error {
+  color: var(--danger);
+}
+
+.mu-problem-result {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.mu-problem-result[data-state="failed"] {
+  color: var(--danger);
+}
+
+.mu-problem-result[data-state="ok"] {
+  color: var(--success);
+}
+
+.mu-problem ol {
+  margin: 0;
+  padding-left: 1.4em;
+  color: var(--fg-muted);
+  line-height: 1.75;
+}
+
+.mu-problem li {
+  margin: var(--space-1) 0;
+}
+
+.mu-problem code {
+  padding: 0 0.35em;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}

@@ -1,0 +1,76 @@
+{
+  "id": "bseditor.cell",
+  "label": "bseditor.item.cell",
+  "standalone": true,
+  "icon": "pencil-square",
+  "permissions": [
+    "window:write"
+  ],
+  "properties": {
+    "cell": {
+      "label": "bseditor.prop.cell",
+      "type": "bseditor.cell"
+    }
+  },
+  "screen": "bseditor.cell",
+  "derived": {
+    "classes": {
+      "label": "bseditor.prop.classes",
+      "type": "list",
+      "each": {
+        "type": "bseditor.classentry"
+      },
+      "writable": true,
+      "from": {
+        "script": "cellClasses"
+      }
+    },
+    "text": {
+      "label": "bseditor.prop.cellText",
+      "type": "bseditor.richtext",
+      "writable": true,
+      "from": {
+        "script": "cellText"
+      }
+    },
+    "runs": {
+      "label": "bseditor.prop.runs",
+      "type": "list",
+      "each": {
+        "type": "bseditor.run"
+      },
+      "writable": true,
+      "from": {
+        "script": "cellRuns"
+      }
+    },
+    "attrs": {
+      "label": "bseditor.prop.attrs",
+      "type": "list",
+      "each": {
+        "type": "bseditor.attrentry"
+      },
+      "writable": true,
+      "from": {
+        "script": "cellAttrs"
+      }
+    },
+    "bound": {
+      "label": "bseditor.prop.cell",
+      "type": "boolean",
+      "from": {
+        "script": "cellBound"
+      }
+    }
+  },
+  "actions": {
+    "say": {
+      "use": "bseditor.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    }
+  }
+}

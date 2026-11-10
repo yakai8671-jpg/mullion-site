@@ -1,0 +1,46 @@
+{
+  "id": "charsheet",
+  "name": "Four-view Sheet",
+  "version": "2.0.0",
+  "description": "A character's front, three-quarter, side and back drawn in one picture with Qwen-Image (an optional sheet LoRA), and cut into the four-view sheet a character keeps. Opened beside the Character Editor.",
+  "api": 1,
+  "translations": "i18n.json",
+  "items": [
+    "items/charsheet.json"
+  ],
+  "apps": [
+    "apps/charsheet.json"
+  ],
+  "assets": [
+    "assets/sheet.json",
+    "assets/edit.json"
+  ],
+  "scripts": [
+    "hooks.js"
+  ],
+  "styles": [],
+  "permissions": [
+    "layout:place",
+    "comfy:run",
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "window:write",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "charsheet.app"
+    ],
+    "valueTypes": [],
+    "controls": [],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "workflow",
+    "character",
+    "services"
+  ]
+}

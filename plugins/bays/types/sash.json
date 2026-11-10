@@ -1,0 +1,49 @@
+{
+  "id": "bays.sash",
+  "label": "bays.vtype.sash",
+  "icon": "window-stack",
+  "identity": "id",
+  "storable": false,
+  "fields": {
+    "bay": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "tree": {
+      "type": "data"
+    },
+    "hasTree": {
+      "type": "boolean"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "shownLabel": {
+      "type": "string"
+    },
+    "shownIcon": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "noUnit": {
+      "type": "boolean"
+    },
+    "windows": {
+      "type": "number"
+    }
+  },
+  "port": "bays.sash",
+  "portReceive": false,
+  "defaultControl": "summary",
+  "format": {
+    "field": "title"
+  },
+  "list": {
+    "label": "bays.vtype.sashes",
+    "icon": "window-stack"
+  }
+}

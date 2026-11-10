@@ -1,0 +1,43 @@
+{
+  "id": "workflow.textout",
+  "label": "workflow.control.textout",
+  "script": true,
+  "standalone": true,
+  "why": "the text a tool wrote, as an output card: run again, copy, keep, clear; no editing",
+  "params": {
+    "text": {
+      "type": "string"
+    },
+    "empty": {
+      "type": "string"
+    },
+    "full": {
+      "type": "boolean"
+    },
+    "onFull": {
+      "type": "data"
+    },
+    "onClear": {
+      "type": "data"
+    },
+    "onRun": {
+      "type": "data"
+    },
+    "runTitle": {
+      "type": "string"
+    },
+    "running": {
+      "type": "boolean"
+    },
+    "onKeep": {
+      "type": "data"
+    },
+    "port": {
+      "type": "data"
+    }
+  },
+  "sampleParams": {
+    "text": "1girl, solo, looking at viewer",
+    "full": true
+  }
+}

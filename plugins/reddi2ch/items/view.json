@@ -1,0 +1,95 @@
+{
+  "id": "reddi2ch.view",
+  "label": "reddi2ch.item.view",
+  "icon": "eye",
+  "permissions": [
+    "store:read",
+    "store:write"
+  ],
+  "properties": {
+    "nameMode": {
+      "label": "reddi2ch.prop.nameMode",
+      "type": "enum",
+      "default": "author",
+      "options": [
+        "author",
+        "anon"
+      ]
+    },
+    "anonName": {
+      "label": "reddi2ch.prop.anonName",
+      "type": "string",
+      "default": "名無しさん@お腹いっぱい。"
+    },
+    "idScope": {
+      "label": "reddi2ch.prop.idScope",
+      "type": "enum",
+      "default": "subreddit",
+      "options": [
+        "subreddit",
+        "thread"
+      ]
+    },
+    "dropAutoModerator": {
+      "label": "reddi2ch.prop.dropAutoModerator",
+      "type": "boolean",
+      "default": true
+    },
+    "dropDeleted": {
+      "label": "reddi2ch.prop.dropDeleted",
+      "type": "boolean",
+      "default": false
+    },
+    "useMinScore": {
+      "label": "reddi2ch.prop.useMinScore",
+      "type": "boolean",
+      "default": false
+    },
+    "minScore": {
+      "label": "reddi2ch.prop.minScore",
+      "type": "number",
+      "min": -10000,
+      "max": 100000,
+      "default": 1
+    },
+    "maxRes": {
+      "label": "reddi2ch.prop.maxRes",
+      "type": "number",
+      "min": 0,
+      "max": 5000,
+      "default": 0
+    },
+    "order": {
+      "label": "reddi2ch.prop.order",
+      "type": "enum",
+      "default": "time",
+      "options": [
+        "time",
+        "thread"
+      ]
+    },
+    "highlight": {
+      "label": "reddi2ch.prop.highlight",
+      "type": "boolean",
+      "default": true
+    },
+    "showImages": {
+      "label": "reddi2ch.prop.showImages",
+      "type": "boolean",
+      "default": true
+    },
+    "translateStyle": {
+      "label": "reddi2ch.prop.translateStyle",
+      "type": "reddi2ch.style",
+      "default": ""
+    },
+    "translateMax": {
+      "label": "reddi2ch.prop.translateMax",
+      "type": "number",
+      "min": 0,
+      "max": 5000,
+      "default": 30
+    }
+  },
+  "screen": "reddi2ch.view"
+}

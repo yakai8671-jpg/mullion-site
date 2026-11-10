@@ -1,0 +1,50 @@
+{
+  "id": "apps.entry",
+  "label": "apps.vtype.entry",
+  "icon": "app-indicator",
+  "identity": "id",
+  "storable": false,
+  "portReceive": false,
+  "fields": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "icon": {
+      "type": "string",
+      "readonly": true
+    },
+    "builtin": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "pristine": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "excludeHistory": {
+      "label": "apps.prop.excludeHistory",
+      "type": "boolean",
+      "readonly": true
+    },
+    "hasTree": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "tree": {
+      "type": "data",
+      "readonly": true
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "label": "apps.vtype.entries",
+    "icon": "app-indicator"
+  }
+}

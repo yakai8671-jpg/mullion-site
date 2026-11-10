@@ -1,0 +1,15 @@
+{
+  "id": "textcompose.catalog.embed",
+  "permissions": [
+    "items:write"
+  ],
+  "params": {
+    "app": {
+      "type": "ref"
+    },
+    "key": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

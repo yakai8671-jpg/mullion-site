@@ -1,0 +1,26 @@
+{
+  "id": "h3.scene",
+  "label": "h3.vtype.scene",
+  "icon": "film",
+  "port": "h3.scene",
+  "identity": "uid",
+  "defaultControl": "summary",
+  "fields": {
+    "time": { "type": "number" },
+    "transition": { "type": "string", "port": false },
+    "content": { "type": "string" },
+    "camera": { "type": "string", "port": false },
+    "amplitude": { "type": "string", "port": false },
+    "speed": { "type": "string", "port": false },
+    "cameraMore": { "type": "string" },
+    "lines": { "type": "list", "each": { "type": "h3.line" }, "identity": "uid" },
+    "screens": { "type": "list", "each": { "type": "h3.screen" }, "identity": "uid" }
+  },
+  "format": { "field": "content" },
+  "portKeep": ["uid", "time"],
+  "list": {
+    "port": "h3.scenes",
+    "label": "h3.prop.scenes",
+    "icon": "film"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "scratch.zone",
+  "label": "scratch.control.zone",
+  "why": "the board's drop strip: takes any grip carried to it",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "entries": { "type": "list", "each": { "type": "scratch.entry" }, "bind": "read" },
+    "put": { "type": "action", "payload": { "value": "data", "kind": "string" } }
+  }
+}

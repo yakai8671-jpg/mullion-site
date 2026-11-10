@@ -1,0 +1,19 @@
+{
+  "id": "bays.unregister",
+  "permissions": [
+    "bays:read",
+    "bays:write"
+  ],
+  "params": {
+    "bay": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

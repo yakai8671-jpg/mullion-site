@@ -1,0 +1,723 @@
+/* Prompt Assembler's own styling.
+ *
+ * Every colour and measurement is a token, which is what lets a skin reach
+ * these rules without knowing they exist -- see the skins section of the
+ * README. The class names are the plugin's own, prefixed rather than
+ * borrowed from the shell.
+ */
+
+/* -- part: a name and its tags as chips -------------------------------- */
+.prompt-part {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.prompt-part-name {
+  flex: 1 1 8rem;
+  min-width: 0;
+}
+
+.prompt-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.prompt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  max-width: 12rem;
+  padding: 0.0625rem 0.125rem 0.0625rem var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-inset);
+  color: var(--fg);
+  font-size: var(--font-size-small);
+}
+
+.prompt-chip > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prompt-chip-drop {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  line-height: 1;
+}
+
+.prompt-chip-drop:hover {
+  background: var(--danger);
+  color: var(--danger-fg);
+}
+
+.prompt-chip-add {
+  flex: 1 1 6rem;
+  min-width: 4rem;
+}
+
+/* -- slotline: one slot, in one line ---------------------------------- */
+.prompt-slotline {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  width: 100%;
+  min-width: 0;
+}
+
+.prompt-slotline-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prompt-slotline-meta {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+}
+
+/* -- the sidebar: a card per slot, in order --------------------------- */
+/* Taken from promptmanager's .template-slot-item: a header row with the
+   handle, the category and the actions, and a body with a square for the
+   part and its name. The open one is bordered and tinted, which is the
+   only state the list has. */
+.prompt-slots {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.prompt-slot-ai {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.prompt-direct-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prompt-direct-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-1) var(--space-2);
+}
+
+.prompt-direct-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.prompt-direct-field:has(.prompt-direct-content) {
+  grid-column: 1 / -1;
+}
+
+.prompt-direct-content {
+  width: 100%;
+  resize: vertical;
+}
+
+/* Not clickable as a whole: the two things a card can do are on the badge
+   and on the body, and a card-wide cursor promised a third that does not
+   exist. `position: relative` is for the drop guides. */
+.prompt-slot-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+  min-width: 0;
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.prompt-slot-card.is-dragging {
+  opacity: 0.45;
+}
+
+/* Where a dragged card would land. The shell's window guides in miniature,
+   and deliberately the same rules: a wash over the target, two inset panels
+   with a dashed accent border saying which way each one goes, and the one
+   under the pointer filled in. Visible for the whole drag rather than only
+   under the pointer, so a card says it can be dropped on without having to
+   be swept first. */
+.prompt-slot-guides {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: none;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.prompt-slots.is-dragging .prompt-slot-card:not(.is-dragging) .prompt-slot-guides {
+  display: block;
+}
+
+.prompt-slot-guide {
+  position: absolute;
+  left: 0.25rem;
+  right: 0.25rem;
+  height: calc(50% - 0.375rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: var(--border-width) dashed var(--accent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.prompt-slot-guide.guide-before {
+  top: 0.25rem;
+}
+
+.prompt-slot-guide.guide-after {
+  bottom: 0.25rem;
+}
+
+.prompt-slot-guide:hover,
+.prompt-slot-guide.is-over {
+  border-style: solid;
+  background: color-mix(in srgb, var(--accent) 45%, var(--bg-elevated));
+  color: var(--fg);
+}
+
+.prompt-slot-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.prompt-slot-kind {
+  flex: 0 0 auto;
+  width: auto;
+  max-width: 9rem;
+  padding-block: 0.0625rem;
+  font-size: var(--font-size-small);
+}
+
+.prompt-slot-handle {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  cursor: grab;
+  line-height: 1;
+}
+
+.prompt-slot-handle:active {
+  cursor: grabbing;
+}
+
+/* The categories this slot looks in, as a pill -- and a way in: clicking it
+   opens the chooser over the slot's filter.
+
+   Neutral, not accent-coloured. Accent is what the shell uses for the thing
+   that is current or chosen, so a badge wearing it read as a selected card
+   -- on every card at once, which said nothing. The accent is kept for
+   hover, where it means what it says: this is the one you are about to
+   press. */
+.prompt-badge {
+  flex: 0 1 auto;
+  max-width: 9rem;
+  overflow: hidden;
+  padding: 0.0625rem var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-small);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prompt-badge:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Narrowed to something in particular: worth telling apart from "every
+   category", but by weight rather than by colour. */
+.prompt-badge:not(.is-unset) {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.prompt-slot-remove {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  line-height: 1;
+}
+
+.prompt-slot-remove:hover {
+  background: color-mix(in srgb, var(--danger) 18%, transparent);
+  color: var(--danger);
+}
+
+/* The part and its weight on one line: they are read together, and a
+   weight under the thing it weighs was one more row down the list. Until
+   the card is too narrow for both -- then the weight wraps under the part
+   rather than squeezing it down to an ellipsis. */
+.prompt-slot-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  min-width: 0;
+}
+
+/* Outlined, because it is a button: without an edge there was no way to
+   tell that the part opens a screen and the card around it does not. Drawn
+   like an inset field rather than a raised button -- what it holds is a
+   value, and the click is "change this value". */
+/* The width a part needs to be read, which is what decides the wrap. */
+.prompt-slot-body {
+  display: flex;
+  flex: 1 1 11rem;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-1);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.prompt-slot-body:hover {
+  border-color: var(--accent);
+}
+
+.prompt-slot-body:hover .prompt-slot-title {
+  color: var(--accent);
+}
+
+/* A slot that says nothing yet. Quiet rather than alarming: an empty slot
+   is a normal state on the way to a full one. */
+.prompt-slot-body.is-unset .prompt-slot-title {
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.prompt-slot-thumb {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  color: var(--fg-muted);
+}
+
+.prompt-slot-info {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.prompt-slot-title {
+  overflow: hidden;
+  color: var(--fg);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prompt-slot-meta {
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+}
+
+/* A sentence is read, not scanned: prose type, and room for a few lines. */
+.prompt-slot-card.is-sentence .prompt-slot-meta {
+  display: -webkit-box;
+  overflow: hidden;
+  font-family: inherit;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* The weight, on the card with the part it weighs. Quiet until the card is
+   hovered or open: it is a second-order adjustment, and a row of steppers
+   down the list would read as the list's main content. */
+/* The number type's own stepper, labelled and boxed to a width a weight
+   needs. It used to fade in on hover, which no other number field in the
+   shell does -- a control that changes when the pointer merely passes over
+   its card reads as something going wrong rather than as emphasis. */
+.prompt-slot-weight {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-1);
+  /* At the end of its line, whether that is the part's or its own. */
+  margin-left: auto;
+}
+
+.prompt-slot-weight-label {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.prompt-slot-weight .mu-stepper {
+  width: 5.5rem;
+}
+
+/* The dashed one at the end, the way the original ended its list. */
+/* The tags of a part, as one card: a header with the switch between adding
+   them by hand and having a model write them, and the view it chose. */
+.prompt-tagcard {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.prompt-tagcard-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  padding-bottom: var(--space-1);
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+.prompt-tagcard-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.prompt-tagcard-instruction {
+  width: 100%;
+  resize: vertical;
+}
+
+.prompt-tagcard-note {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+/* The view not chosen, and the header when there is nothing to switch. */
+.prompt-tagcard [hidden] {
+  display: none;
+}
+
+/* The sentence itself, in the sentence card: the width of the card and
+   tall enough to read a few lines without scrolling. */
+.prompt-sentence-text {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 6em;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+/* A sentence slot has no weight; the box's own display would otherwise
+   win over [hidden]. */
+.prompt-slot-weight[hidden] {
+  display: none;
+}
+
+/* ---- a prompt card: a header down the left, what it says, its weight */
+.prompt-line {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.prompt-line.is-single {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* The header: grip, shrink, remove in a column -- or, compact, the grip
+   and the menu holding the other two. */
+.prompt-line-side {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 2px;
+  border-right: var(--border-width) solid var(--border);
+}
+
+/* The grip at the top; whatever else the header holds, at the bottom. */
+.prompt-line-shrink,
+.prompt-line-more {
+  margin-top: auto;
+}
+
+.prompt-line-more,
+.prompt-line.is-compact .prompt-line-shrink,
+.prompt-line.is-compact .prompt-line-remove {
+  display: none;
+}
+
+.prompt-line.is-compact .prompt-line-more {
+  display: inline-flex;
+}
+
+.prompt-line-remove[hidden] {
+  display: none;
+}
+
+.prompt-line-main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-1);
+}
+
+.prompt-line-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.prompt-line-link {
+  flex: 0 0 auto;
+  color: var(--accent);
+}
+
+.prompt-line-link[hidden] {
+  display: none;
+}
+
+/* Shrunk: what it says, in one line. */
+.prompt-line.is-shrunk .prompt-body-view {
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.prompt-line.is-shrunk .prompt-body-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The content: a card whose header runs down its left side. */
+.prompt-body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 2rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  overflow: hidden;
+}
+
+.prompt-body-head {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2px;
+  border-right: var(--border-width) solid var(--border);
+  background: var(--bg-elevated);
+}
+
+.prompt-body-head[hidden] {
+  display: none;
+}
+
+.prompt-body-view {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0.25rem var(--space-2);
+}
+
+.prompt-body-view[hidden],
+.prompt-body-edit[hidden] {
+  display: none;
+}
+
+.prompt-body-view.is-editable {
+  cursor: text;
+}
+
+.prompt-body-text {
+  overflow-wrap: anywhere;
+}
+
+.prompt-body-empty {
+  flex: 1 1 auto;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.prompt-badge {
+  padding: 0.0625rem 0.5rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+}
+
+.prompt-body-edit {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 2px;
+}
+
+.prompt-line.is-fixed .prompt-body-view {
+  color: var(--fg-muted);
+}
+
+/* The weight: the shell's vector control, one axis. */
+/* The second row: the weight, wide enough for the stepper it opens into. */
+.prompt-line-weight {
+  width: 9rem;
+  max-width: 100%;
+}
+
+.prompt-line-weight.is-fixed {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* The preset button's two shelves. */
+.prompt-preset-menu {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 10rem;
+  padding: 0.25rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.3);
+}
+
+.prompt-preset-entry {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.375rem var(--space-2);
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-small);
+  text-align: left;
+}
+
+.prompt-preset-entry:hover {
+  background: var(--bg-hover);
+}
+
+/* Spaced as the card is padded, so the cards sit in it evenly. */
+.prompt-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.prompt-lines-empty {
+  padding: var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.prompt-add {
+  position: relative;
+  margin-top: var(--space-2);
+}
+
+.prompt-add[hidden] {
+  display: none;
+}
+
+/* The list's header: the grip at the left end, the fold at the right, and
+   while something is carried, the list's own guides over it. */
+.prompt-listcard-head {
+  position: relative;
+}
+
+
+

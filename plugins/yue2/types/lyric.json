@@ -1,0 +1,24 @@
+{
+  "id": "yue2.lyric",
+  "label": "yue2.vtype.section",
+  "icon": "type",
+  "identity": "id",
+  "port": "text",
+  "defaultControl": "summary",
+  "fields": {
+    "name": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    }
+  },
+  "format": {
+    "field": "name"
+  },
+  "list": {
+    "label": "yue2.prop.lyrics",
+    "icon": "music-note-list",
+    "port": "text"
+  }
+}

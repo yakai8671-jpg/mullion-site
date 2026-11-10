@@ -1,0 +1,14 @@
+{
+  "id": "propgroup.namebox",
+  "label": "propgroup.control.namebox",
+  "why": "a name written when the field is left or Enter is pressed, not at every key: a name kept somewhere is never saved half-typed",
+  "needs": [
+    "setText"
+  ],
+  "script": true,
+  "params": {
+    "placeholder": {
+      "type": "string"
+    }
+  }
+}

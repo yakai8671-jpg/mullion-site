@@ -1,0 +1,96 @@
+{
+  "id": "yue2",
+  "name": "Song Generation (YuE2)",
+  "version": "1.0.0",
+  "description": "YuE2 generation with plain lyrics and ABC inputs; independent lyric section and ABC score editors exchange text through ports.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [
+    "yue2.css"
+  ],
+  "types": [
+    "types/note.json",
+    "types/chord.json",
+    "types/lyric.json",
+    "types/part.json",
+    "types/abc.json"
+  ],
+  "controls": [
+    "controls/notecard.json",
+    "controls/roll.json",
+    "controls/abccard.json"
+  ],
+  "items": [
+    "items/app.json",
+    "items/editor.json",
+    "items/lyricsEditor.json",
+    "items/scoreEditor.json",
+    "items/transcribe.json"
+  ],
+  "apps": [
+    "apps/app.json",
+    "apps/editor.json"
+  ],
+  "scripts": [
+    "scripts.js",
+    "generate.js"
+  ],
+  "permissions": [
+    "comfy:run",
+    "store:read",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "yue2.app",
+      "yue2.editor",
+      "yue2.lyricsEditor",
+      "yue2.scoreEditor",
+      "yue2.transcribe"
+    ],
+    "valueTypes": [
+      "yue2.lyric",
+      "yue2.part",
+      "yue2.abc",
+      "yue2.note",
+      "yue2.chord"
+    ],
+    "controls": [
+      "yue2.abccard",
+      "yue2.roll",
+      "yue2.notecard"
+    ],
+    "permissions": [],
+    "actions": [
+      "yue2.generate",
+      "yue2.lyrics.add",
+      "yue2.lyrics.remove",
+      "yue2.abc.add",
+      "yue2.abc.remove",
+      "yue2.score.change",
+      "yue2.score.part",
+      "yue2.transcribe",
+      "yue2.lyrics.move",
+      "yue2.abc.move"
+    ]
+  },
+  "requires": [
+    "prompt",
+    "services",
+    "workflow"
+  ],
+  "actions": [
+    "actions/generate.json",
+    "actions/lyrics-add.json",
+    "actions/lyrics-remove.json",
+    "actions/abc-add.json",
+    "actions/abc-remove.json",
+    "actions/score-change.json",
+    "actions/score-part.json",
+    "actions/transcribe.json",
+    "actions/lyrics-move.json",
+    "actions/abc-move.json"
+  ]
+}

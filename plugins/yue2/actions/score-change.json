@@ -1,0 +1,19 @@
+{
+  "id": "yue2.score.change",
+  "params": {
+    "parts": {
+      "type": "list", "each": { "type": "yue2.part" }
+    },
+    "part": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "parts": {
+      "type": "list", "each": { "type": "yue2.part" }
+    }
+  }
+}

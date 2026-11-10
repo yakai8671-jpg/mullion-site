@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mullion</title>
+<link rel="icon" type="image/svg+xml" href="/icons/mullion.svg" />
+<script src="static/js/theme-boot.js"></script>
+<script src="static/js/i18n.js"></script>
+<script src="static/js/problem.js"></script>
+<link rel="stylesheet" href="static/vendor/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet" href="static/css/variables.css" />
+<link rel="stylesheet" href="static/css/base.css" />
+<link rel="stylesheet" href="static/css/components.css" />
+<link rel="stylesheet" href="static/css/mullion.css" />
+<link rel="stylesheet" href="static/css/textcard.css" />
+<link rel="stylesheet" href="static/css/skins.css" />
+<link rel="stylesheet" href="static/css/problem.css" />
+<link rel="stylesheet" href="static/css/loading.css" />
+</head>
+<body>
+<!-- What is shown while the shell starts, in the window the start-up problem page
+     uses (templates/problem.html). It is here, not drawn by a script, so that it is
+     on the screen as soon as the page is. The script below moves its bar; boot.js
+     reports how far the start has got (window.__muLoading). -->
+<div id="mu-loading" class="mu-loading" role="status" aria-live="polite">
+  <div class="app-shell">
+    <div class="app-content">
+      <div class="mu-stage">
+        <section class="mu-window is-focused" data-problem="loading">
+          <header class="mu-titlebar">
+            <span class="mu-drag-handle"><i class="bi bi-grip-vertical"></i></span>
+            <span class="mu-window-id">mullion</span>
+            <div class="mu-window-title">
+              <i class="bi bi-arrow-repeat mu-problem-icon mu-loading-icon"></i>
+              <span class="mu-problem-window-title" data-loading="window"></span>
+            </div>
+          </header>
+          <div class="mu-body">
+            <main class="mu-problem">
+              <header class="mu-problem-head">
+                <h1 data-loading="title"></h1>
+                <p data-loading="body"></p>
+              </header>
+              <section class="mu-problem-section">
+                <div class="mu-loading-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                  <div class="mu-loading-fill"></div>
+                </div>
+                <div class="mu-loading-line">
+                  <span class="mu-loading-label" data-loading="label"></span>
+                  <span class="mu-loading-percent" data-loading="percent">0%</span>
+                </div>
+              </section>
+            </main>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var root = document.getElementById("mu-loading");
+  if (!root) return;
+  var tables = window.BW_TRANSLATIONS || {};
+  var lang = (window.__MU_SETTINGS__ || {}).language || "en";
+  function say(key, vars) {
+    var text = (tables[lang] || {})[key] || (tables.en || {})[key] || key;
+    return vars ? text.replace(/\{(\w+)\}/g, function (all, name) { return vars[name] === undefined ? all : String(vars[name]); }) : text;
+  }
+  function field(name) { return root.querySelector('[data-loading="' + name + '"]'); }
+  function put(name, key, vars) { field(name).textContent = say(key, vars); }
+  var bar = root.querySelector(".mu-loading-bar");
+  var fill = root.querySelector(".mu-loading-fill");
+  var shown = 0;
+  var ended = false;
+  put("window", "mu.loading.window");
+  put("title", "mu.loading.title");
+  put("body", "mu.loading.body");
+  put("label", "mu.loading.shell");
+
+  function move(percent) {
+    // Only forward: a step that reports less than what is shown is a step reported late.
+    shown = Math.max(shown, Math.min(100, percent));
+    fill.style.width = shown + "%";
+    bar.setAttribute("aria-valuenow", String(Math.round(shown)));
+    field("percent").textContent = Math.round(shown) + "%";
+  }
+  function listen(on) {
+    var call = on ? "addEventListener" : "removeEventListener";
+    window[call]("error", onError, true);
+    window[call]("unhandledrejection", fail);
+  }
+  function onError(event) {
+    // A script that did not load, or one that threw. Not a picture, a style or a font: the page goes on without those.
+    if (event.target === window || (event.target && event.target.tagName === "SCRIPT")) fail();
+  }
+  function fail() {
+    if (ended) return;
+    ended = true;
+    listen(false);
+    root.dataset.state = "failed";
+    root.querySelector(".mu-loading-icon").className = "bi bi-exclamation-triangle-fill mu-problem-icon mu-loading-icon";
+    put("window", "mu.startup.window");
+    put("title", "mu.loading.failedTitle");
+    put("body", "mu.loading.failedBody");
+    var section = document.createElement("section");
+    section.className = "mu-problem-section";
+    root.querySelector(".mu-problem").append(section);
+    if (window.muProblemRestart) window.muProblemRestart(section, { restart: say("mu.action.restart"), confirm: say("mu.confirm.restartBody"), working: say("mu.status.restarting"), restartFailed: say("mu.status.restartFailed") });
+  }
+  function finish() {
+    if (ended) return;
+    ended = true;
+    listen(false);
+    move(100);
+    put("label", "mu.loading.done");
+    setTimeout(function () {
+      root.classList.add("is-done");
+      setTimeout(function () { root.remove(); }, 260);
+    }, 120);
+  }
+  listen(true);
+  window.__muLoading = {
+    step: function (percent, key, vars) {
+      if (ended) return;
+      move(percent);
+      if (key) put("label", key, vars);
+    },
+    fail: fail,
+    finish: finish,
+  };
+  move(3);
+})();
+</script>
+
+<div class="app-shell">
+  <div class="app-content">
+    <input id="file-input" type="file" accept=".json,application/json" hidden />
+
+    <div class="mu-stage" id="stage">
+      <!-- window tree rendered by static/js/mullion -->
+    </div>
+
+    <!-- The only chrome left: with no windows there is nowhere to put an
+         item, so the way back has to live outside the layout. -->
+    <div class="empty-state" id="empty-state" hidden>
+      <div class="icon">&#9634;</div>
+      <div data-i18n="mu.empty.title">No windows.</div>
+      <button class="btn" id="add-btn" data-i18n="mu.empty.add">Add a window</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="static/js/mullion/boot.js"></script>
+</body>
+</html>

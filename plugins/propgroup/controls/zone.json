@@ -1,0 +1,12 @@
+{
+  "id": "propgroup.zone",
+  "label": "propgroup.control.zone",
+  "why": "the place things are put down, as a scratch board's strip is; the card around it takes them",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "empty": {
+      "type": "boolean"
+    }
+  }
+}

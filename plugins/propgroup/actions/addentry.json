@@ -1,0 +1,53 @@
+{
+  "id": "propgroup.addentry",
+  "permissions": [
+    "store:read",
+    "store:write"
+  ],
+  "params": {
+    "name": {
+      "type": "string"
+    },
+    "entry": {
+      "type": "portvalue"
+    },
+    "entryType": {
+      "type": "string"
+    },
+    "forGroup": {
+      "type": "string"
+    },
+    "forShown": {
+      "type": "boolean"
+    },
+    "target": {
+      "type": "string"
+    },
+    "group": {
+      "type": "propgroup"
+    },
+    "app": {
+      "type": "ref"
+    },
+    "preview": {
+      "type": "ref"
+    }
+  },
+  "results": {
+    "name": {
+      "type": "string"
+    },
+    "entry": {
+      "type": "portvalue"
+    },
+    "entryType": {
+      "type": "string"
+    },
+    "resultRef": {
+      "type": "string"
+    },
+    "result": {
+      "type": "portvalue"
+    }
+  }
+}

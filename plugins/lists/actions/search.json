@@ -1,0 +1,10 @@
+{
+  "id": "lists.search",
+  "permissions": [],
+  "params": {
+    "filter": {
+      "type": "data"
+    }
+  },
+  "results": {}
+}

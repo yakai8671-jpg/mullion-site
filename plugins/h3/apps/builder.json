@@ -1,0 +1,10 @@
+{
+  "type": "h3.builder",
+  "layout": {
+    "dir": "col",
+    "ratio": 0.55,
+    "children": ["self", { "add": "h3.writer", "tag": "writer" }],
+    "appLinks": [{ "at": "+writer", "key": "builder", "to": ["self"] }]
+  },
+  "defaultItem": "h3.builder"
+}

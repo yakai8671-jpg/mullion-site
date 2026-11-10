@@ -1,0 +1,16 @@
+{
+  "id": "files.delete",
+  "permissions": [
+    "fs:write"
+  ],
+  "params": {
+    "path": {
+      "type": "filepath"
+    }
+  },
+  "results": {
+    "path": {
+      "type": "filepath"
+    }
+  }
+}

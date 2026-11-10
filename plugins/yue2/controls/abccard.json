@@ -1,0 +1,7 @@
+{
+  "id": "yue2.abccard",
+  "extends": "texteditor",
+  "label": "yue2.control.abccard",
+  "why": "An ABC song plan as a score that can be played, over the text card it is written in.",
+  "script": true
+}

@@ -1,0 +1,19 @@
+{
+  "id": "yue2.abc.move",
+  "params": {
+    "abc": {
+      "type": "yue2.abc"
+    },
+    "id": {
+      "type": "string"
+    },
+    "direction": {
+      "type": "number"
+    }
+  },
+  "results": {
+    "abc": {
+      "type": "yue2.abc"
+    }
+  }
+}

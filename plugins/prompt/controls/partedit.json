@@ -1,0 +1,15 @@
+{
+  "id": "prompt.partedit",
+  "label": "prompt.control.partedit",
+  "script": true,
+  "why": "editor for a prompt part with name and tag chips",
+  "needs": [
+    "name",
+    "setName",
+    "tags",
+    "setTags",
+    "category",
+    "setCategory"
+  ],
+  "params": {}
+}

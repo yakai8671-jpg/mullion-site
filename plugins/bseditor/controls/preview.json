@@ -1,0 +1,15 @@
+{
+  "id": "bseditor.preview",
+  "label": "bseditor.control.preview",
+  "why": "the page as it will be exported, in a frame",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "page": { "type": "string" },
+    "active": { "type": "string" },
+    "mode": { "type": "string" },
+    "onPick": { "type": "data" },
+    "bare": { "type": "boolean" },
+    "grow": { "type": "boolean" }
+  }
+}

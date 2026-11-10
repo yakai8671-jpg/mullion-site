@@ -1,0 +1,22 @@
+{
+  "id": "character.reference",
+  "label": "character.references.title",
+  "icon": "bookmark",
+  "port": "character.reference",
+  "identity": "id",
+  "fields": {
+    "name": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string"
+    },
+    "data": {
+      "type": "string"
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "label": "character.references.title"
+  }
+}

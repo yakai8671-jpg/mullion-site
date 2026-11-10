@@ -1,0 +1,20 @@
+{
+  "id": "textcompose.embed.opts",
+  "permissions": [],
+  "params": {
+    "embeds": {
+      "type": "list", "each": { "type": "compose.embed" }
+    },
+    "id": {
+      "type": "string"
+    },
+    "opts": {
+      "type": "data"
+    }
+  },
+  "results": {
+    "embeds": {
+      "type": "list", "each": { "type": "compose.embed" }
+    }
+  }
+}

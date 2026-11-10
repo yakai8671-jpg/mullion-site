@@ -1,0 +1,16 @@
+{
+  "id": "apps.remove",
+  "permissions": [
+    "apps:read",
+    "apps:write"
+  ],
+  "params": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

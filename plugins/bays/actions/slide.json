@@ -1,0 +1,16 @@
+{
+  "id": "bays.slide",
+  "permissions": [
+    "bays:read",
+    "bays:write"
+  ],
+  "params": {
+    "id": {
+      "type": "string"
+    },
+    "slide": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

@@ -1,0 +1,56 @@
+{
+  "id": "loratrain",
+  "name": "LoRA Training",
+  "version": "1.0.0",
+  "description": "Pictures and their captions in, a LoRA for ComfyUI out -- one window, ComfyUI's own TrainLoraNode underneath, captions drafted by WD14 / JoyTag or an Ollama vision model.",
+  "api": 1,
+  "translations": "i18n.json",
+  "types": [
+    "types/sample.json"
+  ],
+  "controls": [
+    "controls/dataset.json"
+  ],
+  "items": [
+    "items/app.json"
+  ],
+  "apps": [
+    "apps/app.json"
+  ],
+  "actions": [
+    "actions/run.json"
+  ],
+  "scripts": [
+    "actions.js",
+    "scripts.js"
+  ],
+  "styles": [
+    "loratrain.css"
+  ],
+  "permissions": [
+    "comfy:run",
+    "ollama:run",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "loratrain.app"
+    ],
+    "valueTypes": [
+      "loratrain.sample"
+    ],
+    "controls": [
+      "loratrain.dataset"
+    ],
+    "actions": [
+      "loratrain.run"
+    ],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "services"
+  ]
+}

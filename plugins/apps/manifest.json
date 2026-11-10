@@ -1,0 +1,63 @@
+{
+  "id": "apps",
+  "name": "Apps",
+  "version": "1.0.0",
+  "description": "Lists and edits apps -- the built-in ones (by override) and your own. The apps themselves are the shell's; these only set them, through apps:read / apps:write.",
+  "api": 1,
+  "translations": "i18n.json",
+  "types": [
+    "types/entry.json"
+  ],
+  "actions": [
+    "actions/say.json",
+    "actions/remove.json",
+    "actions/keep.json",
+    "actions/place.json",
+    "actions/edit.json",
+    "actions/reset.json",
+    "actions/excludehistory.json",
+    "actions/adddropped.json"
+  ],
+  "controls": [],
+  "items": [
+    "items/list.json",
+    "items/editor.json"
+  ],
+  "apps": [
+    "apps/list.json",
+    "apps/editor.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "styles": [
+    "apps.css"
+  ],
+  "permissions": [
+    "apps:read",
+    "apps:write",
+    "layout:place"
+  ],
+  "provides": {
+    "itemTypes": [
+      "apps.list",
+      "apps.editor"
+    ],
+    "valueTypes": [
+      "apps.entry"
+    ],
+    "controls": [],
+    "actions": [
+      "apps.say",
+      "apps.remove",
+      "apps.keep",
+      "apps.place",
+      "apps.edit",
+      "apps.reset",
+      "apps.excludehistory",
+      "apps.adddropped"
+    ],
+    "permissions": []
+  },
+  "requires": []
+}

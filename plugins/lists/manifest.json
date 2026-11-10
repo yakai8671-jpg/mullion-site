@@ -1,0 +1,49 @@
+{
+  "id": "lists",
+  "name": "List Tools",
+  "version": "1.0.0",
+  "description": "Items that work on a list somebody else holds, picked by pointing at it on screen: search it (by what its elements are) and add a value to it (in a form made from its element type).",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [],
+  "types": [
+    "types/any.json"
+  ],
+  "actions": [
+    "actions/pick.json",
+    "actions/search.json",
+    "actions/add.json",
+    "actions/unshare.json"
+  ],
+  "controls": [],
+  "items": [
+    "items/search.json",
+    "items/add.json"
+  ],
+  "apps": [
+    "apps/search.json",
+    "apps/add.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "permissions": [],
+  "provides": {
+    "itemTypes": [
+      "list.search",
+      "list.add"
+    ],
+    "valueTypes": [
+      "list.any"
+    ],
+    "controls": [],
+    "actions": [
+      "lists.pick",
+      "lists.search",
+      "lists.add",
+      "lists.unshare"
+    ],
+    "permissions": []
+  },
+  "requires": []
+}

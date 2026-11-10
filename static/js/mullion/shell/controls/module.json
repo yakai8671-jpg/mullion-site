@@ -1,0 +1,35 @@
+{
+  "name": "controls",
+  "deps": [
+    "page",
+    "server",
+    "i18n",
+    "registry",
+    "properties",
+    "media",
+    "view",
+    "apps",
+    "mount",
+    "ports",
+    "pickers"
+  ],
+  "layer": "screen",
+  "api": [
+    "TEXTCARD_FEATURES",
+    "TEXTCARD_DEFAULTS",
+    "ZOOM_MIN",
+    "ZOOM_MAX",
+    "buildFeatures",
+    "updateFeatures",
+    "cardPortOf",
+    "cardBar",
+    "cardBarRow",
+    "buildSideCard",
+    "syncCardHead",
+    "isVideoSrc",
+    "buildCardHead"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

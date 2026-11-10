@@ -1,0 +1,49 @@
+{
+  "id": "propgroup.view",
+  "label": "propgroup.item.view",
+  "icon": "collection",
+  "permissions": [
+    "window:write"
+  ],
+  "properties": {
+    "app": {
+      "label": "propgroup.prop.app",
+      "type": "ref",
+      "itemType": "propgroup.app",
+      "link": true
+    }
+  },
+  "screen": "propgroup.view",
+  "derived": {
+    "shown": {
+      "label": "propgroup.prop.child",
+      "type": "data",
+      "from": {
+        "script": "shownGroup"
+      }
+    }
+  },
+  "actions": {
+    "set": {
+      "use": "propgroup.viewset",
+      "inputs": {
+        "app": "app",
+        "value": {
+          "payload": "value"
+        }
+      }
+    },
+    "clear": {
+      "use": "propgroup.viewclear",
+      "inputs": {
+        "app": "app"
+      }
+    },
+    "openAdd": {
+      "use": "propgroup.viewadd",
+      "inputs": {
+        "app": "app"
+      }
+    }
+  }
+}

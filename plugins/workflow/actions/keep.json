@@ -1,0 +1,11 @@
+{
+  "id": "workflow.keeper.save",
+  "permissions": ["store:write", "window:write", "comfy:run"],
+  "params": {
+    "src": { "type": "string" },
+    "name": { "type": "string" },
+    "as": { "type": "string" },
+    "app": { "type": "ref" }
+  },
+  "results": { "src": { "type": "string" } }
+}

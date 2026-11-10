@@ -1,0 +1,65 @@
+{
+  "id": "textcompose",
+  "name": "Text Compose",
+  "version": "1.0.0",
+  "description": "A text with variables in it -- the date and time, a number padded with zeros, what a connected item offers (a text, a picture, a chain's variables) -- put in as badges from a catalog; what it comes to is a port like any other text.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [
+    "textcompose.css"
+  ],
+  "types": [
+    "types/embed.json",
+    "types/variable.json",
+    "types/embedview.json"
+  ],
+  "controls": [
+    "controls/input.json",
+    "controls/formatbox.json"
+  ],
+  "actions": [
+    "actions/embedopts.json",
+    "actions/embedopt.json",
+    "actions/embedremove.json",
+    "actions/catalogopen.json",
+    "actions/catalogembed.json"
+  ],
+  "items": [
+    "items/app.json",
+    "items/catalog.json"
+  ],
+  "apps": [
+    "apps/app.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "permissions": [
+    "window:write",
+    "items:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "compose.app",
+      "compose.catalog"
+    ],
+    "valueTypes": [
+      "compose.embed",
+      "compose.variable",
+      "compose.embedview"
+    ],
+    "controls": [
+      "compose.input",
+      "compose.formatbox"
+    ],
+    "actions": [
+      "textcompose.embed.opts",
+      "textcompose.embed.opt",
+      "textcompose.embed.remove",
+      "textcompose.catalog.open",
+      "textcompose.catalog.embed"
+    ],
+    "permissions": []
+  },
+  "requires": []
+}

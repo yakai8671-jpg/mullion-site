@@ -1,0 +1,7 @@
+{
+  "id": "stage.objectedit",
+  "label": "stage.control.objectedit",
+  "why": "a form for one stage object, whose parts depend on what it is made of (the preset maker edits it with this)",
+  "script": true,
+  "needs": []
+}

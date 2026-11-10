@@ -1,0 +1,24 @@
+{
+  "en": {
+    "charsheet.item.app": "Four-view Sheet",
+    "charsheet.engine.qwen": "Qwen-Image (from words)",
+    "charsheet.engine.edit": "Qwen-Image-Edit (from a picture)",
+    "charsheet.prop.sheet": "Four-view sheet",
+    "charsheet.prop.sheetFrom": "Cut from",
+    "charsheet.section.sheet": "Four-view sheet",
+    "charsheet.hint.empty": "Say who the character is in the prompt (looks, hair, outfit) and run -- or, with the Qwen-Image-Edit engine, give a picture of the character as the reference picture. The picture is drawn as four views in one row and cut into front, three-quarter, side and back here. A character carried onto the prompt by its grip gives its description.",
+    "charsheet.hint.sheet": "Carry it by its grip onto the Character Editor's sheet card to give the character these four pictures.",
+    "charsheet.status.failed": "Could not cut the sheet: {error}"
+  },
+  "ja": {
+    "charsheet.item.app": "四面図生成",
+    "charsheet.engine.qwen": "Qwen-Image（文章から）",
+    "charsheet.engine.edit": "Qwen-Image-Edit（画像から）",
+    "charsheet.prop.sheet": "四面図",
+    "charsheet.prop.sheetFrom": "切り出し元",
+    "charsheet.section.sheet": "四面図",
+    "charsheet.hint.empty": "プロンプトにキャラの容姿（髪・顔・服装など）を書いて実行します。エンジンを Qwen-Image-Edit にすると、参照画像にキャラの絵を入れてその見た目のまま描けます。横一列の四面図として生成され、ここで正面・斜め・側面・背面に切り分けられます。キャラクターカードをハンドルでプロンプトへ運ぶと、そのキャラの説明文が入ります。",
+    "charsheet.hint.sheet": "ハンドルでキャラクタエディタの四面図カードへ運ぶと、キャラの参照画像がこの4枚になります。",
+    "charsheet.status.failed": "四面図を切り分けられませんでした: {error}"
+  }
+}

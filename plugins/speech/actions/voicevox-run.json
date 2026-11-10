@@ -1,0 +1,29 @@
+{
+  "id": "speech.voicevox.run",
+  "permissions": [
+    "speech:run"
+  ],
+  "params": {
+    "text": { "type": "string" },
+    "speaker": { "type": "enum" },
+    "speedScale": { "type": "number" },
+    "pitchScale": { "type": "number" },
+    "intonationScale": { "type": "number" },
+    "volumeScale": { "type": "number" },
+    "prePhonemeLength": { "type": "number" },
+    "postPhonemeLength": { "type": "number" }
+  },
+  "results": {
+    "result": { "type": "audio" },
+    "resultSeconds": { "type": "number" },
+    "resultName": { "type": "string" }
+  },
+  "concurrency": "ignore",
+  "cancellable": true,
+  "requires": {
+    "text": "nonEmpty",
+    "services": [
+      "voicevox"
+    ]
+  }
+}

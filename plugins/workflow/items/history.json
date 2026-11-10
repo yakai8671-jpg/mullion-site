@@ -1,0 +1,64 @@
+{
+  "id": "workflow.history",
+  "label": "workflow.item.history",
+  "icon": "clock-history",
+  "standalone": true,
+  "permissions": ["store:read", "store:write", "comfy:run", "app:read", "app:write"],
+  "properties": {
+    "app": {
+      "label": "workflow.prop.historyApp",
+      "type": "workflow.historyapp",
+      "default": ""
+    }
+  },
+  "derived": {
+    "entries": {
+      "label": "workflow.prop.historyEntries",
+      "type": "list",
+      "each": { "type": "workflow.historyrun" },
+      "from": { "script": "workflow.history.entries" }
+    },
+    "off": {
+      "label": "workflow.value.historyOff",
+      "type": "boolean",
+      "from": { "script": "workflow.history.off" }
+    }
+  },
+  "actions": {
+    "remove": { "use": "workflow.history.remove", "inputs": { "id": { "payload": "id" } } },
+    "clear": { "use": "workflow.history.clear", "inputs": { "app": "app" } },
+    "enable": { "use": "workflow.history.enable" }
+  },
+  "layout": [
+    { "control": "select", "key": "app", "options": { "value": { "bind": "app" } } },
+    {
+      "control": "section",
+      "key": "history",
+      "options": { "label": "workflow.section.runs" },
+      "layout": [
+        {
+          "control": "card",
+          "key": "history-list",
+          "slots": {
+            "tools": [
+              { "key": "off", "icon": "exclamation-triangle", "label": "workflow.value.historyOff", "visible": { "bind": "off" }, "action": "enable" },
+              { "key": "clear", "icon": "trash", "label": "workflow.action.clearHistory", "action": "clear" }
+            ]
+          },
+          "layout": [
+            {
+              "control": "card",
+              "key": "run",
+              "each": { "bind": "entries" },
+              "as": "run",
+              "options": { "label": { "bind": "run.name" }, "discard": "remove", "port": true },
+              "layout": [
+                { "control": "workflow.runinfo", "key": "info", "options": { "entry": { "bind": "run" } } }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

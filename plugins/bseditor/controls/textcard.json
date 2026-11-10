@@ -1,0 +1,11 @@
+{
+  "id": "bseditor.textcard",
+  "label": "bseditor.control.textcard",
+  "why": "text card with markup tags as badges",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "lines": { "type": "number" },
+    "register": { "type": "data" }
+  }
+}

@@ -1,0 +1,262 @@
+{
+  "name": "Wan 2.2 動画生成",
+  "tool": "t2v",
+  "workflow": {
+    "name": "wan2.2 rapid mega aio",
+    "platform": "comfyui",
+    "graph": {
+      "1": {
+        "inputs": {
+          "ckpt_name": "wan2.2-rapid-mega-aio-nsfw-v12.2.safetensors"
+        },
+        "class_type": "CheckpointLoaderSimple",
+        "_meta": {
+          "title": "Load Checkpoint"
+        }
+      },
+      "2": {
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "shift": 8
+        },
+        "class_type": "ModelSamplingSD3",
+        "_meta": {
+          "title": "ModelSamplingSD3"
+        }
+      },
+      "3": {
+        "inputs": {
+          "text": "",
+          "clip": [
+            "1",
+            1
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "Positive Prompt"
+        }
+      },
+      "4": {
+        "inputs": {
+          "text": "",
+          "clip": [
+            "1",
+            1
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "Negative Prompt"
+        }
+      },
+      "5": {
+        "inputs": {
+          "value": 49
+        },
+        "class_type": "PrimitiveInt",
+        "_meta": {
+          "title": "Frames"
+        }
+      },
+      "6": {
+        "inputs": {
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "width": 832,
+          "height": 480,
+          "length": [
+            "5",
+            0
+          ],
+          "batch_size": 1,
+          "strength": 1
+        },
+        "class_type": "WanVaceToVideo",
+        "_meta": {
+          "title": "WanVaceToVideo"
+        }
+      },
+      "7": {
+        "inputs": {
+          "model": [
+            "2",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "negative": [
+            "6",
+            1
+          ],
+          "latent_image": [
+            "6",
+            2
+          ],
+          "seed": 0,
+          "steps": 4,
+          "cfg": 1,
+          "sampler_name": "sa_solver",
+          "scheduler": "beta",
+          "denoise": 1
+        },
+        "class_type": "KSampler",
+        "_meta": {
+          "title": "KSampler"
+        }
+      },
+      "8": {
+        "inputs": {
+          "samples": [
+            "7",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "9": {
+        "inputs": {
+          "images": [
+            "8",
+            0
+          ],
+          "filename_prefix": "Mullion/wan",
+          "codec": "vp9",
+          "fps": 16,
+          "crf": 24
+        },
+        "class_type": "SaveWEBM",
+        "_meta": {
+          "title": "Save WEBM"
+        }
+      }
+    }
+  },
+  "blocks": {
+    "prompts": {
+      "value": {
+        "node_id": "3",
+        "input_key": "text"
+      }
+    },
+    "negative_prompts": {
+      "value": {
+        "node_id": "4",
+        "input_key": "text"
+      }
+    },
+    "image_size": {
+      "width": {
+        "node_id": "6",
+        "input_key": "width"
+      },
+      "height": {
+        "node_id": "6",
+        "input_key": "height"
+      }
+    },
+    "video": {
+      "value": {
+        "node_id": "9",
+        "input_key": "images"
+      }
+    }
+  },
+  "settings": [
+    {
+      "node_id": "1",
+      "input_key": "ckpt_name",
+      "label": "モデル",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "CheckpointLoaderSimple",
+        "input_key": "ckpt_name"
+      }
+    },
+    {
+      "node_id": "5",
+      "input_key": "value",
+      "label": "フレーム数",
+      "group": "動画",
+      "value_type": "integer"
+    },
+    {
+      "node_id": "9",
+      "input_key": "fps",
+      "label": "フレームレート (fps)",
+      "group": "動画",
+      "value_type": "number"
+    },
+    {
+      "node_id": "9",
+      "input_key": "crf",
+      "label": "画質 (CRF・小さいほど高画質)",
+      "group": "動画",
+      "value_type": "number"
+    },
+    {
+      "node_id": "7",
+      "input_key": "steps",
+      "label": "ステップ数",
+      "group": "サンプラー",
+      "value_type": "integer"
+    },
+    {
+      "node_id": "7",
+      "input_key": "cfg",
+      "label": "CFG",
+      "group": "サンプラー",
+      "value_type": "number"
+    },
+    {
+      "node_id": "7",
+      "input_key": "sampler_name",
+      "label": "サンプラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "sampler_name"
+      }
+    },
+    {
+      "node_id": "7",
+      "input_key": "scheduler",
+      "label": "スケジューラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "scheduler"
+      }
+    },
+    {
+      "node_id": "2",
+      "input_key": "shift",
+      "label": "シフト",
+      "group": "サンプラー",
+      "value_type": "number"
+    }
+  ],
+  "fixed": []
+}

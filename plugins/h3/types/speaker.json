@@ -1,0 +1,21 @@
+{
+  "id": "h3.speaker",
+  "label": "h3.vtype.speaker",
+  "icon": "person",
+  "port": "h3.speaker",
+  "identity": "uid",
+  "defaultControl": "summary",
+  "fields": {
+    "name": { "type": "string" },
+    "voice": { "type": "string" },
+    "appearance": { "type": "string" },
+    "refs": { "type": "string", "port": false }
+  },
+  "format": { "field": "name" },
+  "portKeep": ["uid"],
+  "list": {
+    "port": "h3.speakers",
+    "label": "h3.prop.speakers",
+    "icon": "people"
+  }
+}

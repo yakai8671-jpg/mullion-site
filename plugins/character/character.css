@@ -1,0 +1,255 @@
+/* Character -- the summary line, the tag chips, the sheet and the run card. */
+
+.character-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.character-thumb {
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  object-fit: cover;
+}
+
+/* No picture: nothing, not a broken-image icon. */
+.character-thumb.is-empty {
+  display: none;
+}
+
+.character-summary-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.character-name,
+.character-detail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.character-name {
+  font-weight: 600;
+}
+
+.character-detail {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+/* -- the Character Editor, in one window -------------------------------- */
+/* The character card: header, the row that says whether it is saved, then
+   who it is and what apps get from it. Shrunk, only who. */
+.character-card-crumbs {
+  gap: var(--space-1);
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+.character-card-crumbs > [hidden] {
+  display: none;
+}
+
+.character-card-state {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.character-card-state[data-state="dirty"] {
+  color: var(--accent);
+}
+
+.character-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  min-width: 0;
+}
+
+.character-card .character-thumb {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.character-card-out {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 2px var(--space-2);
+  margin: 0;
+  font-size: var(--font-size-small);
+}
+
+.character-card-out dt {
+  color: var(--fg-muted);
+}
+
+.character-card-out dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.character-card-out dd.is-empty {
+  color: var(--fg-muted);
+}
+
+.character-card.is-shrunk .character-card-out {
+  display: none;
+}
+
+/* Cards in a section stack with room between them. */
+.mu-item[data-item-type="character.editor"] .character-tagcard + .mu-textcard,
+.mu-item[data-item-type="character.editor"] .mu-textcard + .character-tagcard {
+  margin-top: var(--space-2);
+}
+
+/* The four sides under the sheet, two by two; the sheet spans the row. */
+.mu-item[data-item-type="character.editor"] .mu-view-section[data-node-key="views"] > .mu-section-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.mu-item[data-item-type="character.editor"] .mu-view-section[data-node-key="views"] > .mu-section-body > [data-node-key="sheet"] {
+  grid-column: 1 / -1;
+}
+
+/* -- a picture, a video or a character, as an input ---------------------- */
+.character-media-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-1);
+}
+
+.character-media-shown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 7rem;
+  max-height: 14rem;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: repeating-conic-gradient(var(--bg-inset) 0 25%, var(--bg-elevated) 0 50%) 50% / 12px 12px;
+}
+
+.character-media-shown.is-empty {
+  cursor: pointer;
+}
+
+.character-media-shown > img,
+.character-media-shown > video {
+  max-width: 100%;
+  max-height: 14rem;
+  object-fit: contain;
+}
+
+.character-media-empty {
+  padding: var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.character-media-action {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.character-media-action[hidden] {
+  display: none;
+}
+
+
+[data-control-name="character.editor.control"] { width: 100%; min-width: 0; }
+.character-editor { width: 100%; min-width: 0; }
+.character-editor-body { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; padding: var(--space-3); }
+
+/* The preview is one expandable card with a toolbar to choose its gallery. */
+.mu-item[data-item-type="character.preview"] .mu-nodecard-items {
+  display: flex;
+  min-height: 0;
+}
+
+.mu-item[data-item-type="character.preview"] .mu-nodecard-items > .mu-control {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.character-preview-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.character-preview-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  align-content: start;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.character-preview-entry {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-2);
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+}
+
+.character-preview-entry-title {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--font-size-small);
+  font-weight: 600;
+}
+
+.character-preview-media {
+  display: block;
+  width: 100%;
+  max-height: 18rem;
+  object-fit: contain;
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.character-preview-text {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.character-preview-empty {
+  padding: var(--space-2);
+  color: var(--fg-muted);
+  text-align: center;
+}
+
+.mu-window.is-card-expanded .mu-item[data-item-type="character.preview"] .character-preview-panel,
+.mu-window.is-card-expanded .mu-item[data-item-type="character.preview"] .character-preview-items {
+  min-height: 0;
+}
+
+.mu-window.is-card-expanded .mu-item[data-item-type="character.preview"] .character-preview-items {
+  flex: 1;
+  overflow: auto;
+}

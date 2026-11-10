@@ -1,0 +1,10 @@
+{
+  "id": "apps.say",
+  "permissions": [],
+  "params": {
+    "text": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

@@ -1,0 +1,54 @@
+{
+  "id": "hotkeys",
+  "name": "Hotkeys",
+  "version": "2.0.0",
+  "description": "Lists and edits the keys bound to things on screen. The keys themselves are the shell's; this app only sets them, through hotkeys:read / hotkeys:write.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [
+    "hotkeys.css"
+  ],
+  "types": [
+    "types/binding.json"
+  ],
+  "actions": [
+    "actions/add.json",
+    "actions/remove.json",
+    "actions/key.json",
+    "actions/pick.json"
+  ],
+  "controls": [
+    "controls/binding.json"
+  ],
+  "items": [
+    "items/manager.json"
+  ],
+  "apps": [
+    "apps/manager.json"
+  ],
+  "scripts": [
+    "hotkeys.js"
+  ],
+  "permissions": [
+    "hotkeys:read",
+    "hotkeys:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "hotkeys.manager"
+    ],
+    "valueTypes": [
+      "hotkeys.row"
+    ],
+    "controls": [
+      "hotkeys.binding"
+    ],
+    "actions": [
+      "hotkeys.add",
+      "hotkeys.remove",
+      "hotkeys.key",
+      "hotkeys.pick"
+    ]
+  },
+  "requires": []
+}

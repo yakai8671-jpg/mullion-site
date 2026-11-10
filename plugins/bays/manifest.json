@@ -1,0 +1,60 @@
+{
+  "id": "bays",
+  "name": "Bays",
+  "version": "2.0.0",
+  "description": "Lists and edits the bays: places on screen whose windows are swapped by the sash. The bays themselves are the shell's; this app only sets them, through bays:read / bays:write.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [],
+  "types": [
+    "types/sash.json",
+    "types/bay.json"
+  ],
+  "actions": [
+    "actions/add.json",
+    "actions/remove.json",
+    "actions/rename.json",
+    "actions/slide.json",
+    "actions/place.json",
+    "actions/unplace.json",
+    "actions/addSash.json",
+    "actions/removeSash.json",
+    "actions/activate.json",
+    "actions/unregister.json"
+  ],
+  "items": [
+    "items/manager.json"
+  ],
+  "apps": [
+    "apps/manager.json"
+  ],
+  "scripts": [
+    "bays.js"
+  ],
+  "permissions": [
+    "bays:read",
+    "bays:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "bays.manager"
+    ],
+    "valueTypes": [
+      "bays.sash",
+      "bays.bay"
+    ],
+    "actions": [
+      "bays.add",
+      "bays.remove",
+      "bays.rename",
+      "bays.slide",
+      "bays.place",
+      "bays.unplace",
+      "bays.addSash",
+      "bays.removeSash",
+      "bays.activate",
+      "bays.unregister"
+    ]
+  },
+  "requires": []
+}

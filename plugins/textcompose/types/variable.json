@@ -1,0 +1,28 @@
+{
+  "id": "compose.variable",
+  "label": "compose.vtype.variable",
+  "icon": "braces",
+  "identity": "key",
+  "port": false,
+  "storable": false,
+  "presetNew": false,
+  "fields": {
+    "key": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "value": {
+      "label": "compose.field.value",
+      "type": "string",
+      "readonly": true
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "label": "compose.vtype.variables",
+    "icon": "collection",
+    "storable": false
+  }
+}

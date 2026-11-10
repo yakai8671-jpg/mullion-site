@@ -1,0 +1,172 @@
+{
+  "id": "yue2.transcribe",
+  "label": "yue2.transcribe.item",
+  "icon": "soundwave",
+  "standalone": true,
+  "permissions": [
+    "comfy:run",
+    "store:read",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "properties": {
+    "audio": {
+      "label": "yue2.transcribe.prop.audio",
+      "type": "audio",
+      "default": ""
+    },
+    "audioName": {
+      "label": "yue2.transcribe.prop.audioName",
+      "type": "string",
+      "default": "",
+      "port": false
+    },
+    "mode": {
+      "label": "yue2.transcribe.prop.mode",
+      "type": "enum",
+      "default": "melody",
+      "options": [
+        "melody",
+        "full"
+      ]
+    },
+    "model": {
+      "label": "yue2.transcribe.prop.model",
+      "type": "string",
+      "default": "sheetsage2_bf16.safetensors"
+    },
+    "abc": {
+      "label": "yue2.transcribe.prop.abc",
+      "type": "string",
+      "default": "",
+      "port": "text"
+    }
+  },
+  "layout": [
+    {
+      "control": "pinned",
+      "key": "software",
+      "layout": [
+        {
+          "control": "services.state",
+          "key": "comfyui",
+          "options": {
+            "service": "comfyui"
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "audio",
+      "options": {
+        "label": "yue2.transcribe.section.audio"
+      },
+      "layout": [
+        {
+          "control": "audiocard",
+          "key": "audio-card",
+          "options": {
+            "value": {
+              "bind": "audio"
+            },
+            "filename": {
+              "bind": "audioName"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "settings",
+      "options": {
+        "label": "yue2.transcribe.section.settings",
+        "hint": "yue2.transcribe.hint.mode"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "settings-fields",
+          "options": {
+            "entries": [
+              "mode",
+              "model"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "yue2.transcribe.section.preview"
+      },
+      "layout": [
+        {
+          "control": "card",
+          "key": "transcription",
+          "slots": {
+            "lead": [
+              {
+                "key": "run",
+                "icon": "soundwave",
+                "label": "yue2.transcribe.action.run",
+                "title": "yue2.transcribe.action.runTitle",
+                "action": "run"
+              }
+            ],
+            "tools": [
+              {
+                "key": "cancel",
+                "icon": "stop-fill",
+                "label": "yue2.transcribe.action.cancel",
+                "action": {
+                  "cancel": "run"
+                }
+              },
+              {
+                "key": "clear",
+                "icon": "x-lg",
+                "label": "mu.action.delete",
+                "action": "clear"
+              }
+            ],
+            "body": [
+              {
+                "control": "yue2.abccard",
+                "key": "abc-card",
+                "options": {
+                  "value": {
+                    "bind": "abc"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "run": {
+      "use": "yue2.transcribe",
+      "inputs": [
+        "audio",
+        "mode",
+        "model"
+      ],
+      "outputs": {
+        "abc": "abc"
+      }
+    },
+    "clear": {
+      "use": "set",
+      "with": {
+        "abc": ""
+      }
+    }
+  }
+}

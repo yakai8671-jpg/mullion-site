@@ -1,0 +1,12 @@
+{
+  "id": "propgroup.viewadd",
+  "permissions": [
+    "window:write"
+  ],
+  "params": {
+    "app": {
+      "type": "ref"
+    }
+  },
+  "results": {}
+}

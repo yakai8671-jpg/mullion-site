@@ -1,0 +1,85 @@
+{
+  "id": "files.mkdir",
+  "label": "files.item.mkdir",
+  "standalone": true,
+  "icon": "folder-plus",
+  "permissions": [
+    "fs:write"
+  ],
+  "properties": {
+    "path": {
+      "label": "files.prop.path",
+      "type": "filepath",
+      "default": ""
+    },
+    "name": {
+      "label": "files.prop.newName",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "where",
+      "options": {
+        "label": "files.prop.path"
+      },
+      "layout": [
+        {
+          "control": "textbox",
+          "key": "path",
+          "options": {
+            "value": {
+              "bind": "path"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "named",
+      "options": {
+        "label": "files.prop.newName"
+      },
+      "layout": [
+        {
+          "control": "textbox",
+          "key": "name",
+          "options": {
+            "value": {
+              "bind": "name"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "control": "card",
+      "key": "go",
+      "options": {
+        "label": "files.item.mkdir"
+      },
+      "slots": {
+        "lead": [
+          {
+            "key": "create",
+            "icon": "folder-plus",
+            "label": "files.action.mkdir",
+            "action": "create"
+          }
+        ]
+      }
+    }
+  ],
+  "actions": {
+    "create": {
+      "use": "files.mkdir",
+      "inputs": {
+        "path": "path",
+        "name": "name"
+      }
+    }
+  }
+}

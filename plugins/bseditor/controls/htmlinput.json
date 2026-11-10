@@ -1,0 +1,13 @@
+{
+  "id": "bseditor.htmlinput",
+  "label": "bseditor.control.htmlinput",
+  "why": "the HTML input field with validator",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "placeholder": { "type": "string" },
+    "check": { "type": "data" },
+    "onLoad": { "type": "data" },
+    "grow": { "type": "boolean" }
+  }
+}

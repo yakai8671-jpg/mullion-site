@@ -1,0 +1,12 @@
+{
+  "name": "history",
+  "deps": [],
+  "api": [
+    "OperationHistory",
+    "partitionHistory",
+    "applyHistorySnapshot"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

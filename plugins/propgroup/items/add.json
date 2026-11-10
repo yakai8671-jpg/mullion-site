@@ -1,0 +1,192 @@
+{
+  "id": "propgroup.add",
+  "label": "propgroup.item.add",
+  "icon": "plus-lg",
+  "permissions": [
+    "store:read",
+    "store:write",
+    "window:write"
+  ],
+  "properties": {
+    "name": {
+      "label": "propgroup.field.propertyName",
+      "type": "string",
+      "default": ""
+    },
+    "entry": {
+      "label": "propgroup.field.property",
+      "type": "portvalue"
+    },
+    "entryType": {
+      "label": "mu.field.type",
+      "type": "string",
+      "default": ""
+    },
+    "forGroup": {
+      "label": "propgroup.field.groupName",
+      "type": "string",
+      "default": ""
+    },
+    "forShown": {
+      "label": "propgroup.field.forShown",
+      "type": "boolean",
+      "default": false
+    },
+    "target": {
+      "label": "propgroup.field.targetGroup",
+      "type": "string",
+      "default": ""
+    },
+    "group": {
+      "label": "propgroup.field.group",
+      "type": "propgroup"
+    },
+    "result": {
+      "label": "propgroup.item.group",
+      "type": "portvalue"
+    },
+    "resultRef": {
+      "label": "propgroup.field.groupReference",
+      "type": "string",
+      "default": ""
+    },
+    "app": {
+      "label": "propgroup.prop.app",
+      "type": "ref",
+      "itemType": "propgroup.app",
+      "link": true
+    },
+    "preview": {
+      "label": "propgroup.prop.preview",
+      "type": "ref",
+      "itemType": "preview",
+      "link": true
+    }
+  },
+  "screen": "propgroup.add",
+  "derived": {
+    "owned": {
+      "label": "propgroup.field.targetGroup",
+      "type": "boolean",
+      "from": {
+        "script": "owned"
+      }
+    },
+    "parent": {
+      "label": "propgroup.field.group",
+      "type": "data",
+      "from": {
+        "script": "parent"
+      }
+    }
+  },
+  "actions": {
+    "add": {
+      "use": "propgroup.addentry",
+      "inputs": {
+        "name": "name",
+        "entry": "entry",
+        "entryType": "entryType",
+        "forGroup": "forGroup",
+        "forShown": "forShown",
+        "target": "target",
+        "group": "group",
+        "app": "app",
+        "preview": "preview"
+      },
+      "outputs": {
+        "name": "name",
+        "entry": "entry",
+        "entryType": "entryType",
+        "resultRef": "resultRef",
+        "result": "result"
+      }
+    },
+    "reset": {
+      "use": "propgroup.addreset",
+      "inputs": {
+        "forGroup": "forGroup",
+        "app": "app",
+        "preview": "preview",
+        "forShown": "forShown"
+      },
+      "outputs": {
+        "name": "name",
+        "entry": "entry",
+        "entryType": "entryType",
+        "forGroup": "forGroup",
+        "result": "result"
+      }
+    },
+    "closeresult": {
+      "use": "propgroup.closeresult",
+      "outputs": {
+        "result": "result"
+      }
+    }
+  },
+  "surface": {
+    "prepare": "closeresult",
+    "buttons": [
+      {
+        "key": "add-property:add",
+        "action": "add",
+        "label": "propgroup.action.addEntry",
+        "primary": true,
+        "node": "add-property",
+        "tool": "add"
+      }
+    ],
+    "inputs": [
+      {
+        "property": "target",
+        "key": "target",
+        "label": "propgroup.field.targetGroup",
+        "node": "target"
+      },
+      {
+        "property": "group",
+        "key": "group",
+        "label": "propgroup.field.group",
+        "kind": "propgroup",
+        "node": "group"
+      },
+      {
+        "property": "name",
+        "key": "name",
+        "label": "propgroup.field.propertyName",
+        "node": "name"
+      },
+      {
+        "property": "entry",
+        "key": "entry",
+        "label": "propgroup.field.property",
+        "kind": "*",
+        "defaultKind": "text",
+        "wide": true,
+        "spec": {
+          "type": "string",
+          "control": "scratch.card"
+        },
+        "node": "property"
+      }
+    ],
+    "outputs": [
+      {
+        "property": "result",
+        "key": "group",
+        "label": "propgroup.item.group",
+        "kind": "propgroup",
+        "node": "add-property",
+        "display": true
+      },
+      {
+        "property": "resultRef",
+        "key": "groupRef",
+        "label": "propgroup.field.groupReference",
+        "kind": "text",
+        "node": "add-property"
+      }
+    ]
+  }
+}

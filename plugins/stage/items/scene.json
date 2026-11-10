@@ -1,0 +1,130 @@
+{
+  "id": "stage.scene",
+  "label": "stage.item.scene",
+  "icon": "pin-map",
+  "standalone": true,
+  "permissions": [
+    "store:read",
+    "store:write"
+  ],
+  "properties": {
+    "stage": {
+      "label": "stage.prop.stage",
+      "type": "stage",
+      "default": {
+        "panorama": null,
+        "objects": []
+      }
+    },
+    "selected": {
+      "label": "stage.prop.selected",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "derived": {
+    "panorama": {
+      "label": "stage.prop.panorama",
+      "type": "panorama",
+      "from": {
+        "script": "stage.panorama"
+      },
+      "writable": true
+    },
+    "objects": {
+      "label": "stage.prop.objects",
+      "type": "list",
+      "each": {
+        "type": "stage.placement"
+      },
+      "from": {
+        "script": "stage.objects"
+      },
+      "writable": true
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "stageSection",
+      "options": {
+        "label": "stage.prop.stage"
+      },
+      "layout": [
+        {
+          "control": "card",
+          "key": "stageCard",
+          "options": {
+            "label": "stage.prop.stage"
+          },
+          "layout": [
+            {
+              "control": "summary",
+              "key": "stageSummary",
+              "options": {
+                "value": {
+                  "bind": "stage"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "panoramaSection",
+      "options": {
+        "label": "stage.prop.panorama"
+      },
+      "layout": [
+        {
+          "control": "card",
+          "key": "panoramaCard",
+          "options": {
+            "label": "stage.prop.panorama"
+          },
+          "layout": [
+            {
+              "control": "panorama.card",
+              "key": "panoramaView",
+              "options": {
+                "value": {
+                  "bind": "panorama"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "objectsSection",
+      "options": {
+        "label": "stage.prop.objects"
+      },
+      "layout": [
+        {
+          "control": "card",
+          "each": {
+            "bind": "objects"
+          },
+          "as": "object",
+          "key": "objectCard",
+          "layout": [
+            {
+              "control": "stage.objectedit",
+              "key": "objectEdit",
+              "options": {
+                "value": {
+                  "bind": "object"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

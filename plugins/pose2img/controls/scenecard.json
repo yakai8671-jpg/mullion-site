@@ -1,0 +1,13 @@
+{
+  "id": "pose2img.scenecard",
+  "label": "pose2img.control.scenecard",
+  "script": true,
+  "why": "Draws as a workflow card showing 3D scene summary and snapshot",
+  "params": {
+    "picture": { "type": "string" },
+    "summary": { "type": "string" },
+    "empty": { "type": "string" },
+    "onEdit": { "type": "action" },
+    "editTitle": { "type": "string" }
+  }
+}

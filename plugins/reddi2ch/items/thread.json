@@ -1,0 +1,60 @@
+{
+  "id": "reddi2ch.thread",
+  "label": "reddi2ch.item.thread",
+  "icon": "chat-left-text",
+  "standalone": true,
+  "permissions": [
+    "items:write",
+    "ollama:run",
+    "reddit:read",
+    "threadstore:access",
+    "window:write"
+  ],
+  "properties": {
+    "app": {
+      "label": "reddi2ch.prop.app",
+      "type": "ref",
+      "itemType": "reddi2ch.app",
+      "link": true
+    }
+  },
+  "screen": "reddi2ch.thread",
+  "derived": {
+    "report": {
+      "label": "reddi2ch.item.thread",
+      "type": "data",
+      "from": {
+        "script": "threadReport"
+      }
+    }
+  },
+  "actions": {
+    "setcurrent": {
+      "use": "reddi2ch.setcurrent",
+      "inputs": {
+        "app": "app",
+        "path": {
+          "payload": "path"
+        }
+      }
+    },
+    "translate": {
+      "use": "reddi2ch.translate",
+      "inputs": {
+        "app": "app"
+      }
+    },
+    "reload": {
+      "use": "reddi2ch.reloadthread",
+      "inputs": {
+        "app": "app"
+      }
+    },
+    "retry": {
+      "use": "reddi2ch.retry",
+      "inputs": {
+        "app": "app"
+      }
+    }
+  }
+}

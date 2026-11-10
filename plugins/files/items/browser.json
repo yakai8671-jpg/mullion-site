@@ -1,0 +1,72 @@
+{
+  "id": "files.browser",
+  "label": "files.item.browser",
+  "standalone": true,
+  "icon": "folder2-open",
+  "permissions": [
+    "fs:read",
+    "window:write"
+  ],
+  "properties": {
+    "path": {
+      "label": "files.prop.path",
+      "type": "filepath",
+      "default": "",
+      "placeholder": "files.placeholder.path"
+    },
+    "selected": {
+      "label": "files.prop.selected",
+      "type": "string",
+      "default": ""
+    },
+    "view": {
+      "label": "mu.prop.dashboard.view",
+      "type": "enum",
+      "control": "segments",
+      "default": "list",
+      "options": [
+        "list",
+        "grid"
+      ]
+    }
+  },
+  "derived": {
+    "selectedPath": {
+      "label": "files.prop.filePath",
+      "type": "filepath",
+      "from": {
+        "script": "selectedPath"
+      }
+    }
+  },
+  "screen": "files.browser",
+  "actions": {
+    "openmkdir": {
+      "use": "files.openmkdir",
+      "inputs": {
+        "path": {
+          "payload": "path"
+        }
+      }
+    },
+    "openinfo": {
+      "use": "files.openinfo",
+      "inputs": {
+        "path": {
+          "payload": "path"
+        }
+      }
+    },
+    "say": {
+      "use": "files.say",
+      "inputs": {
+        "key": {
+          "payload": "key"
+        },
+        "error": {
+          "payload": "error"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "type": "yue2.editor",
+  "name": "yue2.app.edit",
+  "defaultItem": "yue2.editor",
+  "layout": {
+    "dir": "row",
+    "ratio": 0.45,
+    "children": [
+      "self",
+      {
+        "add": "yue2.scoreEditor",
+        "tag": "score"
+      }
+    ],
+    "links": [
+      {
+        "to": {
+          "at": "+score",
+          "key": "parts"
+        },
+        "from": {
+          "at": "self",
+          "key": "abc",
+          "path": [
+            "sections"
+          ]
+        },
+        "share": true
+      },
+      {
+        "to": {
+          "at": "+score",
+          "key": "header"
+        },
+        "from": {
+          "at": "self",
+          "key": "abc",
+          "path": [
+            "header"
+          ]
+        }
+      }
+    ]
+  }
+}

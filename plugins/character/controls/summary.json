@@ -1,0 +1,9 @@
+{
+  "id": "character.summary",
+  "label": "character.control.summary",
+  "why": "Character summary row",
+  "needs": [
+    "summary"
+  ],
+  "script": true
+}

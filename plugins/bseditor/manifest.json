@@ -1,0 +1,88 @@
+{
+  "id": "bseditor",
+  "name": "BsEditor",
+  "version": "1.0.0",
+  "description": "A no-code editor for Bootstrap 5 pages: the list of cells (the app, where the page is built), the cell editor, the class catalog and the screen cells are added in. The page is shown by the shell's Preview, linked to the list.",
+  "api": 1,
+  "translations": "i18n.json",
+  "types": [
+    "types/doc.json",
+    "types/cell.json",
+    "types/classentry.json",
+    "types/attrentry.json",
+    "types/richtext.json",
+    "types/run.json"
+  ],
+  "controls": [
+    "controls/preview.json",
+    "controls/textcard.json",
+    "controls/workspace.json",
+    "controls/cellrow.json",
+    "controls/spacing.json",
+    "controls/htmlinput.json"
+  ],
+  "actions": [
+    "actions/say.json",
+    "actions/clear.json"
+  ],
+  "items": [
+    "items/cells.json",
+    "items/cell.json",
+    "items/classes.json",
+    "items/classadd.json",
+    "items/attrs.json",
+    "items/attradd.json",
+    "items/add.json",
+    "items/decor.json",
+    "items/decorcatalog.json",
+    "items/htmlload.json"
+  ],
+  "apps": [
+    "apps/cells.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "styles": [
+    "bseditor.css"
+  ],
+  "permissions": [
+    "window:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "bseditor.cells",
+      "bseditor.cell",
+      "bseditor.classes",
+      "bseditor.classadd",
+      "bseditor.attrs",
+      "bseditor.attradd",
+      "bseditor.add",
+      "bseditor.decor",
+      "bseditor.htmlload",
+      "bseditor.decorcatalog"
+    ],
+    "valueTypes": [
+      "bseditor.doc",
+      "bseditor.cell",
+      "bseditor.classentry",
+      "bseditor.attrentry",
+      "bseditor.richtext",
+      "bseditor.run"
+    ],
+    "controls": [
+      "bseditor.preview",
+      "bseditor.textcard",
+      "bseditor.workspace",
+      "bseditor.cellrow",
+      "bseditor.spacing",
+      "bseditor.htmlinput"
+    ],
+    "actions": [
+      "bseditor.say",
+      "bseditor.clear"
+    ],
+    "permissions": []
+  },
+  "requires": []
+}

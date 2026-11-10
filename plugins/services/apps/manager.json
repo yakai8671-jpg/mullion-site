@@ -1,0 +1,8 @@
+{
+  "type": "services.manager",
+  "layout": {
+    "children": [
+      "self"
+    ]
+  }
+}

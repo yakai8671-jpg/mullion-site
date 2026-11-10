@@ -1,0 +1,175 @@
+/* The 360° viewer fills its window: the view is the whole of it, with the
+   buttons over its top right corner the way pose2img's gizmo modes are. */
+.panorama-view {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 12rem;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #1e1e1e;
+}
+
+.panorama-view > canvas {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.panorama-view > canvas.is-dragging {
+  cursor: grabbing;
+}
+
+.panorama-note,
+.panorama-warn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100% - 2 * var(--space-4));
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+  color: #ddd;
+  text-align: center;
+  pointer-events: none;
+}
+
+.panorama-note {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.panorama-warn {
+  bottom: var(--space-2);
+  background: rgb(0 0 0 / 0.55);
+  font-size: var(--font-size-small);
+}
+
+.panorama-tools {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* On the picture, which is whatever colour it is: a pale icon on a dark
+   chip when off, the accent when on. */
+.panorama-tools > button:not(.is-active) {
+  border-color: rgb(255 255 255 / 0.25);
+  background: rgb(0 0 0 / 0.45);
+  color: #eee;
+}
+
+.panorama-view:fullscreen {
+  border-radius: 0;
+}
+
+/* The structure over the view: a line of what is happening at the top
+   left, what the colours are at the bottom left, and what is under the
+   pointer beside it. All on the picture, so dark chips with pale text. */
+.panorama-status,
+.panorama-legend,
+.panorama-tip {
+  position: absolute;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+  background: rgb(0 0 0 / 0.6);
+  color: #eee;
+  font-size: var(--font-size-small);
+  pointer-events: none;
+}
+
+.panorama-status {
+  top: var(--space-2);
+  left: var(--space-2);
+  max-width: calc(100% - 4rem);
+}
+
+.panorama-status.is-error {
+  background: rgb(120 20 20 / 0.8);
+}
+
+.panorama-legend {
+  bottom: var(--space-2);
+  left: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.panorama-legend > div {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.panorama-legend-note {
+  opacity: 0.7;
+}
+
+.panorama-swatch {
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 2px;
+}
+
+.panorama-tip {
+  white-space: nowrap;
+}
+
+/* The picture on its way: the note in the middle breathes. */
+.panorama-note.is-loading {
+  background: rgb(0 0 0 / 0.55);
+  animation: panorama-breathe 1.6s ease-in-out infinite;
+}
+
+@keyframes panorama-breathe {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* A panorama with its depth, as a preset shows it: the picture, and a
+   chip saying it has its depth. */
+.panorama-card {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.panorama-card > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+}
+
+/* Nothing chosen: nothing to show, not an empty frame with a badge. */
+.panorama-card.is-empty {
+  display: none;
+}
+
+.panorama-card-badge[hidden] {
+  display: none;
+}
+
+.panorama-card-badge {
+  position: absolute;
+  left: var(--space-1);
+  bottom: var(--space-1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius);
+  background: rgb(0 0 0 / 0.6);
+  color: #eee;
+  font-size: var(--font-size-small);
+}

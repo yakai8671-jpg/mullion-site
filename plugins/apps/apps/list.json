@@ -1,0 +1,8 @@
+{
+  "type": "apps.list",
+  "layout": {
+    "children": [
+      "self"
+    ]
+  }
+}

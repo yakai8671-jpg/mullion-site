@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "deps": [
+    "preload"
+  ],
+  "api": [
+    "fetchJSON",
+    "fetch",
+    "qs",
+    "settings",
+    "backend"
+  ],
+  "events": [
+    "change"
+  ],
+  "slots": [
+    "problem"
+  ],
+  "fills": []
+}

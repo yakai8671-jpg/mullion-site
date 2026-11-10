@@ -1,0 +1,27 @@
+{
+  "id": "hotkeys.binding",
+  "label": "hotkeys.control.binding",
+  "script": true,
+  "standalone": true,
+  "why": "records a key press and picks the window it acts on: neither is a value a shell control edits",
+  "params": {
+    "binding": {
+      "type": "hotkeys.row",
+      "bind": "read"
+    },
+    "keys": {
+      "type": "data",
+      "bind": "read"
+    },
+    "picking": {
+      "type": "string",
+      "bind": "read"
+    },
+    "key": {
+      "type": "action"
+    },
+    "pick": {
+      "type": "action"
+    }
+  }
+}

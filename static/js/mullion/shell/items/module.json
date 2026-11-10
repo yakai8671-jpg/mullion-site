@@ -1,0 +1,39 @@
+{
+  "name": "items",
+  "deps": [
+    "registry",
+    "i18n"
+  ],
+  "api": [
+    "allItems",
+    "getItem",
+    "createItem",
+    "setItems",
+    "keepItems",
+    "itemsMark",
+    "dropItemsSince",
+    "claimItemIds",
+    "forgetItemIds",
+    "reservedItemIds",
+    "runAction",
+    "actionStatus",
+    "cancelAction",
+    "retireItem",
+    "controlActions",
+    "removeItems",
+    "DEFAULT_ITEM_TYPE",
+    "MISSING_ITEM_TYPE",
+    "itemLabel",
+    "itemProperties",
+    "readonlyProp",
+    "itemIcon"
+  ],
+  "events": [
+    "change",
+    "remove"
+  ],
+  "slots": [
+    "actionHost"
+  ],
+  "fills": []
+}

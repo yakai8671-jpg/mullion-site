@@ -1,0 +1,71 @@
+/* LoRA Training: the training pictures, each with its caption under it. */
+.loratrain-dataset-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.loratrain-dataset-label {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.loratrain-dataset-gap {
+  flex: 1;
+}
+
+.loratrain-dataset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: var(--space-2);
+  padding: var(--space-2);
+}
+
+.loratrain-dataset-grid:empty {
+  display: none;
+}
+
+.loratrain-sample {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.loratrain-sample-picture {
+  position: relative;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: repeating-conic-gradient(var(--bg-inset) 0 25%, var(--bg-elevated) 0 50%) 50% / 12px 12px;
+}
+
+.loratrain-sample-picture > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.loratrain-sample-tools {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  gap: 2px;
+}
+
+.loratrain-sample-tools > .mu-icon-button {
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+}
+
+.loratrain-sample-caption {
+  width: 100%;
+  min-height: 4.5em;
+  resize: vertical;
+  font-size: var(--font-size-small);
+}
+
+.loratrain-sample.is-busy .loratrain-sample-caption {
+  opacity: 0.6;
+}

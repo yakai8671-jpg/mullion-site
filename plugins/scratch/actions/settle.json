@@ -1,0 +1,10 @@
+{
+  "id": "scratch.settle",
+  "permissions": ["store:write"],
+  "params": {
+    "entries": { "type": "list", "each": { "type": "scratch.entry" } }
+  },
+  "results": {
+    "entries": { "type": "list", "each": { "type": "scratch.entry" } }
+  }
+}

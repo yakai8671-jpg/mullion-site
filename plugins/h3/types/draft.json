@@ -1,0 +1,8 @@
+{
+  "id": "h3.draft",
+  "label": "h3.vtype.draft",
+  "icon": "file-text",
+  "port": "h3.draft",
+  "default": null,
+  "defaultControl": "summary"
+}

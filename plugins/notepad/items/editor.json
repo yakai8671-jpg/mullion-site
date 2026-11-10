@@ -1,0 +1,53 @@
+// Notepad -- an editor whose document lives in the layout.
+//
+// The document *is* the item's properties: the text, and how it is shown
+// (wrapping, typeface, size, ...). So several notepads can sit in one layout,
+// each survives a reload, and the layout file alone is enough to bring the
+// whole set back. There is no file here: nothing is opened or saved. What is
+// written is moved in and out by the card's own grip, copy and links, like any
+// other text in the shell.
+{
+  "id": "notepad.editor",
+  "label": "notepad.item.editor",
+  "icon": "file-earmark-text",
+  "standalone": true,
+  "permissions": [],
+
+  "properties": {
+    "text": { "type": "string", "label": "notepad.prop.text", "control": "texteditor", "placeholder": "notepad.placeholder.text", "default": "" },
+    // How the text is shown: the text card's options, one property each, with
+    // the card's own defaults (static/js/mullion/textfeatures.js).
+    "wrap":       { "type": "boolean", "label": "notepad.prop.wrap", "default": true },
+    "mono":       { "type": "boolean", "label": "notepad.prop.mono", "default": false },
+    "zoom":       { "type": "number",  "label": "notepad.prop.zoom", "default": 100, "min": 70, "max": 200 },
+    "tab":        { "type": "boolean", "label": "notepad.prop.tab", "default": false },
+    "spellcheck": { "type": "boolean", "label": "notepad.prop.spellcheck", "default": false },
+    "stats":      { "type": "boolean", "label": "notepad.prop.stats", "default": true },
+    "numbers":    { "type": "boolean", "label": "notepad.prop.numbers", "default": false },
+  },
+
+  // The window is one control: the shell's text card with every feature it
+  // can be given, told to fill the pane.
+  "layout": [
+    {
+      "control": "notepad.document",
+      "key": "buffer",
+      "options": {
+        "value": { "bind": "text" },
+        "fill": true,
+        // Where it was scrolled to is kept by this, across the window being
+        // folded or the layout drawn again.
+        "scrollKey": { "item": "id" },
+        "options": {
+          "wrap": { "bind": "wrap" },
+          "mono": { "bind": "mono" },
+          "zoom": { "bind": "zoom" },
+          "tab": { "bind": "tab" },
+          "spellcheck": { "bind": "spellcheck" },
+          "stats": { "bind": "stats" },
+          "numbers": { "bind": "numbers" },
+        },
+      },
+    },
+  ],
+}

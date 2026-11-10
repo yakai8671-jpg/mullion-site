@@ -1,0 +1,24 @@
+{
+  "id": "chain.block",
+  "label": "chain.vtype.block",
+  "icon": "diagram-2",
+  "port": "chainref",
+  "portReceive": false,
+  "identity": "id",
+  "sample": {
+    "default": {
+      "id": "b0",
+      "kind": "run",
+      "pair": ""
+    }
+  },
+  "defaultControl": "workflow.summaryline",
+  "groups": {
+    "label": "chain.field.kind"
+  },
+  "list": {
+    "port": "chainblocks",
+    "label": "chain.vtype.blocks",
+    "icon": "diagram-3"
+  }
+}

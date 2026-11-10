@@ -1,0 +1,392 @@
+/* Workflows' own styling. Every colour and measurement is a token, so a
+ * skin reaches these rules without knowing they exist. */
+
+.workflow-summary {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.workflow-summary-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflow-summary-meta {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.workflow-field-label {
+  grid-column: 2 / -1;
+  margin-block: 0.125rem;
+}
+
+.workflow-summary.has-problems .workflow-summary-meta {
+  color: var(--danger);
+}
+
+/* One shape for what a run takes in and gives back: a card, its header
+   along the top -- what to do with the thing on the left, how to look at it
+   on the right -- and the thing itself underneath. A picture, a prompt and
+   an answer are three things to hold and one thing to read. */
+.workflow-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding-inline: var(--space-1);
+}
+
+/* This crumb row belongs to its card, not to the surrounding item: it is the card's bar (the shell
+   gives that its ground, padding and height). */
+.workflow-card-crumbs {
+  position: relative;
+  top: auto;
+  z-index: auto;
+  margin: 0;
+}
+
+/* Pushes the toggles to the far end: what to do with the thing on one
+   side, how to look at it on the other. */
+.workflow-card-gap {
+  flex: 1 1 auto;
+}
+
+.workflow-card-label {
+  position: absolute;
+  left: 50%;
+  max-width: 45%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.workflow-card-head {
+  position: relative;
+}
+
+.workflow-card-body {
+  min-width: 0;
+}
+
+.workflow-card-text {
+  padding: var(--space-2);
+  overflow-wrap: anywhere;
+}
+
+/* Nothing in it yet: said in the middle of where the thing will be, rather
+   than as a line of text at the top of an otherwise empty box. */
+.workflow-card-text.is-empty,
+.workflow-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 5rem;
+  padding: var(--space-2);
+  color: var(--fg-muted);
+  text-align: center;
+}
+
+.workflow-card-text.is-empty.is-shrunk {
+  display: block;
+  min-height: 0;
+}
+
+/* The placeholder and the picture take turns. */
+.workflow-card-body:not(.is-empty) > .workflow-card-placeholder,
+.workflow-card-body.is-empty > .mu-imagebox {
+  display: none;
+}
+
+.workflow-card-text.is-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+/* Shrunk: enough to see which card this is without giving it half the
+   window. Text ends in an ellipsis; parts simply stop at the edge, because
+   a card cut in half reads as more to come. */
+.workflow-card-text.is-shrunk {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflow-card-text.is-shrunk.is-cards {
+  flex-wrap: nowrap;
+}
+
+/* The picture. The box inside is the shell's own image control, drawn
+   compact -- its upload button is the one in the header now -- and inside a
+   card it gives up its own frame and its own clear button, because the card
+   is the frame and the header carries the button. */
+.workflow-card > .workflow-card-body > .mu-imagebox {
+  padding: var(--space-2);
+}
+
+.workflow-card .mu-imagebox-preview {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+/* One radius whatever size it is at: the compact box rounds its thumbnail
+   and the full one does not, so a picture changed shape when it was shrunk
+   for no reason anybody asked for. */
+.workflow-card .mu-imagebox-img {
+  max-height: 16rem;
+  border-radius: var(--radius);
+}
+
+.workflow-card .mu-imagebox-clear {
+  display: none;
+}
+
+/* Nor its own way in: the header's upload button is that, and a second one
+   inside the card said the same thing twice. The card is still a drop
+   target -- that is the box's own handler, and it stays. */
+.workflow-card .mu-imagebox-drop {
+  display: none;
+}
+
+/* Its own note, too: the card says where the picture came from and what it
+   is, on two lines of its own, which is more than one line of type had room
+   for. */
+.workflow-card .mu-imagebox-note {
+  display: none;
+}
+
+/* Shrunk: a thumbnail on the left, what it is on the right. The picture is
+   small enough now that a line under it would leave the card mostly empty
+   beside it. */
+.workflow-card-body.is-shrunk {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-right: var(--space-2);
+}
+
+.workflow-card-body.is-shrunk > .mu-imagebox {
+  flex: 0 0 auto;
+  width: auto;
+  padding-right: 0;
+}
+
+.workflow-card-body.is-shrunk .mu-imagebox-preview,
+.workflow-card-body.is-shrunk .mu-imagebox-img {
+  max-height: 4rem;
+}
+
+.workflow-prompt-part {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  flex: 0 0 auto;
+  max-width: 100%;
+  padding: 0 var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  font-size: var(--font-size-small);
+  line-height: 1.6;
+}
+
+.workflow-prompt-part > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflow-prompt-weight {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+}
+
+/* The name over a card: a property row with no value (see
+   workflow.fieldlabel), so its look is the table's. The label is allowed the
+   whole width, since there is no value beside it to leave room for. */
+.workflow-field-label dt {
+  max-width: 100%;
+}
+
+/* ---- app kit: history ------------------------------------------------ */
+/* One card per run: what it made on the left, when and what on the right,
+   and the two things to do with it at the end. */
+/* min-width 0: it sits in a flex row, where a child is as wide as its
+   longest unbroken line unless told otherwise -- and a card's summary is
+   one line on purpose, cut off rather than wrapped. */
+.workflow-history {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.workflow-history.is-empty:not(:empty) {
+  padding: var(--space-4);
+  color: var(--fg-muted);
+  text-align: center;
+}
+
+.workflow-history-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-1);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.workflow-history-thumb {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  color: var(--fg-muted);
+  font-size: 1.25rem;
+}
+
+.workflow-history-thumb img,
+.workflow-history-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.workflow-history-info {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.workflow-history-when {
+  font-weight: 600;
+  font-size: var(--font-size-small);
+}
+
+/* Which app made it, ahead of when: shown while every app's runs are. */
+.workflow-history-app {
+  margin-right: var(--space-1);
+  padding: 0 0.375rem;
+  border-radius: 999px;
+  background: var(--bg-inset);
+  color: var(--fg-muted);
+  font-weight: 400;
+}
+
+/* How long it took, after when. */
+.workflow-history-took {
+  margin-left: var(--space-2);
+  color: var(--fg-muted);
+  font-weight: 400;
+}
+
+/* The grip a run is carried by: the full height of the card, at its left. */
+.workflow-history-card > .mu-port-grip {
+  flex: 0 0 auto;
+  align-self: stretch;
+  height: auto;
+  cursor: grab;
+}
+
+.workflow-history-summary,
+.workflow-history-output {
+  overflow: hidden;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflow-history-output {
+  font-family: var(--font-mono);
+}
+
+.workflow-history-tools {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+/* Narrow, the thumbnail gives way: when and what are the card, and the two
+   buttons are what is done with it -- a picture is the first thing a
+   squeezed card can do without. */
+.workflow-history {
+  container-type: inline-size;
+}
+
+@container (max-width: 13rem) {
+  .workflow-history-thumb {
+    display: none;
+  }
+}
+
+/* One run inside its card: the picture, then when it ran and what went in and came out. */
+.workflow-runinfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.workflow-runinfo-thumb {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  color: var(--fg-muted);
+  font-size: 1.25rem;
+}
+
+.workflow-runinfo-thumb img,
+.workflow-runinfo-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.workflow-runinfo-text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.workflow-runinfo-when {
+  font-weight: 600;
+  font-size: var(--font-size-small);
+}
+
+.workflow-runinfo-summary,
+.workflow-runinfo-output {
+  overflow: hidden;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflow-runinfo-output {
+  font-family: var(--font-mono);
+}

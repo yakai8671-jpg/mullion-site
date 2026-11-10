@@ -1,0 +1,56 @@
+{
+  "id": "scratch",
+  "name": "Scratch Board",
+  "version": "1.0.0",
+  "description": "A place to put down anything with a grip -- text, tags, prompts -- and pick it up again later.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [
+    "scratch.css"
+  ],
+  "types": [
+    "types/entry.json"
+  ],
+  "actions": [
+    "actions/put.json",
+    "actions/remove.json",
+    "actions/keep.json",
+    "actions/settle.json"
+  ],
+  "controls": [
+    "controls/card.json",
+    "controls/zone.json"
+  ],
+  "items": [
+    "items/board.json"
+  ],
+  "apps": [
+    "apps/board.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "permissions": [
+    "store:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "scratch.board"
+    ],
+    "valueTypes": [
+      "scratch.entry"
+    ],
+    "controls": [
+      "scratch.zone",
+      "scratch.card"
+    ],
+    "permissions": [],
+    "actions": [
+      "scratch.put",
+      "scratch.remove",
+      "scratch.keep",
+      "scratch.settle"
+    ]
+  },
+  "requires": []
+}

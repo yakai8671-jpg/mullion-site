@@ -1,0 +1,15 @@
+{
+  "id": "files.mkdir",
+  "permissions": [
+    "fs:write"
+  ],
+  "params": {
+    "path": {
+      "type": "filepath"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

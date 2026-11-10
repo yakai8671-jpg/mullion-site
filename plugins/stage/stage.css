@@ -1,0 +1,21 @@
+/* The stage fills its window, as the 360° viewer does; the rest of its
+   look -- buttons on the picture, the note in the middle -- is the
+   panorama view's (panorama.css). */
+.mu-body:has(> .mu-item[data-item-type="stage.view"]) {
+  overflow: hidden;
+}
+
+.mu-item[data-item-type="stage.view"] {
+  height: 100%;
+}
+
+.mu-item[data-item-type="stage.view"] > .mu-item-body {
+  flex: 1;
+  min-height: 0;
+}
+
+/* -- an object as a form ----------------------------------------------- */
+.stage-objectedit .mu-prop-row[hidden] {
+  display: none;
+}
+

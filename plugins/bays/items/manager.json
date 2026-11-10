@@ -1,0 +1,272 @@
+{
+  "id": "bays.manager",
+  "label": "bays.item.manager",
+  "icon": "window-stack",
+  "standalone": true,
+  "permissions": [
+    "bays:read",
+    "bays:write"
+  ],
+  "derived": {
+    "bays": {
+      "type": "list",
+      "each": {
+        "type": "bays.bay"
+      },
+      "label": "bays.section.bays",
+      "from": {
+        "script": "bays.list"
+      },
+      "writable": true
+    }
+  },
+  "actions": {
+    "add": {
+      "use": "bays.add"
+    },
+    "remove": {
+      "use": "bays.remove",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        },
+        "name": {
+          "payload": "name"
+        }
+      }
+    },
+    "rename": {
+      "use": "bays.rename",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        },
+        "name": {
+          "payload": "name"
+        }
+      }
+    },
+    "slide": {
+      "use": "bays.slide",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        },
+        "slide": {
+          "payload": "slide"
+        }
+      }
+    },
+    "place": {
+      "use": "bays.place",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        }
+      }
+    },
+    "unplace": {
+      "use": "bays.unplace",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        }
+      }
+    },
+    "addSash": {
+      "use": "bays.addSash",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        }
+      }
+    },
+    "removeSash": {
+      "use": "bays.removeSash",
+      "inputs": {
+        "bay": {
+          "payload": "bay"
+        },
+        "id": {
+          "payload": "id"
+        },
+        "title": {
+          "payload": "title"
+        },
+        "windows": {
+          "payload": "windows"
+        }
+      }
+    },
+    "activate": {
+      "use": "bays.activate",
+      "inputs": {
+        "bay": {
+          "payload": "bay"
+        },
+        "id": {
+          "payload": "id"
+        }
+      }
+    },
+    "unregister": {
+      "use": "bays.unregister",
+      "inputs": {
+        "bay": {
+          "payload": "bay"
+        },
+        "id": {
+          "payload": "id"
+        },
+        "unit": {
+          "payload": "unit"
+        }
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "bays",
+      "options": {
+        "label": "bays.section.bays",
+        "hint": "bays.hint"
+      },
+      "layout": [
+        {
+          "control": "list",
+          "key": "bay-list",
+          "options": {
+            "add": {
+              "action": "add",
+              "label": "bays.action.add"
+            }
+          },
+          "layout": [
+            {
+              "control": "card",
+              "key": "bay",
+              "each": {
+                "bind": "bays"
+              },
+              "as": "bay",
+              "options": {
+                "label": {
+                  "bind": "bay.title"
+                },
+                "discard": "remove",
+                "add": {
+                  "action": "addSash",
+                  "label": "bays.action.addSash"
+                }
+              },
+              "slots": {
+                "tools": [
+                  {
+                    "key": "slide",
+                    "icon": {
+                      "bind": "bay.slideIcon"
+                    },
+                    "label": "bays.action.slide",
+                    "title": {
+                      "bind": "bay.slideTitle"
+                    },
+                    "action": "slide"
+                  },
+                  {
+                    "key": "place",
+                    "icon": "box-arrow-in-down",
+                    "label": "bays.action.place",
+                    "title": "bays.action.place",
+                    "visible": {
+                      "bind": "bay.offScreen"
+                    },
+                    "action": "place"
+                  },
+                  {
+                    "key": "unplace",
+                    "icon": "eye-slash",
+                    "label": "bays.action.unplace",
+                    "title": "bays.action.unplace",
+                    "visible": {
+                      "bind": "bay.placed"
+                    },
+                    "action": "unplace"
+                  },
+                  {
+                    "key": "rename",
+                    "icon": "pencil",
+                    "label": "bays.action.rename",
+                    "title": "bays.action.rename",
+                    "action": "rename"
+                  }
+                ],
+                "body": [
+                  {
+                    "control": "card",
+                    "key": "sash",
+                    "each": {
+                      "bind": "bay.sashes"
+                    },
+                    "as": "sash",
+                    "options": {
+                      "label": {
+                        "bind": "sash.title"
+                      },
+                      "discard": "removeSash",
+                      "port": true
+                    },
+                    "slots": {
+                      "lead": [
+                        {
+                          "key": "activate",
+                          "icon": {
+                            "bind": "sash.shownIcon"
+                          },
+                          "label": {
+                            "bind": "sash.shownLabel"
+                          },
+                          "disabled": {
+                            "bind": "sash.active"
+                          },
+                          "action": "activate"
+                        }
+                      ],
+                      "tools": [
+                        {
+                          "key": "unregister",
+                          "icon": "box-arrow-up-right",
+                          "label": "bays.action.unregister",
+                          "title": "bays.action.unregister",
+                          "disabled": {
+                            "bind": "sash.noUnit"
+                          },
+                          "action": "unregister"
+                        }
+                      ],
+                      "body": [
+                        {
+                          "control": "layoutpreview",
+                          "key": "preview",
+                          "visible": {
+                            "bind": "sash.hasTree"
+                          },
+                          "options": {
+                            "tree": {
+                              "bind": "sash.tree"
+                            },
+                            "bare": true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "id": "qwenpe.app",
+  "label": "qwenpe.item.app",
+  "icon": "magic",
+  "standalone": true,
+  "permissions": [
+    "comfy:run",
+    "services:read",
+    "services:write"
+  ],
+  "properties": {
+    "mode": {
+      "label": "qwenpe.prop.mode",
+      "type": "enum",
+      "default": "t2i",
+      "options": [
+        { "value": "t2i", "label": "qwenpe.mode.t2i" },
+        { "value": "edit", "label": "qwenpe.mode.edit" }
+      ]
+    },
+    "model": {
+      "label": "qwenpe.prop.model",
+      "type": "enum",
+      "default": "",
+      "options": [
+        { "value": "", "label": "auto" },
+        { "value": "qwen3.5_9b_qwen_image_2.1_pe_t2i.int8_convrot.safetensors", "label": "qwen3.5_9b_qwen_image_2.1_pe_t2i.int8_convrot.safetensors" },
+        { "value": "qwen3.5_9b_qwen_image_2.1_pe_i2i.int8_convrot.safetensors", "label": "qwen3.5_9b_qwen_image_2.1_pe_i2i.int8_convrot.safetensors" }
+      ]
+    },
+    "maxLength": {
+      "label": "qwenpe.prop.maxLength",
+      "type": "number",
+      "default": 4096,
+      "min": 256,
+      "max": 24000
+    },
+    "request": {
+      "label": "qwenpe.prop.request",
+      "type": "string",
+      "default": ""
+    },
+    "image1": {
+      "label": "qwenpe.prop.picture",
+      "type": "image",
+      "maxBytes": 8388608,
+      "default": ""
+    },
+    "image2": {
+      "label": "qwenpe.prop.picture",
+      "type": "image",
+      "maxBytes": 8388608,
+      "default": ""
+    },
+    "image3": {
+      "label": "qwenpe.prop.picture",
+      "type": "image",
+      "maxBytes": 8388608,
+      "default": ""
+    },
+    "image4": {
+      "label": "qwenpe.prop.picture",
+      "type": "image",
+      "maxBytes": 8388608,
+      "default": ""
+    },
+    "result": {
+      "label": "qwenpe.prop.result",
+      "type": "string",
+      "default": ""
+    },
+    "ratio": {
+      "label": "qwenpe.prop.ratio",
+      "type": "string",
+      "default": ""
+    },
+    "follow": {
+      "label": "qwenpe.prop.follow",
+      "type": "string",
+      "default": ""
+    },
+    "parsed": {
+      "label": "qwenpe.prop.result",
+      "type": "boolean",
+      "default": true
+    },
+    "truncated": {
+      "label": "qwenpe.prop.result",
+      "type": "boolean",
+      "default": false
+    },
+    "thinking": {
+      "label": "qwenpe.prop.thinking",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "actions": {
+    "run": {
+      "use": "qwenpe.run",
+      "inputs": [
+        "mode",
+        "model",
+        "maxLength",
+        "request",
+        "image1",
+        "image2",
+        "image3",
+        "image4"
+      ],
+      "outputs": {
+        "result": "result",
+        "ratio": "ratio",
+        "follow": "follow",
+        "parsed": "parsed",
+        "truncated": "truncated",
+        "thinking": "thinking"
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "pinned",
+      "key": "software",
+      "layout": [
+        {
+          "control": "services.state",
+          "key": "comfyui",
+          "options": {
+            "service": "comfyui"
+          }
+        }
+      ]
+    },
+    {
+      "key": "picturesSwitch",
+      "switch": { "bind": "mode" },
+      "cases": {
+        "edit": [
+          {
+            "control": "section",
+            "key": "pictures",
+            "options": {
+              "label": "qwenpe.section.pictures"
+            },
+            "layout": [
+              {
+                "control": "imagecard",
+                "key": "image1",
+                "options": {
+                  "value": { "bind": "image1" }
+                }
+              },
+              {
+                "control": "imagecard",
+                "key": "image2",
+                "options": {
+                  "value": { "bind": "image2" }
+                }
+              },
+              {
+                "control": "imagecard",
+                "key": "image3",
+                "options": {
+                  "value": { "bind": "image3" }
+                }
+              },
+              {
+                "control": "imagecard",
+                "key": "image4",
+                "options": {
+                  "value": { "bind": "image4" }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "requestSwitch",
+      "switch": { "bind": "mode" },
+      "cases": {
+        "t2i": [
+          {
+            "control": "section",
+            "key": "requestT2i",
+            "options": {
+              "label": "qwenpe.section.request"
+            },
+            "layout": [
+              {
+                "control": "texteditor",
+                "key": "request",
+                "options": {
+                  "value": { "bind": "request" },
+                  "placeholder": "qwenpe.placeholder.t2i",
+                  "lines": 3
+                }
+              }
+            ]
+          }
+        ],
+        "edit": [
+          {
+            "control": "section",
+            "key": "requestEdit",
+            "options": {
+              "label": "qwenpe.section.request"
+            },
+            "layout": [
+              {
+                "control": "texteditor",
+                "key": "request",
+                "options": {
+                  "value": { "bind": "request" },
+                  "placeholder": "qwenpe.placeholder.edit",
+                  "lines": 3
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "control": "section",
+      "key": "settings",
+      "options": {
+        "label": "qwenpe.section.settings"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "settings",
+          "options": {
+            "entries": [
+              "mode",
+              "model",
+              "maxLength"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "qwenpe.section.result"
+      },
+      "layout": [
+        {
+          "control": "card",
+          "key": "output",
+          "slots": {
+            "lead": [
+              {
+                "key": "run",
+                "icon": "stars",
+                "label": "qwenpe.action.run",
+                "title": "qwenpe.action.run",
+                "action": "run"
+              }
+            ],
+            "tools": [
+              {
+                "key": "cancel",
+                "icon": "stop-fill",
+                "label": "qwenpe.action.cancel",
+                "title": "qwenpe.action.cancel",
+                "action": { "cancel": "run" }
+              }
+            ],
+            "body": [
+              {
+                "control": "texteditor",
+                "key": "result",
+                "options": {
+                  "value": { "bind": "result" },
+                  "placeholder": "qwenpe.placeholder.result"
+                }
+              },
+              {
+                "control": "props",
+                "key": "facts",
+                "options": {
+                  "entries": [
+                    "ratio",
+                    "follow"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "thinking",
+      "options": {
+        "label": "qwenpe.section.thinking"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "thinking",
+          "options": {
+            "value": { "bind": "thinking" },
+            "placeholder": "qwenpe.placeholder.thinking"
+          }
+        }
+      ]
+    }
+  ]
+}

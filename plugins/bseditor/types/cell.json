@@ -1,0 +1,8 @@
+{
+  "id": "bseditor.cell",
+  "label": "bseditor.vtype.cell",
+  "icon": "pencil-square",
+  "port": "bseditor.cell",
+  "defaultControl": "summary",
+  "default": null
+}

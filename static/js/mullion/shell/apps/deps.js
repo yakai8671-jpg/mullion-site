@@ -1,0 +1,68 @@
+/* What this module uses of other modules, handed in by setup (index.js). */
+export let APPS;
+export let DEFAULT_ITEM_TYPE;
+export let ITEM_TYPES;
+export let MAX_NESTING;
+export let ROOT_DEFAULT_ITEM;
+export let ROOT_ID;
+export let SKINS;
+export let addBayRecord;
+export let allBays;
+export let allLinks;
+export let bayRecord;
+export let bindProperty;
+export let canLink;
+export let canShare;
+export let commit;
+export let contentNode;
+export let createGroupNode;
+export let createItem;
+export let createWindowNode;
+export let currentItemId;
+export let defaultFor;
+export let deleteValue;
+export let derivesFrom;
+export let dropLinksAmong;
+export let eachGroup;
+export let eachLeaf;
+export let eachStashedGroup;
+export let eachStashedLeaf;
+export let findLeaf;
+export let getItem;
+export let groupContent;
+export let groupOf;
+export let isContainer;
+export let isPlainObject;
+export let isSlotLeaf;
+export let isStandalone;
+export let knownType;
+export let layoutRoot;
+export let leafIds;
+export let newWindowId;
+export let nextBayId;
+export let oneWindowLayout;
+export let placeLink;
+export let portAddress;
+export let removeWindow;
+export let saveValue;
+export let savedOfType;
+export let savedValue;
+export let screensOf;
+export let singleLayout;
+export let slotOnly;
+export let t;
+export let takeContent;
+
+export let settings;
+
+export let languages;
+export function connect(apis) {
+  ({ settings } = apis.server);
+  ({ MAX_NESTING, ROOT_DEFAULT_ITEM, ROOT_ID, commit, contentNode, createGroupNode, createWindowNode, currentItemId, eachGroup, eachLeaf, findLeaf, groupContent, groupOf, isContainer, isPlainObject, knownType, layoutRoot, leafIds, newWindowId, oneWindowLayout, removeWindow, screensOf, singleLayout } = apis.layout);
+  ({ DEFAULT_ITEM_TYPE, createItem, getItem } = apis.items);
+  ({ allLinks, canLink, canShare, dropLinksAmong, placeLink, portAddress } = apis.ports);
+  ({ addBayRecord, allBays, bayRecord, eachStashedGroup, eachStashedLeaf, isSlotLeaf, nextBayId, slotOnly, takeContent } = apis.bays);
+  ({ APPS, ITEM_TYPES, SKINS, bindProperty, defaultFor, derivesFrom, isStandalone } = apis.registry);
+  ({ deleteValue, saveValue, savedOfType, savedValue } = apis.library);
+  ({ t, languages } = apis.i18n);
+}

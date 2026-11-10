@@ -1,0 +1,26 @@
+{
+  "id": "workflow.keeper",
+  "label": "workflow.item.keeper",
+  "icon": "bookmark-plus",
+  "permissions": ["store:write", "window:write", "comfy:run"],
+  "properties": {
+    "src": { "label": "workflow.prop.keepSrc", "type": "string", "default": "" },
+    "name": { "label": "workflow.prop.keepName", "type": "string", "default": "" },
+    "as": { "label": "workflow.prop.keepAs", "type": "string", "default": "" },
+    "app": {
+      "label": "workflow.prop.keepApp",
+      "type": "ref",
+      "link": true,
+      "itemType": { "kind": "runApp" }
+    }
+  },
+  "actions": {
+    "save": {
+      "use": "workflow.keeper.save",
+      "inputs": { "src": "src", "name": "name", "as": "as", "app": "app" },
+      "outputs": { "src": "src" }
+    },
+    "cancel": { "use": "workflow.keeper.cancel", "outputs": { "src": "src" } }
+  },
+  "screen": "workflow.keeper"
+}

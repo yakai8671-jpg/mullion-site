@@ -1,0 +1,6 @@
+{
+  "id": "notepad.document",
+  "extends": "texteditor",
+  "label": "notepad.item.editor",
+  "features": ["history", "find", "tidy", "display"]
+}

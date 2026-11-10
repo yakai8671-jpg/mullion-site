@@ -1,0 +1,26 @@
+{
+  "name": "builtins",
+  "deps": [
+    "server",
+    "registry",
+    "apps",
+    "items",
+    "layout",
+    "view",
+    "mount",
+    "i18n",
+    "frames",
+    "pickers",
+    "home",
+    "ports",
+    "properties",
+    "media"
+  ],
+  "api": [
+    "installBuiltin",
+    "installBuiltins"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

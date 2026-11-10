@@ -1,0 +1,21 @@
+{
+  "id": "scratch.card",
+  "label": "scratch.control.card",
+  "why": "one thing put down on a board, of any kind: its picture, text or what it reads as, under the shell card's header",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "kind": { "type": "string" },
+    "port": { "type": "data" },
+    "name": { "type": "string" },
+    "bare": { "type": "boolean" },
+    "sink": { "type": "data" },
+    "empty": { "type": "string" },
+    "onDiscard": { "type": "function" },
+    "onKeep": { "type": "function" },
+    "onName": { "type": "function" },
+    "discard": { "type": "action", "payload": { "id": "string" } },
+    "keep": { "type": "action", "payload": { "id": "string", "type": "string" } },
+    "settle": { "type": "action" }
+  }
+}

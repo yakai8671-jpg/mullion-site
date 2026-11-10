@@ -1,0 +1,23 @@
+{
+  "id": "prompt.part",
+  "label": "prompt.vtype.part",
+  "icon": "tag",
+  "groups": {
+    "label": "prompt.field.category"
+  },
+  "fields": {
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "prompt.category"
+    },
+    "tags": {
+      "type": "list",
+      "each": {
+        "type": "prompt.tag"
+      }
+    }
+  },
+  "defaultControl": "prompt.partedit"
+}

@@ -1,0 +1,91 @@
+{
+  "id": "propgroup.create",
+  "label": "propgroup.item.create",
+  "icon": "collection",
+  "permissions": [
+    "store:read",
+    "store:write",
+    "window:write"
+  ],
+  "properties": {
+    "name": {
+      "label": "propgroup.field.groupName",
+      "type": "string",
+      "default": ""
+    },
+    "result": {
+      "label": "propgroup.item.group",
+      "type": "portvalue"
+    },
+    "resultRef": {
+      "label": "propgroup.field.groupReference",
+      "type": "string",
+      "default": ""
+    },
+    "app": {
+      "label": "propgroup.prop.app",
+      "type": "ref",
+      "itemType": "propgroup.app",
+      "link": true
+    }
+  },
+  "screen": "propgroup.create",
+  "actions": {
+    "create": {
+      "use": "propgroup.create",
+      "inputs": {
+        "name": "name",
+        "app": "app"
+      },
+      "outputs": {
+        "name": "name",
+        "resultRef": "resultRef",
+        "result": "result"
+      }
+    },
+    "closeresult": {
+      "use": "propgroup.closeresult",
+      "outputs": {
+        "result": "result"
+      }
+    }
+  },
+  "surface": {
+    "prepare": "closeresult",
+    "buttons": [
+      {
+        "key": "create-group:create",
+        "action": "create",
+        "label": "propgroup.action.create",
+        "primary": true,
+        "node": "create-group",
+        "tool": "create"
+      }
+    ],
+    "inputs": [
+      {
+        "property": "name",
+        "key": "name",
+        "label": "propgroup.field.groupName",
+        "node": "name"
+      }
+    ],
+    "outputs": [
+      {
+        "property": "result",
+        "key": "group",
+        "label": "propgroup.item.group",
+        "kind": "propgroup",
+        "node": "create-group",
+        "display": true
+      },
+      {
+        "property": "resultRef",
+        "key": "groupRef",
+        "label": "propgroup.field.groupReference",
+        "kind": "text",
+        "node": "create-group"
+      }
+    ]
+  }
+}

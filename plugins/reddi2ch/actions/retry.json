@@ -1,0 +1,13 @@
+{
+  "id": "reddi2ch.retry",
+  "permissions": [
+    "ollama:run",
+    "threadstore:access"
+  ],
+  "params": {
+    "app": {
+      "type": "ref"
+    }
+  },
+  "results": {}
+}

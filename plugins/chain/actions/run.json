@@ -1,0 +1,26 @@
+{
+  "id": "chain.run",
+  "permissions": [
+    "comfy:run",
+    "ollama:run",
+    "store:read",
+    "store:write"
+  ],
+  "params": {
+    "blocks": {
+      "type": "list"
+    },
+    "apps": {
+      "type": "list"
+    },
+    "variableList": {
+      "type": "list"
+    }
+  },
+  "results": {
+    "variableList": {
+      "type": "list"
+    }
+  },
+  "concurrency": "ignore"
+}

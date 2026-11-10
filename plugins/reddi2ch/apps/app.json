@@ -1,0 +1,31 @@
+{
+  "type": "reddi2ch.app",
+  "defaultItem": "reddi2ch.app",
+  "layout": {
+    "dir": "row",
+    "ratio": 0.18,
+    "children": [
+      "self",
+      {
+        "dir": "row",
+        "ratio": 0.42,
+        "children": [
+          {
+            "add": "reddi2ch.board",
+            "tag": "board"
+          },
+          {
+            "add": "reddi2ch.thread",
+            "tag": "thread"
+          }
+        ]
+      }
+    ],
+    "appLinks": [
+      { "at": "+board", "key": "app", "to": ["self"] },
+      { "at": "+thread", "key": "app", "to": ["self"] },
+      { "at": "self", "key": "board", "to": ["+board"] },
+      { "at": "self", "key": "thread", "to": ["+thread"] }
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+/* The 3D scene window: the editor on top, shaped like the picture it will
+   make, and what is in the scene underneath. The canvas is letterboxed
+   inside the frame by the view itself (see SceneView.fit). */
+.pose2img-viewport {
+  flex-direction: column;
+}
+
+.pose2img-viewport-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: var(--pose2img-aspect, 1);
+  max-height: 70vh;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: #1e1e1e;
+}
+
+.pose2img-viewport-frame > canvas {
+  display: block;
+  touch-action: none;
+}
+
+/* The gizmo's three modes, over the top right corner of the canvas, the
+   way promptmanager had them. */
+.pose2img-modes {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* On the canvas, which is dark whatever the theme: a pale icon on a dark
+   chip when off, the accent when on. */
+.pose2img-modes > button:not(.is-active) {
+  border-color: rgb(255 255 255 / 0.25);
+  background: rgb(0 0 0 / 0.45);
+  color: #eee;
+}
+
+.pose2img-viewport-note {
+  position: absolute;
+  inset: auto var(--space-2) var(--space-2);
+  color: #ddd;
+  font-size: var(--font-size-small);
+  text-align: center;
+  pointer-events: none;
+}
+
+/* The scene as the run settings show it. */
+.pose2img-card-summary {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pose2img-card-body {
+  display: flex;
+  justify-content: center;
+}
+
+.pose2img-card-body > img {
+  display: block;
+  max-width: 100%;
+  max-height: 12rem;
+  border-radius: var(--radius);
+}
+
+.pose2img-card-body.is-empty {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}

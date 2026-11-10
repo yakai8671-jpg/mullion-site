@@ -1,0 +1,11 @@
+{
+  "id": "loratrain.dataset",
+  "label": "loratrain.control.dataset",
+  "script": true,
+  "why": "Renders training dataset sample grid with inline captions, dropzone, and auto-captioning triggers",
+  "params": {
+    "value": {
+      "type": "data"
+    }
+  }
+}

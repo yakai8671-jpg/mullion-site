@@ -1,0 +1,34 @@
+{
+  "id": "loratrain.run",
+  "permissions": [
+    "comfy:run"
+  ],
+  "params": {
+    "dataset": { "type": "list", "each": { "type": "loratrain.sample" } },
+    "name": { "type": "string" },
+    "trigger": { "type": "string" },
+    "resolution": { "type": "enum" },
+    "steps": { "type": "number" },
+    "learningRate": { "type": "number" },
+    "rank": { "type": "number" },
+    "samplePrompt": { "type": "string" },
+    "optimizer": { "type": "enum" },
+    "seed": { "type": "number" },
+    "algorithm": { "type": "enum" },
+    "checkpointDepth": { "type": "number" },
+    "sampleTurbo": { "type": "boolean" }
+  },
+  "results": {
+    "result": { "type": "image" },
+    "loss": { "type": "image" },
+    "loraName": { "type": "string" }
+  },
+  "concurrency": "ignore",
+  "cancellable": true,
+  "requires": {
+    "dataset": "nonEmpty",
+    "services": [
+      "comfyui"
+    ]
+  }
+}

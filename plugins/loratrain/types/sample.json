@@ -1,0 +1,24 @@
+{
+  "id": "loratrain.sample",
+  "label": "loratrain.vtype.sample",
+  "icon": "image",
+  "identity": "id",
+  "storable": false,
+  "presetNew": false,
+  "port": "image",
+  "portReceive": false,
+  "fields": {
+    "id": { "type": "string" },
+    "src": { "type": "image" },
+    "caption": { "type": "string" }
+  },
+  "defaultControl": "summary",
+  "format": {
+    "field": "caption"
+  },
+  "list": {
+    "label": "loratrain.vtype.dataset",
+    "icon": "images",
+    "defaultControl": "loratrain.dataset"
+  }
+}

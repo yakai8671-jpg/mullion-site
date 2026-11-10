@@ -1,0 +1,17 @@
+{
+  "id": "terminal.run",
+  "permissions": ["shell:exec"],
+  "params": {
+    "command": { "type": "string" },
+    "cwd": { "type": "filepath" },
+    "output": { "type": "data" },
+    "history": { "type": "data" }
+  },
+  "results": {
+    "command": { "type": "string" },
+    "cwd": { "type": "filepath" },
+    "output": { "type": "data" },
+    "history": { "type": "data" }
+  },
+  "requires": { "command": "nonEmpty" }
+}

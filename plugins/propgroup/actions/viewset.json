@@ -1,0 +1,13 @@
+{
+  "id": "propgroup.viewset",
+  "permissions": [],
+  "params": {
+    "app": {
+      "type": "ref"
+    },
+    "value": {
+      "type": "data"
+    }
+  },
+  "results": {}
+}

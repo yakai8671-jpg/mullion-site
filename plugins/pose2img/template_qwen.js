@@ -1,0 +1,241 @@
+/* The Qwen-Image-Edit version of the app's workflow -- promptmanager's
+ * "Qwen Image Edit（3Dポーズ用）" template, exported as a module.
+ *
+ * Where the Anima template reads the depth through a ControlNet, this one
+ * hands the picture to the edit model as its reference image: LoadImage (8)
+ * is `image1` of the positive TextEncodeQwenImageEditPlus (3), and the
+ * prompt says what to draw from it. The negative encoder (4) takes no
+ * picture. The size is the empty latent's (13).
+ *
+ * promptmanager's export carried two more reference images (LoadImage 7
+ * and 22, files that existed only where it was exported); they were cut
+ * there and are not here. LoadImage's own name is blanked for the same
+ * reason.
+ */
+
+export const TEMPLATE = {
+  "name": "Qwen Image Edit 3Dポーズ生成",
+  "tool": "scene_3d_generation",
+  "workflow": {
+    "name": "Qwen Rapid AIO (Image Edit)",
+    "platform": "comfyui",
+    "graph": {
+      "1": {
+        "inputs": {
+          "ckpt_name": "Qwen-Rapid-AIO-NSFW-v23.safetensors"
+        },
+        "class_type": "CheckpointLoaderSimple",
+        "_meta": {
+          "title": "Load Checkpoint"
+        }
+      },
+      "2": {
+        "inputs": {
+          "seed": 1072837312539564,
+          "steps": 4,
+          "cfg": 1,
+          "sampler_name": "euler_ancestral",
+          "scheduler": "beta",
+          "denoise": 1,
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "latent_image": [
+            "13",
+            0
+          ]
+        },
+        "class_type": "KSampler",
+        "_meta": {
+          "title": "KSampler"
+        }
+      },
+      "3": {
+        "inputs": {
+          "prompt": "",
+          "clip": [
+            "1",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "image1": [
+            "8",
+            0
+          ]
+        },
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "_meta": {
+          "title": "TextEncodeQwenImageEditPlus Input Prompt"
+        }
+      },
+      "4": {
+        "inputs": {
+          "prompt": "",
+          "clip": [
+            "1",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        },
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "_meta": {
+          "title": "TextEncodeQwenImageEditPlus Negative (leave blank)"
+        }
+      },
+      "5": {
+        "inputs": {
+          "samples": [
+            "2",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "8": {
+        "inputs": {
+          "image": ""
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "Optional Input Image"
+        }
+      },
+      "13": {
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        },
+        "class_type": "EmptyLatentImage",
+        "_meta": {
+          "title": "Final Image Size"
+        }
+      },
+      "16": {
+        "inputs": {
+          "images": [
+            "5",
+            0
+          ]
+        },
+        "class_type": "PreviewImage",
+        "_meta": {
+          "title": "Preview Image"
+        }
+      }
+    },
+    "fields": []
+  },
+  "blocks": {
+    "prompts": {
+      "value": {
+        "node_id": "3",
+        "input_key": "prompt"
+      }
+    },
+    "negative_prompts": {
+      "value": {
+        "node_id": "4",
+        "input_key": "prompt"
+      }
+    },
+    "depth_image": {
+      "value": {
+        "node_id": "8",
+        "input_key": "image"
+      }
+    },
+    "image_size": {
+      "width": {
+        "node_id": "13",
+        "input_key": "width"
+      },
+      "height": {
+        "node_id": "13",
+        "input_key": "height"
+      }
+    },
+    "image": {
+      "value": {
+        "node_id": "16",
+        "input_key": "images"
+      }
+    }
+  },
+  "settings": [
+    {
+      "node_id": "1",
+      "input_key": "ckpt_name",
+      "label": "チェックポイント",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "CheckpointLoaderSimple",
+        "input_key": "ckpt_name"
+      }
+    },
+    {
+      "node_id": "2",
+      "input_key": "steps",
+      "label": "ステップ数",
+      "group": "サンプラー",
+      "value_type": "integer"
+    },
+    {
+      "node_id": "2",
+      "input_key": "cfg",
+      "label": "CFG",
+      "group": "サンプラー",
+      "value_type": "number"
+    },
+    {
+      "node_id": "2",
+      "input_key": "sampler_name",
+      "label": "サンプラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "sampler_name"
+      }
+    },
+    {
+      "node_id": "2",
+      "input_key": "scheduler",
+      "label": "スケジューラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "scheduler"
+      }
+    },
+    {
+      "node_id": "2",
+      "input_key": "denoise",
+      "label": "デノイズ",
+      "group": "サンプラー",
+      "value_type": "number"
+    }
+  ],
+  "fixed": []
+};

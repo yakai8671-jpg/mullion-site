@@ -1,0 +1,43 @@
+{
+  "id": "imageedit",
+  "name": "Image Edit",
+  "version": "2.0.0",
+  "description": "Change a picture by saying what to change, with further pictures to take things from. Two engines: Qwen-Image 2.1 and Qwen-Image-Edit.",
+  "api": 1,
+  "translations": "i18n.json",
+  "items": [
+    "items/imageedit.json"
+  ],
+  "apps": [
+    "apps/imageedit.json"
+  ],
+  "assets": [
+    "assets/qwen21.json",
+    "assets/edit.json"
+  ],
+  "styles": [],
+  "permissions": [
+    "layout:place",
+    "comfy:run",
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "window:write",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "imageedit.app"
+    ],
+    "valueTypes": [],
+    "controls": [],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "workflow",
+    "prompt",
+    "services"
+  ]
+}

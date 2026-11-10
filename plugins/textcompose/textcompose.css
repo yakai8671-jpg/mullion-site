@@ -1,0 +1,67 @@
+/* The badges over the text of compose.input (see input.js). The layer lies over
+   the textarea in the same box and face, so a badge is drawn exactly over the
+   characters it is made of: nothing in it may add or remove width -- no
+   padding, no margin, no border -- or the text after it would drift. */
+.cp-layer {
+  position: absolute;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cp-layer-in {
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  color: transparent;
+  will-change: transform;
+}
+
+/* The layer takes the pointer only to say where something is let go. */
+.cp-layer.is-hit,
+.cp-layer.is-hit .cp-layer-in {
+  pointer-events: auto;
+}
+
+.cp-badge {
+  border-radius: 4px;
+  color: var(--fg);
+  background: color-mix(in srgb, var(--accent) 24%, var(--input-bg, var(--bg)));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.cp-handle {
+  pointer-events: auto;
+  cursor: grab;
+  color: var(--accent);
+  border-radius: 4px 0 0 4px;
+}
+
+.cp-handle:active {
+  cursor: grabbing;
+}
+
+body.cp-moving,
+body.cp-moving * {
+  cursor: grabbing !important;
+}
+
+/* Where the badge would land. */
+.cp-drop {
+  position: absolute;
+  z-index: 3;
+  width: 2px;
+  background: var(--accent);
+  pointer-events: none;
+}
+
+.cp-drop[hidden] {
+  display: none;
+}
+
+/* ---- the embed list and the catalog ----------------------------------- */
+.cp-value {
+  color: var(--fg-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

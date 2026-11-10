@@ -1,0 +1,32 @@
+{
+  "id": "chain.status",
+  "label": "chain.state.item",
+  "icon": "diagram-3",
+  "permissions": [],
+  "properties": {
+    "host": {
+      "label": "chain.state.host",
+      "type": "ref",
+      "link": true,
+      "itemType": "chain.app"
+    }
+  },
+  "screen": "chain.status",
+  "derived": {
+    "report": {
+      "label": "chain.state.item",
+      "type": "data",
+      "from": {
+        "script": "hostView"
+      }
+    }
+  },
+  "actions": {
+    "stop": {
+      "use": "chain.stop",
+      "inputs": {
+        "host": "host"
+      }
+    }
+  }
+}

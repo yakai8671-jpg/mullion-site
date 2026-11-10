@@ -1,0 +1,93 @@
+{
+  "id": "reddi2ch.board",
+  "label": "reddi2ch.item.board",
+  "icon": "list-ul",
+  "standalone": true,
+  "permissions": [
+    "items:write",
+    "layout:place",
+    "ollama:run",
+    "reddit:read",
+    "threadstore:access",
+    "window:write"
+  ],
+  "properties": {
+    "subreddit": {
+      "label": "reddi2ch.prop.subreddit",
+      "type": "string",
+      "default": "LocalLLaMA"
+    },
+    "sort": {
+      "label": "reddi2ch.prop.sort",
+      "type": "enum",
+      "default": "hot",
+      "options": [
+        "hot",
+        "new",
+        "top",
+        "rising"
+      ]
+    },
+    "span": {
+      "label": "reddi2ch.prop.span",
+      "type": "enum",
+      "default": "day",
+      "options": [
+        "day",
+        "week",
+        "month",
+        "year",
+        "all"
+      ]
+    },
+    "app": {
+      "label": "reddi2ch.prop.app",
+      "type": "ref",
+      "itemType": "reddi2ch.app",
+      "link": true
+    }
+  },
+  "screen": "reddi2ch.board",
+  "derived": {
+    "report": {
+      "label": "reddi2ch.item.board",
+      "type": "data",
+      "from": {
+        "script": "boardReport"
+      }
+    }
+  },
+  "actions": {
+    "open": {
+      "use": "reddi2ch.open",
+      "inputs": {
+        "app": "app",
+        "permalink": {
+          "payload": "permalink"
+        }
+      }
+    },
+    "translate": {
+      "use": "reddi2ch.translate",
+      "inputs": {
+        "app": "app"
+      }
+    },
+    "reload": {
+      "use": "reddi2ch.reloadboard",
+      "inputs": {
+        "subreddit": "subreddit",
+        "sort": "sort",
+        "span": "span"
+      }
+    },
+    "more": {
+      "use": "reddi2ch.moreboard",
+      "inputs": {
+        "subreddit": "subreddit",
+        "sort": "sort",
+        "span": "span"
+      }
+    }
+  }
+}

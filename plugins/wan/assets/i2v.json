@@ -1,0 +1,602 @@
+{
+  "name": "Wan 2.2 画像から動画（開始・終了画像）",
+  "tool": "i2v",
+  "workflow": {
+    "name": "wan2.2 rapid mega aio",
+    "platform": "comfyui",
+    "graph": {
+      "1": {
+        "inputs": {
+          "ckpt_name": "wan2.2-rapid-mega-aio-nsfw-v12.2.safetensors"
+        },
+        "class_type": "CheckpointLoaderSimple",
+        "_meta": {
+          "title": "Load Checkpoint"
+        }
+      },
+      "2": {
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "shift": 8
+        },
+        "class_type": "ModelSamplingSD3",
+        "_meta": {
+          "title": "ModelSamplingSD3"
+        }
+      },
+      "3": {
+        "inputs": {
+          "text": "",
+          "clip": [
+            "1",
+            1
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "Positive Prompt"
+        }
+      },
+      "4": {
+        "inputs": {
+          "text": "",
+          "clip": [
+            "1",
+            1
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "Negative Prompt"
+        }
+      },
+      "5": {
+        "inputs": {
+          "value": 49
+        },
+        "class_type": "PrimitiveInt",
+        "_meta": {
+          "title": "Frames"
+        }
+      },
+      "6": {
+        "inputs": {
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "width": [
+            "12",
+            0
+          ],
+          "height": [
+            "12",
+            1
+          ],
+          "length": [
+            "5",
+            0
+          ],
+          "batch_size": 1,
+          "strength": 1,
+          "control_video": [
+            "24",
+            0
+          ],
+          "control_masks": [
+            "24",
+            1
+          ]
+        },
+        "class_type": "WanVaceToVideo",
+        "_meta": {
+          "title": "WanVaceToVideo"
+        }
+      },
+      "7": {
+        "inputs": {
+          "model": [
+            "2",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "negative": [
+            "6",
+            1
+          ],
+          "latent_image": [
+            "6",
+            2
+          ],
+          "seed": 0,
+          "steps": 4,
+          "cfg": 1,
+          "sampler_name": "sa_solver",
+          "scheduler": "beta",
+          "denoise": 1
+        },
+        "class_type": "KSampler",
+        "_meta": {
+          "title": "KSampler"
+        }
+      },
+      "8": {
+        "inputs": {
+          "samples": [
+            "7",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "9": {
+        "inputs": {
+          "images": [
+            "8",
+            0
+          ],
+          "filename_prefix": "Mullion/wan",
+          "codec": "vp9",
+          "fps": 16,
+          "crf": 24
+        },
+        "class_type": "SaveWEBM",
+        "_meta": {
+          "title": "Save WEBM"
+        }
+      },
+      "10": {
+        "inputs": {
+          "image": ""
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "Start Image"
+        }
+      },
+      "11": {
+        "inputs": {
+          "image": [
+            "10",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 832,
+          "height": 480,
+          "crop": "center"
+        },
+        "class_type": "ImageScale",
+        "_meta": {
+          "title": "Fit To Size"
+        }
+      },
+      "12": {
+        "inputs": {
+          "image": [
+            "11",
+            0
+          ]
+        },
+        "class_type": "GetImageSize",
+        "_meta": {
+          "title": "Get Image Size"
+        }
+      },
+      "13": {
+        "inputs": {
+          "num_frames": [
+            "5",
+            0
+          ],
+          "empty_frame_level": 0.5,
+          "start_image": [
+            "11",
+            0
+          ],
+          "start_index": 0,
+          "end_index": -1,
+          "end_image": [
+            "15",
+            0
+          ]
+        },
+        "class_type": "WanVideoVACEStartToEndFrame",
+        "_meta": {
+          "title": "Start Frame To Control"
+        }
+      },
+      "14": {
+        "inputs": {
+          "image": ""
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "End Image"
+        }
+      },
+      "15": {
+        "inputs": {
+          "image": [
+            "14",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": [
+            "12",
+            0
+          ],
+          "height": [
+            "12",
+            1
+          ],
+          "crop": "center"
+        },
+        "class_type": "ImageScale",
+        "_meta": {
+          "title": "Fit End To Size"
+        }
+      },
+      "16": {
+        "inputs": {
+          "image": ""
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "Keyframe 1"
+        }
+      },
+      "17": {
+        "inputs": {
+          "image": [
+            "16",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": [
+            "12",
+            0
+          ],
+          "height": [
+            "12",
+            1
+          ],
+          "crop": "center"
+        },
+        "class_type": "ImageScale",
+        "_meta": {
+          "title": "Fit Keyframe 1 To Size"
+        }
+      },
+      "18": {
+        "inputs": {
+          "num_frames": [
+            "5",
+            0
+          ],
+          "empty_frame_level": 0.5,
+          "start_image": [
+            "17",
+            0
+          ],
+          "start_index": 12,
+          "end_index": -1,
+          "control_images": [
+            "13",
+            0
+          ],
+          "inpaint_mask": [
+            "13",
+            1
+          ]
+        },
+        "class_type": "WanVideoVACEStartToEndFrame",
+        "_meta": {
+          "title": "Place Keyframe 1",
+          "passThrough": [
+            "control_images",
+            "inpaint_mask"
+          ]
+        }
+      },
+      "19": {
+        "inputs": {
+          "image": ""
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "Keyframe 2"
+        }
+      },
+      "20": {
+        "inputs": {
+          "image": [
+            "19",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": [
+            "12",
+            0
+          ],
+          "height": [
+            "12",
+            1
+          ],
+          "crop": "center"
+        },
+        "class_type": "ImageScale",
+        "_meta": {
+          "title": "Fit Keyframe 2 To Size"
+        }
+      },
+      "21": {
+        "inputs": {
+          "num_frames": [
+            "5",
+            0
+          ],
+          "empty_frame_level": 0.5,
+          "start_image": [
+            "20",
+            0
+          ],
+          "start_index": 24,
+          "end_index": -1,
+          "control_images": [
+            "18",
+            0
+          ],
+          "inpaint_mask": [
+            "18",
+            1
+          ]
+        },
+        "class_type": "WanVideoVACEStartToEndFrame",
+        "_meta": {
+          "title": "Place Keyframe 2",
+          "passThrough": [
+            "control_images",
+            "inpaint_mask"
+          ]
+        }
+      },
+      "22": {
+        "inputs": {
+          "image": ""
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "Keyframe 3"
+        }
+      },
+      "23": {
+        "inputs": {
+          "image": [
+            "22",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": [
+            "12",
+            0
+          ],
+          "height": [
+            "12",
+            1
+          ],
+          "crop": "center"
+        },
+        "class_type": "ImageScale",
+        "_meta": {
+          "title": "Fit Keyframe 3 To Size"
+        }
+      },
+      "24": {
+        "inputs": {
+          "num_frames": [
+            "5",
+            0
+          ],
+          "empty_frame_level": 0.5,
+          "start_image": [
+            "23",
+            0
+          ],
+          "start_index": 36,
+          "end_index": -1,
+          "control_images": [
+            "21",
+            0
+          ],
+          "inpaint_mask": [
+            "21",
+            1
+          ]
+        },
+        "class_type": "WanVideoVACEStartToEndFrame",
+        "_meta": {
+          "title": "Place Keyframe 3",
+          "passThrough": [
+            "control_images",
+            "inpaint_mask"
+          ]
+        }
+      }
+    }
+  },
+  "blocks": {
+    "start_image": {
+      "value": {
+        "node_id": "10",
+        "input_key": "image"
+      }
+    },
+    "end_image": {
+      "value": {
+        "node_id": "14",
+        "input_key": "image"
+      }
+    },
+    "prompts": {
+      "value": {
+        "node_id": "3",
+        "input_key": "text"
+      }
+    },
+    "negative_prompts": {
+      "value": {
+        "node_id": "4",
+        "input_key": "text"
+      }
+    },
+    "image_size": {
+      "width": {
+        "node_id": "11",
+        "input_key": "width"
+      },
+      "height": {
+        "node_id": "11",
+        "input_key": "height"
+      }
+    },
+    "video": {
+      "value": {
+        "node_id": "9",
+        "input_key": "images"
+      }
+    },
+    "mid_image_1": {
+      "image": {
+        "node_id": "16",
+        "input_key": "image"
+      },
+      "frame": {
+        "node_id": "18",
+        "input_key": "start_index"
+      }
+    },
+    "mid_image_2": {
+      "image": {
+        "node_id": "19",
+        "input_key": "image"
+      },
+      "frame": {
+        "node_id": "21",
+        "input_key": "start_index"
+      }
+    },
+    "mid_image_3": {
+      "image": {
+        "node_id": "22",
+        "input_key": "image"
+      },
+      "frame": {
+        "node_id": "24",
+        "input_key": "start_index"
+      }
+    }
+  },
+  "settings": [
+    {
+      "node_id": "1",
+      "input_key": "ckpt_name",
+      "label": "モデル",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "CheckpointLoaderSimple",
+        "input_key": "ckpt_name"
+      }
+    },
+    {
+      "node_id": "5",
+      "input_key": "value",
+      "label": "フレーム数",
+      "group": "動画",
+      "value_type": "integer"
+    },
+    {
+      "node_id": "9",
+      "input_key": "fps",
+      "label": "フレームレート (fps)",
+      "group": "動画",
+      "value_type": "number"
+    },
+    {
+      "node_id": "13",
+      "input_key": "empty_frame_level",
+      "label": "空フレームの明るさ",
+      "group": "動画",
+      "value_type": "number"
+    },
+    {
+      "node_id": "9",
+      "input_key": "crf",
+      "label": "画質 (CRF・小さいほど高画質)",
+      "group": "動画",
+      "value_type": "number"
+    },
+    {
+      "node_id": "7",
+      "input_key": "steps",
+      "label": "ステップ数",
+      "group": "サンプラー",
+      "value_type": "integer"
+    },
+    {
+      "node_id": "7",
+      "input_key": "cfg",
+      "label": "CFG",
+      "group": "サンプラー",
+      "value_type": "number"
+    },
+    {
+      "node_id": "7",
+      "input_key": "sampler_name",
+      "label": "サンプラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "sampler_name"
+      }
+    },
+    {
+      "node_id": "7",
+      "input_key": "scheduler",
+      "label": "スケジューラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "scheduler"
+      }
+    },
+    {
+      "node_id": "2",
+      "input_key": "shift",
+      "label": "シフト",
+      "group": "サンプラー",
+      "value_type": "number"
+    }
+  ],
+  "fixed": []
+}

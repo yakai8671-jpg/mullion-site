@@ -1,0 +1,24 @@
+{
+  "id": "character",
+  "label": "character.vtype.character",
+  "icon": "person-badge",
+  "port": "character",
+  "fields": {
+    "name": {
+      "type": "string"
+    },
+    "references": {
+      "type": "list",
+      "each": {
+        "type": "character.reference"
+      }
+    },
+    "actions": {
+      "type": "list",
+      "each": {
+        "type": "character.action"
+      }
+    }
+  },
+  "defaultControl": "character.summary"
+}

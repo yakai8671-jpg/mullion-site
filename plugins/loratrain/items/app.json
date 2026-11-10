@@ -1,0 +1,317 @@
+{
+  "id": "loratrain.app",
+  "label": "loratrain.item.app",
+  "icon": "bullseye",
+  "standalone": true,
+  "permissions": [
+    "comfy:run",
+    "ollama:run",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "properties": {
+    "dataset": {
+      "label": "loratrain.prop.dataset",
+      "type": "list", "each": { "type": "loratrain.sample" },
+      "default": []
+    },
+    "name": {
+      "label": "loratrain.prop.name",
+      "type": "string",
+      "default": ""
+    },
+    "trigger": {
+      "label": "loratrain.prop.trigger",
+      "type": "string",
+      "default": ""
+    },
+    "resolution": {
+      "label": "loratrain.prop.resolution",
+      "type": "enum",
+      "default": "768",
+      "options": [
+        { "value": "512", "label": "loratrain.res.512" },
+        { "value": "768", "label": "loratrain.res.768" },
+        { "value": "1024", "label": "loratrain.res.1024" }
+      ]
+    },
+    "steps": {
+      "label": "loratrain.prop.steps",
+      "type": "number",
+      "default": 500,
+      "min": 1,
+      "max": 100000
+    },
+    "learningRate": {
+      "label": "loratrain.prop.learningRate",
+      "type": "number",
+      "default": 0.0002,
+      "min": 1e-7,
+      "max": 1
+    },
+    "rank": {
+      "label": "loratrain.prop.rank",
+      "type": "number",
+      "default": 16,
+      "min": 1,
+      "max": 128
+    },
+    "samplePrompt": {
+      "label": "loratrain.prop.samplePrompt",
+      "type": "string",
+      "default": ""
+    },
+    "captionModel": {
+      "label": "loratrain.prop.captionModel",
+      "type": "enum",
+      "default": "",
+      "options": [
+        { "value": "", "label": "auto" }
+      ]
+    },
+    "tagThreshold": {
+      "label": "loratrain.prop.tagThreshold",
+      "type": "percent",
+      "default": 0.35
+    },
+    "captionStyle": {
+      "label": "loratrain.prop.captionStyle",
+      "type": "enum",
+      "default": "tags",
+      "options": [
+        { "value": "tags", "label": "loratrain.style.tags" },
+        { "value": "sentence", "label": "loratrain.style.sentence" }
+      ]
+    },
+    "algorithm": {
+      "label": "loratrain.prop.algorithm",
+      "type": "enum",
+      "default": "LoRA",
+      "options": [
+        { "value": "LoRA", "label": "LoRA" },
+        { "value": "LoHa", "label": "LoHa" },
+        { "value": "LoKr", "label": "LoKr" }
+      ]
+    },
+    "optimizer": {
+      "label": "loratrain.prop.optimizer",
+      "type": "enum",
+      "default": "AdamW",
+      "options": [
+        { "value": "AdamW", "label": "AdamW" },
+        { "value": "AdamW8bit", "label": "AdamW8bit" },
+        { "value": "PagedAdamW8bit", "label": "PagedAdamW8bit" },
+        { "value": "Prodigy", "label": "Prodigy" }
+      ]
+    },
+    "seed": {
+      "label": "loratrain.prop.seed",
+      "type": "number",
+      "default": 0,
+      "min": 0
+    },
+    "checkpointDepth": {
+      "label": "loratrain.prop.checkpointDepth",
+      "type": "number",
+      "default": 2,
+      "min": 1,
+      "max": 5
+    },
+    "sampleTurbo": {
+      "label": "loratrain.prop.sampleTurbo",
+      "type": "boolean",
+      "default": true
+    },
+    "result": {
+      "label": "loratrain.prop.result",
+      "type": "image",
+      "default": ""
+    },
+    "loss": {
+      "label": "loratrain.prop.result",
+      "type": "image",
+      "default": ""
+    },
+    "loraName": {
+      "label": "loratrain.prop.loraName",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "actions": {
+    "run": {
+      "use": "loratrain.run",
+      "inputs": [
+        "dataset",
+        "name",
+        "trigger",
+        "resolution",
+        "steps",
+        "learningRate",
+        "rank",
+        "samplePrompt",
+        "optimizer",
+        "seed",
+        "algorithm",
+        "checkpointDepth",
+        "sampleTurbo"
+      ],
+      "outputs": {
+        "result": "result",
+        "loss": "loss",
+        "loraName": "loraName"
+      }
+    },
+    "clear": {
+      "use": "set",
+      "with": {
+        "result": "",
+        "loss": "",
+        "loraName": ""
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "pinned",
+      "key": "software",
+      "layout": [
+        {
+          "control": "services.state",
+          "key": "comfyui",
+          "options": {
+            "service": "comfyui"
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "loratrain.section.result",
+        "hint": "loratrain.hint.result"
+      },
+      "layout": [
+        {
+          "control": "card",
+          "key": "output",
+          "slots": {
+            "lead": [
+              {
+                "key": "run",
+                "icon": "play-fill",
+                "label": "loratrain.action.run",
+                "title": "loratrain.action.runTitle",
+                "action": "run"
+              }
+            ],
+            "tools": [
+              {
+                "key": "cancel",
+                "icon": "stop-fill",
+                "label": "loratrain.action.cancel",
+                "title": "loratrain.action.cancel",
+                "action": { "cancel": "run" }
+              }
+            ],
+            "body": [
+              {
+                "control": "imagecard",
+                "key": "samplePicture",
+                "options": {
+                  "value": { "bind": "result" },
+                  "showSize": false
+                }
+              },
+              {
+                "control": "imagecard",
+                "key": "lossGraph",
+                "options": {
+                  "value": { "bind": "loss" },
+                  "showSize": false
+                }
+              },
+              {
+                "control": "props",
+                "key": "facts",
+                "options": {
+                  "entries": [
+                    "loraName"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "dataset",
+      "options": {
+        "label": "loratrain.section.dataset",
+        "hint": "loratrain.hint.dataset"
+      },
+      "layout": [
+        {
+          "control": "loratrain.dataset",
+          "key": "dataset",
+          "options": {
+            "value": { "bind": "dataset" }
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "settings",
+      "options": {
+        "label": "loratrain.section.settings"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "settings",
+          "options": {
+            "entries": [
+              "name",
+              "trigger",
+              "resolution",
+              "steps",
+              "learningRate",
+              "rank",
+              "samplePrompt"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "advanced",
+      "options": {
+        "label": "loratrain.section.advanced"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "advanced",
+          "options": {
+            "entries": [
+              "captionModel",
+              "tagThreshold",
+              "captionStyle",
+              "algorithm",
+              "optimizer",
+              "seed",
+              "checkpointDepth",
+              "sampleTurbo"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

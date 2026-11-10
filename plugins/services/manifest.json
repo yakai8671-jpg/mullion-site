@@ -1,0 +1,56 @@
+{
+  "id": "services",
+  "name": "Connected Software",
+  "version": "1.0.0",
+  "description": "The programs Mullion works with -- ComfyUI, Ollama, VOICEVOX, Irodori-TTS: whether each is running, start and stop, and where each lives and how it is started.",
+  "api": 1,
+  "translations": "i18n.json",
+  "types": [
+    "types/entry.json"
+  ],
+  "actions": [
+    "actions/toggle.json",
+    "actions/check.json"
+  ],
+  "controls": [
+    "controls/state.json",
+    "controls/watch.json"
+  ],
+  "items": [
+    "items/manager.json",
+    "items/detail.json"
+  ],
+  "apps": [
+    "apps/manager.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "styles": [],
+  "permissions": [
+    "services:read",
+    "services:write",
+    "app:read",
+    "app:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "services.manager",
+      "services.detail"
+    ],
+    "valueTypes": [
+      "services.entry"
+    ],
+    "controls": [
+      "services.state",
+      "services.watch"
+    ],
+    "permissions": [],
+    "skins": [],
+    "actions": [
+      "services.toggle",
+      "services.check"
+    ]
+  },
+  "requires": []
+}

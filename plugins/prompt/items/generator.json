@@ -1,0 +1,257 @@
+{
+  "id": "prompt.generator",
+  "label": "prompt.item.generator",
+  "icon": "stars",
+  "standalone": true,
+  "permissions": [
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "services:read",
+    "services:write",
+    "tagdict:read"
+  ],
+  "properties": {
+    "description": {
+      "label": "prompt.prop.description",
+      "type": "prompt.description",
+      "default": ""
+    },
+    "kind": {
+      "label": "prompt.prop.kind",
+      "type": "enum",
+      "default": "promptlist",
+      "options": [
+        "text",
+        "style",
+        "taglist",
+        "prompt",
+        "promptlist"
+      ]
+    },
+    "model": {
+      "label": "prompt.prop.model",
+      "type": "string",
+      "default": "",
+      "control": "prompt.modelselect"
+    },
+    "dictionary": {
+      "label": "prompt.prop.dictionary",
+      "type": "boolean",
+      "default": true
+    },
+    "resultText": {
+      "label": "prompt.prop.resultText",
+      "type": "string",
+      "default": ""
+    },
+    "resultStyle": {
+      "label": "prompt.prop.resultStyle",
+      "type": "string",
+      "default": ""
+    },
+    "resultTags": {
+      "label": "prompt.prop.resultTags",
+      "type": "list",
+      "each": {
+        "type": "prompt.tag"
+      },
+      "default": []
+    },
+    "resultPrompt": {
+      "label": "prompt.prop.resultPrompt",
+      "type": "prompt.slot",
+      "default": null
+    },
+    "resultList": {
+      "label": "prompt.prop.resultList",
+      "type": "list",
+      "each": {
+        "type": "prompt.slot"
+      },
+      "default": []
+    }
+  },
+  "drop": {
+    "kind": "workflow.run:prompt.generator",
+    "label": "prompt.port.restore",
+    "action": "restore"
+  },
+  "layout": [
+    {
+      "control": "pinned",
+      "key": "software",
+      "layout": [
+        {
+          "control": "services.state",
+          "key": "ollama",
+          "options": {
+            "service": "ollama"
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "description",
+      "options": {
+        "label": "prompt.section.description"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "description-input",
+          "options": {
+            "value": {
+              "bind": "description"
+            },
+            "lines": 4
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "settings",
+      "options": {
+        "label": "prompt.prop.kind"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "settings-fields",
+          "options": {
+            "entries": [
+              "kind",
+              "model",
+              "dictionary"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "preview",
+      "options": {
+        "label": "prompt.section.preview"
+      },
+      "layout": [
+        {
+          "key": "result-switch",
+          "switch": {
+            "bind": "kind"
+          },
+          "cases": {
+            "text": [
+              {
+                "control": "output",
+                "key": "result-text",
+                "options": {
+                  "value": {
+                    "bind": "resultText"
+                  },
+                  "run": "generate",
+                  "empty": "prompt.value.noGenerated",
+                  "runLabel": "prompt.action.generate"
+                }
+              }
+            ],
+            "style": [
+              {
+                "control": "output",
+                "key": "result-style",
+                "options": {
+                  "value": {
+                    "bind": "resultStyle"
+                  },
+                  "run": "generate",
+                  "empty": "prompt.value.noGenerated",
+                  "runLabel": "prompt.action.generate"
+                }
+              }
+            ],
+            "taglist": [
+              {
+                "control": "output",
+                "key": "result-taglist",
+                "options": {
+                  "value": {
+                    "bind": "resultTags"
+                  },
+                  "run": "generate",
+                  "empty": "prompt.value.noGenerated",
+                  "runLabel": "prompt.action.generate"
+                }
+              }
+            ],
+            "prompt": [
+              {
+                "control": "output",
+                "key": "result-prompt",
+                "options": {
+                  "value": {
+                    "bind": "resultPrompt"
+                  },
+                  "run": "generate",
+                  "empty": "prompt.value.noGenerated",
+                  "runLabel": "prompt.action.generate"
+                }
+              }
+            ],
+            "promptlist": [
+              {
+                "control": "output",
+                "key": "result-promptlist",
+                "options": {
+                  "value": {
+                    "bind": "resultList"
+                  },
+                  "run": "generate",
+                  "empty": "prompt.value.noGenerated",
+                  "runLabel": "prompt.action.generate"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "generate": {
+      "use": "prompt.generate",
+      "inputs": [
+        "description",
+        "kind",
+        "model",
+        "dictionary"
+      ],
+      "outputs": {
+        "resultText": "resultText",
+        "resultStyle": "resultStyle",
+        "resultTags": "resultTags",
+        "resultPrompt": "resultPrompt",
+        "resultList": "resultList"
+      }
+    },
+    "restore": {
+      "use": "prompt.restore",
+      "inputs": {
+        "entry": {
+          "payload": "value"
+        }
+      },
+      "outputs": {
+        "description": "description",
+        "kind": "kind",
+        "model": "model",
+        "resultText": "resultText",
+        "resultStyle": "resultStyle",
+        "resultTags": "resultTags",
+        "resultPrompt": "resultPrompt",
+        "resultList": "resultList"
+      }
+    }
+  }
+}

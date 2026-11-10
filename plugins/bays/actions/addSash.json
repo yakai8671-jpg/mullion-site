@@ -1,0 +1,13 @@
+{
+  "id": "bays.addSash",
+  "permissions": [
+    "bays:read",
+    "bays:write"
+  ],
+  "params": {
+    "id": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

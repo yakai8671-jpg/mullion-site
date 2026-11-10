@@ -1,0 +1,40 @@
+.hotkeys-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.hotkeys-key {
+  flex: 0 0 9.5rem;
+  min-width: 0;
+}
+
+.hotkeys-target {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.hotkeys-target-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hotkeys-target.is-empty {
+  border-style: dashed;
+  color: var(--fg-muted);
+}
+
+.hotkeys-target.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hotkeys-row.is-missing .hotkeys-target {
+  color: var(--danger, #c0392b);
+}

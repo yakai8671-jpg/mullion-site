@@ -1,0 +1,15 @@
+{
+  "id": "services.state",
+  "label": "services.control.state",
+  "why": "a program's state is read from the server that keeps its process and from the item's own questions, and it starts or stops it: the shell's state row with that behind it",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "service": {
+      "type": "string"
+    },
+    "probe": {
+      "type": "data"
+    }
+  }
+}

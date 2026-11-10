@@ -1,0 +1,88 @@
+{
+  "type": "bseditor.cells",
+  "name": "bseditor.app.name",
+  "layout": {
+    "dir": "row",
+    "ratio": 0.4,
+    "children": [
+      "self",
+      {
+        "dir": "row",
+        "ratio": 0.5,
+        "children": [
+          {
+            "dir": "col",
+            "ratio": 0.4,
+            "children": [
+              {
+                "add": "bseditor.cell",
+                "tag": "cell"
+              },
+              {
+                "dir": "col",
+                "ratio": 0.5,
+                "children": [
+                  {
+                    "add": "bseditor.decor",
+                    "tag": "decor"
+                  },
+                  {
+                    "dir": "row",
+                    "ratio": 0.5,
+                    "children": [
+                      {
+                        "add": "bseditor.classes",
+                        "tag": "classes"
+                      },
+                      {
+                        "add": "bseditor.attrs",
+                        "tag": "attrs"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "app": "preview",
+            "tag": "preview"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "to": {
+          "at": "+cell",
+          "key": "cell"
+        },
+        "from": {
+          "at": "self",
+          "key": "cell"
+        },
+        "share": true
+      },
+      {
+        "to": {
+          "at": "+cell",
+          "key": "text"
+        },
+        "from": {
+          "at": "+decor",
+          "key": "text"
+        }
+      },
+      {
+        "to": {
+          "at": "+preview",
+          "key": "input"
+        },
+        "from": {
+          "at": "self",
+          "key": "doc"
+        }
+      }
+    ]
+  }
+}

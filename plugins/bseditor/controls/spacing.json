@@ -1,0 +1,12 @@
+{
+  "id": "bseditor.spacing",
+  "label": "bseditor.control.spacing",
+  "why": "margin and padding of a cell as one box",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "values": { "type": "data" },
+    "options": { "type": "data" },
+    "onChange": { "type": "data" }
+  }
+}

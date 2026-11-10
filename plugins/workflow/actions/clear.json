@@ -1,0 +1,6 @@
+{
+  "id": "workflow.history.clear",
+  "permissions": ["store:read", "store:write"],
+  "params": { "app": { "type": "workflow.historyapp" } },
+  "results": {}
+}

@@ -1,0 +1,11 @@
+{
+  "id": "reddi2ch.settings",
+  "label": "reddi2ch.item.settings",
+  "icon": "gear",
+  "permissions": [
+    "reddit:read",
+    "ollama:run"
+  ],
+  "properties": {},
+  "screen": "reddi2ch.settings"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "workflow.historyentry",
+  "label": "workflow.vtype.historyentry",
+  "icon": "clock-history",
+  "sample": {
+    "default": {
+      "app": "",
+      "at": ""
+    }
+  },
+  "defaultControl": "workflow.summaryline",
+  "groups": {
+    "label": "workflow.field.app"
+  }
+}

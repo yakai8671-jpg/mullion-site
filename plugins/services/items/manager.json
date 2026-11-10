@@ -1,0 +1,21 @@
+{
+  "id": "services.manager",
+  "label": "services.item",
+  "standalone": true,
+  "icon": "plug",
+  "permissions": ["services:read", "services:write", "app:read", "app:write"],
+  "properties": {},
+  "derived": {
+    "entries": {
+      "type": "list",
+      "each": { "type": "services.entry" },
+      "label": "services.section.all",
+      "from": { "script": "services.entries" }
+    }
+  },
+  "actions": {
+    "run": { "use": "services.toggle", "inputs": { "id": { "payload": "id" } } },
+    "check": { "use": "services.check", "with": { "id": "", "host": "" } }
+  },
+  "screen": "services.manager"
+}

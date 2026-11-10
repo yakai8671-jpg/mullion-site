@@ -1,0 +1,28 @@
+{
+  "id": "stage.placement",
+  "label": "stage.vtype.placement",
+  "icon": "geo-alt",
+  "port": "stage.placement",
+  "identity": "id",
+  "list": {
+    "port": "stage.placements",
+    "label": "stage.vtype.placements",
+    "icon": "pin-map"
+  },
+  "fields": {
+    "source": { "type": "character.media" },
+    "height": { "type": "number", "min": 0.01, "max": 1000, "step": 0.1 },
+    "azimuth": { "type": "number", "min": -180, "max": 180, "step": 5 },
+    "distance": { "type": "number", "min": 0, "max": 1000, "step": 0.1 },
+    "lift": { "type": "number", "min": -100, "max": 1000, "step": 0.1 },
+    "scale": { "type": "number", "min": 0.01, "max": 100, "step": 0.1 }
+  },
+  "defaultControl": "stage.objectedit",
+  "default": {
+    "source": { "kind": "image", "media": "" },
+    "azimuth": 0,
+    "distance": 3,
+    "lift": 0,
+    "scale": 1
+  }
+}

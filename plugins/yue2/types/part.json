@@ -1,0 +1,17 @@
+{
+  "id": "yue2.part",
+  "label": "yue2.vtype.part",
+  "icon": "music-note-list",
+  "identity": "id",
+  "port": "text",
+  "defaultControl": "summary",
+  "fields": {
+    "name": { "type": "string" },
+    "text": { "type": "string" }
+  },
+  "format": { "field": "name" },
+  "list": {
+    "label": "yue2.prop.parts",
+    "icon": "music-note-list"
+  }
+}

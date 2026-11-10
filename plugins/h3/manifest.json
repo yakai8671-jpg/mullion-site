@@ -1,0 +1,62 @@
+{
+  "id": "h3",
+  "name": "MiniMax H3",
+  "version": "1.0.0",
+  "description": "Video with synchronised sound on MiniMax H3 (pruned int8 + Turbo 4-step LoRA) with its ComfyUI workflow already in it: text to video, image to video from first / last / key frames, and video kept to reference pictures (a character's sheet).",
+  "api": 1,
+  "translations": "i18n.json",
+  "types": [
+    "types/line.json",
+    "types/screen.json",
+    "types/speaker.json",
+    "types/scene.json",
+    "types/draft.json"
+  ],
+  "items": [
+    "items/i2v.json",
+    "items/builder.json",
+    "items/writer.json"
+  ],
+  "apps": [
+    "apps/i2v.json",
+    "apps/builder.json"
+  ],
+  "assets": [
+    "assets/i2v.json",
+    "assets/r2v.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "permissions": [
+    "layout:place",
+    "comfy:run",
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "window:write",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "h3.i2v",
+      "h3.builder",
+      "h3.writer"
+    ],
+    "valueTypes": [
+      "h3.speaker",
+      "h3.scene",
+      "h3.draft",
+      "h3.line",
+      "h3.screen"
+    ],
+    "controls": [],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "workflow",
+    "services"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "id": "list.add",
+  "label": "lists.item.add",
+  "icon": "plus-square",
+  "standalone": true,
+  "permissions": [],
+  "properties": {
+    "source": {
+      "label": "lists.prop.source",
+      "type": "list.any",
+      "default": []
+    },
+    "draft": {
+      "label": "lists.prop.draft",
+      "type": "data",
+      "default": null
+    },
+    "where": {
+      "label": "lists.prop.where",
+      "type": "string",
+      "default": "end"
+    }
+  },
+  "derived": {
+    "list": {
+      "label": "lists.prop.list",
+      "type": "portvalue",
+      "from": {
+        "script": "addList"
+      }
+    },
+    "info": {
+      "label": "lists.prop.source",
+      "type": "data",
+      "from": {
+        "script": "sharedList"
+      }
+    }
+  },
+  "screen": "lists.add",
+  "actions": {
+    "pick": {
+      "use": "lists.pick",
+      "inputs": {
+        "writable": {
+          "payload": "writable"
+        }
+      }
+    },
+    "add": {
+      "use": "lists.add",
+      "inputs": {
+        "draft": "draft",
+        "where": "where"
+      },
+      "outputs": {
+        "draft": "draft"
+      }
+    },
+    "unshare": {
+      "use": "lists.unshare"
+    }
+  },
+  "surface": {
+    "buttons": [
+      {
+        "key": "entry:add",
+        "action": "add",
+        "label": "lists.action.add",
+        "primary": true,
+        "node": "entry",
+        "tool": "add"
+      }
+    ],
+    "outputs": [
+      {
+        "property": "list",
+        "key": "list",
+        "label": "lists.prop.list",
+        "node": [
+          "entry"
+        ]
+      }
+    ]
+  }
+}

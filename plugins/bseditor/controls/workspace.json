@@ -1,0 +1,78 @@
+{
+  "id": "bseditor.workspace",
+  "label": "bseditor.control.workspace",
+  "why": "the cells as a tree to work in",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "port": {
+      "type": "data"
+    },
+    "items": {
+      "type": "data"
+    },
+    "active": {
+      "type": "string"
+    },
+    "clip": {
+      "type": "data"
+    },
+    "picked": {
+      "type": "data"
+    },
+    "pickedPort": {
+      "type": "data"
+    },
+    "clipped": {
+      "type": "data"
+    },
+    "canUndo": {
+      "type": "boolean"
+    },
+    "canRedo": {
+      "type": "boolean"
+    },
+    "canNew": {
+      "type": "boolean"
+    },
+    "expand": {
+      "type": "boolean"
+    },
+    "onSelect": {
+      "type": "function"
+    },
+    "onFold": {
+      "type": "function"
+    },
+    "onCopy": {
+      "type": "function"
+    },
+    "onCut": {
+      "type": "function"
+    },
+    "onDelete": {
+      "type": "function"
+    },
+    "onAdd": {
+      "type": "function"
+    },
+    "onPaste": {
+      "type": "function"
+    },
+    "onMove": {
+      "type": "function"
+    },
+    "onClearClip": {
+      "type": "function"
+    },
+    "onUndo": {
+      "type": "function"
+    },
+    "onRedo": {
+      "type": "function"
+    },
+    "onNew": {
+      "type": "function"
+    }
+  }
+}

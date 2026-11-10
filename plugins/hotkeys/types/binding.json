@@ -1,0 +1,48 @@
+{
+  "id": "hotkeys.row",
+  "label": "hotkeys.control.binding",
+  "icon": "keyboard",
+  "identity": "id",
+  "fields": {
+    "key": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "actionLabel": {
+      "type": "string"
+    },
+    "app": {
+      "type": "string"
+    },
+    "appName": {
+      "type": "string"
+    },
+    "at": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "targetLabel": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "missing": {
+      "type": "boolean"
+    },
+    "offScreen": {
+      "type": "boolean"
+    }
+  },
+  "defaultControl": "summary",
+  "format": {
+    "field": "title"
+  }
+}

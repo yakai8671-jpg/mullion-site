@@ -1,0 +1,27 @@
+{
+  "id": "stage",
+  "label": "stage.vtype.stage",
+  "icon": "badge-3d",
+  "port": "stage",
+  "fields": {
+    "panorama": { "type": "panorama" },
+    "objects": {
+      "type": "list",
+      "each": { "type": "stage.placement" }
+    }
+  },
+  "defaultControl": "summary",
+  "default": {
+    "panorama": null,
+    "objects": [
+      {
+        "id": "o0",
+        "source": { "kind": "image", "media": "" },
+        "azimuth": 0,
+        "distance": 3,
+        "lift": 0,
+        "scale": 1
+      }
+    ]
+  }
+}

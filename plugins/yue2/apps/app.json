@@ -1,0 +1,47 @@
+{
+  "type": "yue2.app",
+  "defaultItem": "yue2.app",
+  "layout": {
+    "dir": "row",
+    "ratio": 0.5,
+    "children": [
+      {
+        "dir": "col",
+        "ratio": 0.5,
+        "children": [
+          {
+            "add": "yue2.lyricsEditor",
+            "tag": "lyrics"
+          },
+          "self"
+        ]
+      },
+      {
+        "dir": "col",
+        "ratio": 0.5,
+        "children": [
+          {
+            "add": "yue2.transcribe",
+            "tag": "transcribe"
+          },
+          {
+            "add": "prompt.generator",
+            "tag": "generator"
+          }
+        ]
+      }
+    ],
+    "links": [
+      {
+        "to": {
+          "at": "self",
+          "key": "lyrics"
+        },
+        "from": {
+          "at": "+lyrics",
+          "key": "lyrics"
+        }
+      }
+    ]
+  }
+}

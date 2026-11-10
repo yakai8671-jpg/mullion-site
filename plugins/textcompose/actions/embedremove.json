@@ -1,0 +1,23 @@
+{
+  "id": "textcompose.embed.remove",
+  "permissions": [],
+  "params": {
+    "text": {
+      "type": "string"
+    },
+    "embeds": {
+      "type": "list", "each": { "type": "compose.embed" }
+    },
+    "id": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "text": {
+      "type": "string"
+    },
+    "embeds": {
+      "type": "list", "each": { "type": "compose.embed" }
+    }
+  }
+}

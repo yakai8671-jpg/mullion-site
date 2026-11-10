@@ -1,0 +1,35 @@
+{
+  "id": "propgroup.addreset",
+  "permissions": [],
+  "params": {
+    "forGroup": {
+      "type": "string"
+    },
+    "app": {
+      "type": "ref"
+    },
+    "preview": {
+      "type": "ref"
+    },
+    "forShown": {
+      "type": "boolean"
+    }
+  },
+  "results": {
+    "name": {
+      "type": "string"
+    },
+    "entry": {
+      "type": "portvalue"
+    },
+    "entryType": {
+      "type": "string"
+    },
+    "forGroup": {
+      "type": "string"
+    },
+    "result": {
+      "type": "portvalue"
+    }
+  }
+}

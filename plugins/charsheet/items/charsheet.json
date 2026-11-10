@@ -1,0 +1,52 @@
+{
+  "id": "charsheet.app",
+  "extends": "workflow.run",
+  "label": "charsheet.item.app",
+  "icon": "person-bounding-box",
+  "permissions": [
+    "store:read",
+    "store:write"
+  ],
+  "config": {
+    "promptText": true,
+    "attention": true,
+    "engines": [
+      {
+        "key": "qwen",
+        "label": "charsheet.engine.qwen",
+        "template": "assets/sheet.json"
+      },
+      {
+        "key": "edit",
+        "label": "charsheet.engine.edit",
+        "template": "assets/edit.json"
+      }
+    ]
+  },
+  "properties": {
+    "size": {
+      "label": "workflow.prop.size",
+      "type": "workflow.image_size",
+      "control": "preset",
+      "inner": "vector",
+      "default": [
+        2048,
+        1024
+      ]
+    },
+    "sheet": {
+      "label": "charsheet.prop.sheet",
+      "type": "list",
+      "each": {
+        "type": "picture"
+      },
+      "default": []
+    },
+    "sheetFrom": {
+      "label": "charsheet.prop.sheetFrom",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "hooks": "charsheet.app"
+}

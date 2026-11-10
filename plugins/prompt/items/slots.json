@@ -1,0 +1,33 @@
+{
+  "id": "prompt.slots",
+  "label": "prompt.item.slots",
+  "icon": "list-columns-reverse",
+  "permissions": [
+    "store:read"
+  ],
+  "properties": {
+    "slots": {
+      "label": "prompt.prop.slots",
+      "type": "list",
+      "each": {
+        "type": "prompt.slot"
+      },
+      "default": []
+    }
+  },
+  "layout": [
+    {
+      "control": "prompt.promptlist",
+      "key": "list",
+      "options": {
+        "value": {
+          "bind": "slots"
+        },
+        "itemId": {
+          "item": "id"
+        },
+        "load": true
+      }
+    }
+  ]
+}

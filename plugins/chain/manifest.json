@@ -1,0 +1,63 @@
+{
+  "id": "chain",
+  "name": "Chain Run",
+  "version": "0.1.0",
+  "description": "Runs the apps linked to it, one block after another: run an app, set one of its inputs from another block's output, repeat, branch, keep numbered results as presets.",
+  "api": 1,
+  "items": [
+    "items/app.json",
+    "items/status.json"
+  ],
+  "apps": [
+    "apps/app.json"
+  ],
+  "types": [
+    "types/block.json",
+    "types/variablevalue.json",
+    "types/variable.json"
+  ],
+  "actions": [
+    "actions/run.json",
+    "actions/cancel.json",
+    "actions/stop.json",
+    "actions/say.json",
+    "actions/open.json"
+  ],
+  "controls": [],
+  "scripts": [
+    "scripts.js"
+  ],
+  "translations": "i18n.json",
+  "styles": [],
+  "permissions": [
+    "comfy:run",
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "window:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "chain.app",
+      "chain.status"
+    ],
+    "valueTypes": [
+      "chain.block",
+      "chain.variablevalue",
+      "chain.variable"
+    ],
+    "controls": [],
+    "actions": [
+      "chain.run",
+      "chain.cancel",
+      "chain.stop",
+      "chain.say",
+      "chain.open"
+    ],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "workflow"
+  ]
+}

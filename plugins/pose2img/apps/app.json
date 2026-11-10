@@ -1,0 +1,30 @@
+{
+  "type": "pose2img.app",
+  "layout": {
+    "dir": "row",
+    "ratio": 0.6,
+    "children": [
+      {
+        "add": "pose2img.scene",
+        "tag": "scene"
+      },
+      "self"
+    ],
+    "appLinks": [
+      {
+        "at": "self",
+        "key": "scene",
+        "to": [
+          "+scene"
+        ]
+      },
+      {
+        "at": "+scene",
+        "key": "app",
+        "to": [
+          "self"
+        ]
+      }
+    ]
+  }
+}

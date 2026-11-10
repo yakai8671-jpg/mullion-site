@@ -1,0 +1,40 @@
+{
+  "id": "bseditor.add",
+  "label": "bseditor.item.add",
+  "icon": "plus-square",
+  "permissions": [
+    "window:write"
+  ],
+  "properties": {
+    "doc": {
+      "label": "bseditor.prop.doc",
+      "type": "bseditor.doc"
+    },
+    "kinds": {
+      "label": "bseditor.prop.tab",
+      "type": "data",
+      "default": [
+        "tag",
+        "bs",
+        "custom",
+        "fav"
+      ]
+    },
+    "find": {
+      "label": "bseditor.prop.find",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "screen": "bseditor.add",
+  "actions": {
+    "say": {
+      "use": "bseditor.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    }
+  }
+}

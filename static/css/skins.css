@@ -1,0 +1,403 @@
+/* Skins: the second axis, next to the theme.
+ *
+ * A theme is a palette and nothing else. A skin is everything else about
+ * the look -- density, shape, type -- and it is written as a [data-skin]
+ * block, exactly the way a theme is written as [data-theme]. The two never
+ * touch, so any skin works with any theme.
+ *
+ * To make one:
+ *
+ *   1. add a block here (or in a plugin's own stylesheet),
+ *   2. register it: registerSkin("myskin", { label: "..." }),
+ *   3. pick it in App Settings.
+ *
+ * The default skin is the absence of a block: the values in variables.css
+ * are already a complete skin. Start by overriding the shape group there,
+ * and only reach for component rules where a token cannot say it.
+ */
+
+/* ---- Compact -------------------------------------------------------- *
+ * A tiling shell is usually showing four things at once, so the case for
+ * spending less room on each is a real one. Almost all of it is tokens.
+ */
+[data-skin="compact"] {
+  --font-size: 12px;
+  --font-size-small: 0.625rem;
+
+  --space-1: 2px;
+  --space-2: 5px;
+  --space-3: 8px;
+  --space-4: 11px;
+  --space-5: 16px;
+
+  --radius: 2px;
+}
+
+/* The one rule a token could not say: the handle is sized in its own
+   glyph. */
+[data-skin="compact"] .mu-drag-handle {
+  width: 0.875rem;
+  font-size: 0.9375rem;
+  line-height: 1.375rem;
+}
+
+/* ---- Framed --------------------------------------------------------- *
+ * The other direction: windows read as cards. The seam stays the drag
+ * target -- it is only made thicker and given the inset colour, so the gap
+ * between two windows is still one line, and resizing is untouched.
+ */
+[data-skin="framed"] {
+  --seam: 0.5rem;
+  --window-radius: 0.375rem;
+  --titlebar-bg: var(--bg-elevated);
+  --radius: 5px;
+}
+
+[data-skin="framed"] .mu-resizer {
+  background: transparent;
+}
+
+[data-skin="framed"] .mu-seg {
+  background: transparent;
+}
+
+[data-skin="framed"] .mu-seg:hover,
+[data-skin="framed"] .mu-seg.is-resizing,
+[data-skin="framed"] .mu-resizer.is-whole > .mu-seg:hover {
+  background: var(--accent);
+  box-shadow: none;
+}
+
+[data-skin="framed"] .mu-titlebar {
+  border-bottom-color: transparent;
+}
+
+/* ---- Prompt --------------------------------------------------------- *
+ * The shape half of the promptmanager look: panels with air between them,
+ * generous corners, and controls that are a translucent fill with a
+ * hairline border rather than a box. It names no colour of its own -- every
+ * surface here is mixed out of the theme's own --fg and --accent -- so it
+ * sits on any theme. Over "Prompt Violet" it is the original.
+ */
+[data-skin="prompt"] {
+  --font-size: 13px;
+  --font-size-small: 0.75rem;
+
+  --radius: 0.625rem;
+  --space-2: 8px;
+  --space-3: 12px;
+
+  --seam: 0.5rem;
+  --window-radius: 0.75rem;
+  --titlebar-bg: transparent;
+
+  /* One fill for every control, mixed from the foreground so it works in a
+     light theme too -- the original hardcodes rgba(255,255,255,0.03). */
+  --prompt-fill: color-mix(in srgb, var(--fg) 5%, transparent);
+}
+
+/* -- panels ----------------------------------------------------------- */
+[data-skin="prompt"] .mu-resizer,
+[data-skin="prompt"] .mu-seg {
+  background: transparent;
+}
+
+[data-skin="prompt"] .mu-seg:hover,
+[data-skin="prompt"] .mu-seg.is-resizing,
+[data-skin="prompt"] .mu-resizer.is-whole > .mu-seg:hover {
+  background: var(--accent);
+  box-shadow: none;
+}
+
+/* The title bar carries no rule: the gap between panels already separates
+   it from what is below. */
+[data-skin="prompt"] .mu-titlebar {
+  border-bottom-color: transparent;
+}
+
+[data-skin="prompt"] .mu-window-id {
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+
+/* -- property rows ---------------------------------------------------- */
+/* Labels are quiet and the rows breathe: the original's forms are a column
+   of fields, not a table. */
+[data-skin="prompt"] {
+  --prop-font: var(--font-sans);
+  --prop-label-weight: 500;
+}
+
+[data-skin="prompt"] .mu-props {
+  gap: var(--space-2);
+}
+
+[data-skin="prompt"] .mu-prop-row {
+  column-gap: var(--space-3);
+}
+
+[data-skin="prompt"] .mu-props dt {
+  color: var(--fg-muted);
+}
+
+/* -- fields ----------------------------------------------------------- */
+[data-skin="prompt"] .mu-prop-input,
+[data-skin="prompt"] .mu-prop-select,
+[data-skin="prompt"] .mu-prop-note,
+[data-skin="prompt"] .mu-log,
+[data-skin="prompt"] .mu-sketch {
+  padding: 0.375rem var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  color: var(--fg);
+}
+
+/* A log is read, not typed into: the skin's own fill, not a field's. */
+[data-skin="prompt"] .mu-log {
+  background: var(--prompt-fill);
+}
+
+[data-skin="prompt"] .mu-prop-input:focus,
+[data-skin="prompt"] .mu-prop-select:focus,
+[data-skin="prompt"] .mu-prop-note:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* The number field: centred tabular figures, reading or typing. It used to
+   swing left on focus, which was the original's behaviour -- but the
+   original had the browser's spin buttons taking the right-hand end, so
+   left was where the digits already sat. With those gone the figures would
+   move under the caret for no reason, and a value being typed is exactly
+   the one worth keeping still. */
+[data-skin="prompt"] .mu-prop-input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+[data-skin="prompt"] .mu-prop-input[type="number"]::-webkit-outer-spin-button,
+[data-skin="prompt"] .mu-prop-input[type="number"]::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* -- the stepper ------------------------------------------------------ */
+/* One frame around the whole control, with the buttons flush inside it --
+   the original's .numeric-stepper, which is the thing this skin was asked
+   for. */
+[data-skin="prompt"] .mu-stepper {
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+}
+
+[data-skin="prompt"] .mu-stepper:focus-within {
+  border-color: var(--accent);
+}
+
+[data-skin="prompt"] .mu-stepper-input,
+[data-skin="prompt"] .mu-stepper-btn {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+[data-skin="prompt"] .mu-stepper-input {
+  padding: 0.375rem var(--space-2);
+}
+
+[data-skin="prompt"] .mu-stepper-input:focus {
+  outline: none;
+}
+
+/* The buttons keep their width while the field has focus. They used to
+   fold away to nothing, to give a long number the whole field -- but the
+   field then changed width the moment it was clicked into, which moved the
+   digits out from under the caret just as they were being typed. A steady
+   field is worth more than the two characters the fold bought. */
+[data-skin="prompt"] .mu-stepper-btn {
+  width: 1.5rem;
+  color: var(--fg-muted);
+}
+
+[data-skin="prompt"] .mu-stepper-btn:hover {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+/* -- rows ------------------------------------------------------------- */
+[data-skin="prompt"] .mu-row-btn {
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--prompt-fill);
+}
+
+[data-skin="prompt"] .mu-row-btn:hover {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+/* -- the vector ------------------------------------------------------- */
+[data-skin="prompt"] .mu-vector {
+  border-radius: var(--radius);
+  background: var(--input-bg);
+}
+
+[data-skin="prompt"] .mu-vector:focus-within {
+  border-color: var(--accent);
+}
+
+[data-skin="prompt"] .mu-vector-axis {
+  padding: 0.375rem var(--space-2);
+}
+
+/* The vector's own frame is the frame, so a stepper inside an axis drops
+   everything but its buttons. */
+[data-skin="prompt"] .mu-vector .mu-stepper {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+[data-skin="prompt"] .mu-vector .mu-stepper-input {
+  padding: 0;
+}
+
+/* An axis is narrow, so its buttons are the base size rather than this
+   skin's wider one. */
+[data-skin="prompt"] .mu-vector .mu-stepper-btn {
+  width: 1.25rem;
+  padding: 0;
+}
+
+[data-skin="prompt"] .mu-vector .mu-stepper:focus-within .mu-stepper-input {
+  text-align: center;
+}
+
+/* -- the toggle tray -------------------------------------------------- */
+/* The frame and fill of the other fields, at their height: the base's
+   padding and segment size already add up to a field's, so a row of
+   segments beside a select or a text box lines up with it. The skin used to
+   make both bigger, and a segments control stood a few pixels taller than
+   everything around it. */
+[data-skin="prompt"] .mu-segments {
+  border-radius: var(--radius);
+  background: var(--prompt-fill);
+}
+
+/* -- the switch ------------------------------------------------------- */
+/* A checkbox with the box taken off it. No markup changes: appearance:none
+   leaves an empty element, and the knob is its ::after. */
+[data-skin="prompt"] .mu-prop-check {
+  position: relative;
+  width: 2rem;
+  height: 1.125rem;
+  appearance: none;
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  background: var(--prompt-fill);
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+[data-skin="prompt"] .mu-prop-check::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.1875rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--fg-muted);
+  transform: translateY(-50%);
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+/* On is on: the track takes the accent outright. At 40% of it the blue was
+   washed out and the knob -- which is the inverted colour -- had almost
+   nothing to stand against, so a switch had to be looked at twice. */
+[data-skin="prompt"] .mu-prop-check:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+[data-skin="prompt"] .mu-prop-check:checked::after {
+  background: var(--accent-fg);
+  transform: translate(0.875rem, -50%);
+}
+
+[data-skin="prompt"] .mu-prop-check:focus-visible {
+  outline: var(--border-width) solid var(--accent);
+  outline-offset: 0.125rem;
+}
+
+/* -- the toggle bar --------------------------------------------------- */
+/* The original's segmented control: buttons sit inside a rounded translucent
+   tray rather than each carrying its own frame. */
+[data-skin="prompt"] .mu-item-actions {
+  width: fit-content;
+  max-width: 100%;
+  gap: 0.125rem;
+  padding: 0.1875rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--prompt-fill);
+}
+
+[data-skin="prompt"] .mu-item-button {
+  height: 1.625rem;
+  border: 0;
+  border-radius: calc(var(--radius) - 0.1875rem);
+  background: transparent;
+  color: var(--fg-muted);
+}
+
+[data-skin="prompt"] .mu-item-button:hover {
+  background: var(--bg-hover);
+  color: var(--fg);
+}
+
+[data-skin="prompt"] .mu-item-button:active,
+/* A toggle that is on looks the way a button looks while it is being
+   pressed, because that is what "on" means here. Without this the skin's
+   own flat treatment won on source order and a pressed toggle looked
+   exactly like an unpressed one. */
+[data-skin="prompt"] .mu-item-button.is-active {
+  background: var(--accent);
+  color: var(--accent-fg);
+  transform: none;
+}
+
+/* -- the rest --------------------------------------------------------- */
+[data-skin="prompt"] .mu-prop-range {
+  height: 1.125rem;
+}
+
+[data-skin="prompt"] .mu-prop-color {
+  width: 2rem;
+  height: 1.25rem;
+  border-radius: var(--radius);
+}
+
+[data-skin="prompt"] .mu-crumb {
+  border-radius: 999px;
+  padding: 0.125rem var(--space-2);
+}
+
+/* Hairline scrollbars, the way the original hides them without quite
+   hiding them. */
+[data-skin="prompt"] ::-webkit-scrollbar {
+  width: 0.375rem;
+  height: 0.375rem;
+}
+
+[data-skin="prompt"] ::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fg) 25%, transparent);
+}

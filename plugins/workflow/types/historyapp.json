@@ -1,0 +1,10 @@
+{
+  "id": "workflow.historyapp",
+  "base": "enum",
+  "label": "workflow.prop.historyApp",
+  "icon": "collection",
+  "sample": {
+    "default": "",
+    "options": ["", "workflow.run"]
+  }
+}

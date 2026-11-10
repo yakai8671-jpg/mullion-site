@@ -1,0 +1,19 @@
+{
+  "id": "h3.screen",
+  "label": "h3.vtype.screen",
+  "icon": "fonts",
+  "port": "h3.screen",
+  "identity": "uid",
+  "defaultControl": "summary",
+  "fields": {
+    "text": { "type": "string" },
+    "where": { "type": "string" }
+  },
+  "format": { "field": "text" },
+  "portKeep": ["uid"],
+  "list": {
+    "port": "h3.screens",
+    "label": "h3.prop.screens",
+    "icon": "fonts"
+  }
+}

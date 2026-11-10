@@ -1,0 +1,177 @@
+{
+  "id": "pose2img.scene",
+  "label": "pose2img.item.scene",
+  "icon": "box",
+  "standalone": true,
+  "permissions": [
+    "fs:read"
+  ],
+  "properties": {
+    "app": {
+      "label": "pose2img.prop.app",
+      "type": "ref",
+      "itemType": "pose2img.app",
+      "link": true
+    },
+    "model": {
+      "label": "pose2img.prop.model",
+      "type": "enum",
+      "default": "sample",
+      "options": [
+        { "value": "sample", "label": "pose2img.model.sample" },
+        { "value": "vrm1", "label": "pose2img.model.vrm1" },
+        { "value": "__file__", "label": "pose2img.value.fromFile" }
+      ]
+    },
+    "modelPath": {
+      "label": "pose2img.prop.modelPath",
+      "type": "filepath",
+      "default": ""
+    },
+    "modelUrl": {
+      "label": "pose2img.prop.modelUrl",
+      "type": "string",
+      "default": ""
+    },
+    "pose": {
+      "label": "pose2img.prop.pose",
+      "type": "enum",
+      "default": "pose05",
+      "options": [
+        { "value": "", "label": "pose2img.value.noPose" },
+        { "value": "pose05", "label": "pose2img.pose.attention" },
+        { "value": "pose08", "label": "pose2img.pose.banzai" },
+        { "value": "pose12", "label": "pose2img.pose.wave" },
+        { "value": "__file__", "label": "pose2img.value.fromFile" }
+      ]
+    },
+    "posePath": {
+      "label": "pose2img.prop.posePath",
+      "type": "filepath",
+      "default": ""
+    },
+    "poseUrl": {
+      "label": "pose2img.prop.poseUrl",
+      "type": "string",
+      "default": ""
+    },
+    "position": {
+      "label": "pose2img.prop.position",
+      "type": "vector",
+      "axes": ["X", "Y", "Z"],
+      "step": 0.05,
+      "default": [0, 0, 0]
+    },
+    "rotation": {
+      "label": "pose2img.prop.rotation",
+      "type": "vector",
+      "axes": ["X", "Y", "Z"],
+      "step": 1,
+      "default": [0, 0, 0]
+    },
+    "scale": {
+      "label": "pose2img.prop.scale",
+      "type": "vector",
+      "axes": ["X", "Y", "Z"],
+      "step": 0.05,
+      "default": [1, 1, 1]
+    },
+    "cameraPosition": {
+      "label": "pose2img.prop.cameraPosition",
+      "type": "vector",
+      "axes": ["X", "Y", "Z"],
+      "step": 0.05,
+      "default": [0, 1.3, 3]
+    },
+    "cameraTarget": {
+      "label": "pose2img.prop.cameraTarget",
+      "type": "vector",
+      "axes": ["X", "Y", "Z"],
+      "step": 0.05,
+      "default": [0, 1, 0]
+    },
+    "fov": {
+      "label": "pose2img.prop.fov",
+      "type": "number",
+      "min": 1,
+      "max": 120,
+      "default": 30
+    },
+    "mode": {
+      "label": "pose2img.prop.mode",
+      "type": "enum",
+      "options": ["translate", "rotate", "scale"],
+      "default": "translate"
+    },
+    "cameraPrompts": {
+      "label": "pose2img.prop.cameraPrompts",
+      "type": "boolean",
+      "default": true
+    },
+    "angle": {
+      "label": "pose2img.prop.angle",
+      "type": "data",
+      "default": []
+    },
+    "snapshot": {
+      "label": "pose2img.prop.snapshot",
+      "type": "image",
+      "default": ""
+    }
+  },
+  "layout": [
+    {
+      "control": "pose2img.viewport",
+      "key": "viewport",
+      "options": {
+        "sceneId": { "item": "id" },
+        "mode": { "bind": "mode" }
+      }
+    },
+    {
+      "control": "section",
+      "key": "figure",
+      "options": {
+        "label": "pose2img.section.figure"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "figureProps",
+          "options": {
+            "entries": [
+              "model",
+              "modelPath",
+              "pose",
+              "posePath",
+              "position",
+              "rotation",
+              "scale"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "camera",
+      "options": {
+        "label": "pose2img.section.camera"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "cameraProps",
+          "options": {
+            "entries": [
+              "cameraPosition",
+              "cameraTarget",
+              "fov",
+              "cameraPrompts"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "stage.view",
+  "label": "stage.control.view",
+  "why": "the room as a canvas the stage is placed on: owns its DOM, as the panorama view does",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "itemId": { "type": "string" },
+    "src": { "type": "string" },
+    "structure": { "type": "string" },
+    "sprites": { "type": "data" },
+    "selected": { "type": "number" },
+    "view": { "type": "data" },
+    "overlay": { "type": "boolean" },
+    "depth": { "type": "boolean" },
+    "blend": { "type": "boolean" },
+    "auto": { "type": "boolean" },
+    "empty": { "type": "string" }
+  }
+}

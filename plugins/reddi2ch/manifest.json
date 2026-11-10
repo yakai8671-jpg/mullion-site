@@ -1,0 +1,87 @@
+{
+  "id": "reddi2ch",
+  "name": "reddi2ch",
+  "version": "1.0.0",
+  "description": "Reddit read as a 5ch board: a subreddit's threads as a subject list with momentum, and a thread as one flat run of posts numbered in the order they were written, with >>N anchors, reply back-links and ID:xxxxxxxx. Threads can be translated into Japanese with Ollama, in a tone picked from the library.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [
+    "reddi2ch.css"
+  ],
+  "types": [
+    "types/style.json"
+  ],
+  "controls": [
+    "controls/board.json",
+    "controls/thread.json",
+    "controls/secret.json"
+  ],
+  "actions": [
+    "actions/again.json",
+    "actions/show.json",
+    "actions/open.json",
+    "actions/setcurrent.json",
+    "actions/translate.json",
+    "actions/reloadboard.json",
+    "actions/moreboard.json",
+    "actions/reloadthread.json",
+    "actions/retry.json"
+  ],
+  "items": [
+    "items/app.json",
+    "items/board.json",
+    "items/thread.json",
+    "items/view.json",
+    "items/settings.json"
+  ],
+  "apps": [
+    "apps/app.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "permissions": [
+    "layout:place",
+    "reddit:read",
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "threadstore:access",
+    "window:write",
+    "items:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "reddi2ch.app",
+      "reddi2ch.board",
+      "reddi2ch.thread",
+      "reddi2ch.view",
+      "reddi2ch.settings"
+    ],
+    "valueTypes": [
+      "reddi2ch.style"
+    ],
+    "controls": [
+      "reddi2ch.board",
+      "reddi2ch.thread",
+      "reddi2ch.secret"
+    ],
+    "actions": [
+      "reddi2ch.again",
+      "reddi2ch.show",
+      "reddi2ch.open",
+      "reddi2ch.setcurrent",
+      "reddi2ch.translate",
+      "reddi2ch.reloadboard",
+      "reddi2ch.moreboard",
+      "reddi2ch.reloadthread",
+      "reddi2ch.retry"
+    ],
+    "permissions": [
+      "threadstore:access"
+    ],
+    "skins": []
+  },
+  "requires": [],
+  "presets": "presets.json"
+}

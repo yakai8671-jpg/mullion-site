@@ -1,0 +1,30 @@
+{
+  "id": "yue2.transcribe",
+  "permissions": [
+    "comfy:run"
+  ],
+  "params": {
+    "audio": {
+      "type": "audio"
+    },
+    "mode": {
+      "type": "enum"
+    },
+    "model": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "abc": {
+      "type": "string"
+    }
+  },
+  "concurrency": "ignore",
+  "cancellable": true,
+  "requires": {
+    "audio": "nonEmpty",
+    "services": [
+      "comfyui"
+    ]
+  }
+}

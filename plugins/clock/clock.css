@@ -1,0 +1,118 @@
+/* The clock's own face. Loaded by the shell because the manifest names it,
+   which is also the proof that plugin stylesheets arrive at all.
+
+   The window is the clock: it fills the window and keeps the time in the
+   middle, digital or analog, sized by the room there is. */
+.mu-body:has(> .mu-item[data-item-type="clock.face"]) {
+  overflow: hidden;
+}
+
+.mu-item[data-item-type="clock.face"] {
+  height: 100%;
+}
+
+.mu-item[data-item-type="clock.face"] > .mu-item-body,
+.mu-item[data-item-type="clock.face"] > .mu-item-body > .mu-control:last-child {
+  flex: 1;
+  min-height: 0;
+}
+
+.clock-face {
+  position: relative;
+  container-type: size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  height: 100%;
+  min-height: 6rem;
+  text-align: center;
+}
+
+.clock-gear {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.clock-middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+}
+
+.clock-digital {
+  font-family: var(--font-mono);
+  /* Sized by the room: wide enough for HH:MM:SS, and not taller than it. */
+  font-size: clamp(1.25rem, 15cqw, 40cqh);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.clock-analog {
+  width: min(70cqw, 70cqh);
+  height: min(70cqw, 70cqh);
+  max-width: 100%;
+  color: var(--fg);
+}
+
+.clock-digital[hidden],
+.clock-analog[hidden],
+.clock-caption[hidden] {
+  display: none;
+}
+
+.clock-dial {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.clock-tick {
+  stroke: var(--fg-muted);
+  stroke-width: 0.8;
+}
+
+.clock-tick.is-major {
+  stroke: var(--fg);
+  stroke-width: 1.6;
+}
+
+.clock-hand {
+  stroke: var(--fg);
+  stroke-linecap: round;
+}
+
+.clock-hand.is-hour {
+  stroke-width: 3.2;
+}
+
+.clock-hand.is-minute {
+  stroke-width: 2.2;
+}
+
+.clock-hand.is-second {
+  stroke: var(--accent);
+  stroke-width: 1;
+}
+
+.clock-pivot {
+  fill: var(--accent);
+}
+
+.clock-caption {
+  color: var(--fg);
+  font-size: var(--font-size);
+}
+
+.clock-zone {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}

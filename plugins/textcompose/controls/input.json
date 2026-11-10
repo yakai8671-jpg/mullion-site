@@ -1,0 +1,51 @@
+{
+  "id": "compose.input",
+  "label": "compose.control.input",
+  "why": "The shell's text card with the variables drawn as badges over the text: the badges are runs of characters the textarea holds like any others, moved by their handle, and what is typed is taken back into the text and the list of embeds",
+  "script": true,
+  "needs": [
+    "setText"
+  ],
+  "params": {
+    "placeholder": {
+      "type": "label"
+    },
+    "full": {
+      "type": "boolean"
+    },
+    "onFull": {
+      "type": "function"
+    },
+    "port": {
+      "type": "data"
+    },
+    "onDiscard": {
+      "type": "function"
+    },
+    "onKeep": {
+      "type": "function"
+    },
+    "lines": {
+      "type": "number"
+    },
+    "fill": {
+      "type": "boolean"
+    },
+    "options": {
+      "type": "data",
+      "bind": "readwrite",
+      "state": true
+    },
+    "scrollKey": {
+      "type": "string"
+    },
+    "embeds": {
+      "type": "list", "each": { "type": "compose.embed" },
+      "bind": "readwrite"
+    },
+    "sources": {
+      "type": "data",
+      "bind": "read"
+    }
+  }
+}

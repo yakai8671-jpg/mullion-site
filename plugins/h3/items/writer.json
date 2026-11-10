@@ -1,0 +1,305 @@
+{
+  "id": "h3.writer",
+  "label": "h3.item.writer",
+  "icon": "stars",
+  "standalone": true,
+  "permissions": [
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "properties": {
+    "action": {
+      "label": "h3.prop.action",
+      "type": "enum",
+      "control": "select",
+      "default": "new",
+      "options": [
+        "new",
+        "revise"
+      ]
+    },
+    "kind": {
+      "label": "h3.prop.kind",
+      "type": "enum",
+      "control": "select",
+      "default": "all",
+      "options": [
+        "all",
+        "style",
+        "speaker",
+        "scene",
+        "line",
+        "screen",
+        "soundscape",
+        "music"
+      ]
+    },
+    "scene": {
+      "label": "h3.prop.scene",
+      "type": "string",
+      "default": ""
+    },
+    "request": {
+      "label": "h3.prop.request",
+      "type": "string",
+      "control": "texteditor",
+      "default": "",
+      "placeholder": "h3.placeholder.request"
+    },
+    "revise": {
+      "label": "h3.prop.revise",
+      "type": "string",
+      "control": "texteditor",
+      "default": "",
+      "placeholder": "h3.placeholder.revise"
+    },
+    "model": {
+      "label": "h3.prop.model",
+      "type": "string",
+      "default": ""
+    },
+    "app": {
+      "label": "h3.prop.app",
+      "type": "ref",
+      "itemType": "h3.i2v",
+      "link": true
+    },
+    "builder": {
+      "label": "h3.prop.builder",
+      "type": "ref",
+      "itemType": "h3.builder",
+      "link": true
+    },
+    "resultDraft": {
+      "label": "h3.result.all",
+      "type": "h3.draft",
+      "readonly": true
+    },
+    "resultStyle": {
+      "label": "h3.result.style",
+      "type": "string",
+      "readonly": true,
+      "default": ""
+    },
+    "resultSpeaker": {
+      "label": "h3.result.speaker",
+      "type": "h3.speaker",
+      "readonly": true
+    },
+    "resultScene": {
+      "label": "h3.result.scene",
+      "type": "h3.scene",
+      "readonly": true
+    },
+    "resultContent": {
+      "label": "h3.result.content",
+      "type": "string",
+      "readonly": true,
+      "default": ""
+    },
+    "resultCameraMore": {
+      "label": "h3.result.cameraMore",
+      "type": "string",
+      "readonly": true,
+      "default": ""
+    },
+    "resultLine": {
+      "label": "h3.result.line",
+      "type": "h3.line",
+      "readonly": true
+    },
+    "resultScreen": {
+      "label": "h3.result.screen",
+      "type": "h3.screen",
+      "readonly": true
+    },
+    "resultSoundscape": {
+      "label": "h3.result.soundscape",
+      "type": "string",
+      "readonly": true,
+      "default": ""
+    },
+    "resultMusic": {
+      "label": "h3.result.music",
+      "type": "string",
+      "readonly": true,
+      "default": ""
+    },
+    "sourceDraft": {
+      "label": "h3.source.all",
+      "type": "h3.draft"
+    },
+    "sourceStyle": {
+      "label": "h3.source.style",
+      "type": "string",
+      "default": ""
+    },
+    "sourceSpeaker": {
+      "label": "h3.source.speaker",
+      "type": "h3.speaker"
+    },
+    "sourceScene": {
+      "label": "h3.source.scene",
+      "type": "h3.scene"
+    },
+    "sourceContent": {
+      "label": "h3.source.content",
+      "type": "string",
+      "default": ""
+    },
+    "sourceCameraMore": {
+      "label": "h3.source.cameraMore",
+      "type": "string",
+      "default": ""
+    },
+    "sourceLine": {
+      "label": "h3.source.line",
+      "type": "h3.line"
+    },
+    "sourceScreen": {
+      "label": "h3.source.screen",
+      "type": "h3.screen"
+    },
+    "sourceSoundscape": {
+      "label": "h3.source.soundscape",
+      "type": "string",
+      "default": ""
+    },
+    "sourceMusic": {
+      "label": "h3.source.music",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "request",
+      "options": {
+        "label": "h3.section.request"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "request-fields",
+          "options": {
+            "entries": [
+              "action",
+              "kind",
+              "scene",
+              "request"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "h3.section.result"
+      },
+      "layout": [
+        {
+          "key": "result-switch",
+          "switch": {
+            "bind": "kind"
+          },
+          "cases": {
+            "all": [
+              {
+                "control": "output",
+                "key": "result-all",
+                "options": {
+                  "value": {
+                    "bind": "resultDraft"
+                  }
+                }
+              }
+            ],
+            "style": [
+              {
+                "control": "output",
+                "key": "result-style",
+                "options": {
+                  "value": {
+                    "bind": "resultStyle"
+                  }
+                }
+              }
+            ],
+            "speaker": [
+              {
+                "control": "output",
+                "key": "result-speaker",
+                "options": {
+                  "value": {
+                    "bind": "resultSpeaker"
+                  }
+                }
+              }
+            ],
+            "scene": [
+              {
+                "control": "output",
+                "key": "result-scene",
+                "options": {
+                  "value": {
+                    "bind": "resultScene"
+                  }
+                }
+              }
+            ],
+            "line": [
+              {
+                "control": "output",
+                "key": "result-line",
+                "options": {
+                  "value": {
+                    "bind": "resultLine"
+                  }
+                }
+              }
+            ],
+            "screen": [
+              {
+                "control": "output",
+                "key": "result-screen",
+                "options": {
+                  "value": {
+                    "bind": "resultScreen"
+                  }
+                }
+              }
+            ],
+            "soundscape": [
+              {
+                "control": "output",
+                "key": "result-soundscape",
+                "options": {
+                  "value": {
+                    "bind": "resultSoundscape"
+                  }
+                }
+              }
+            ],
+            "music": [
+              {
+                "control": "output",
+                "key": "result-music",
+                "options": {
+                  "value": {
+                    "bind": "resultMusic"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "hotkeys.key",
+  "permissions": [
+    "hotkeys:read",
+    "hotkeys:write"
+  ],
+  "params": {
+    "id": {
+      "type": "string"
+    },
+    "key": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "picking": {
+      "type": "string"
+    }
+  }
+}

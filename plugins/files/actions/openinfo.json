@@ -1,0 +1,12 @@
+{
+  "id": "files.openinfo",
+  "permissions": [
+    "window:write"
+  ],
+  "params": {
+    "path": {
+      "type": "filepath"
+    }
+  },
+  "results": {}
+}

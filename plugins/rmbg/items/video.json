@@ -1,0 +1,256 @@
+{
+  "id": "rmbg.video",
+  "label": "rmbg.video.item",
+  "icon": "film",
+  "standalone": true,
+  "permissions": [
+    "comfy:run",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "properties": {
+    "source": {
+      "label": "rmbg.prop.source",
+      "type": "video",
+      "default": ""
+    },
+    "sourceName": {
+      "label": "rmbg.prop.source",
+      "type": "string",
+      "default": ""
+    },
+    "output": {
+      "label": "rmbg.video.prop.output",
+      "type": "enum",
+      "default": "webm",
+      "options": [
+        { "value": "webm", "label": "rmbg.video.output.webm" },
+        { "value": "prores", "label": "rmbg.video.output.prores" },
+        { "value": "mp4", "label": "rmbg.video.output.mp4" },
+        { "value": "matte", "label": "rmbg.video.output.matte" }
+      ]
+    },
+    "background": {
+      "label": "rmbg.video.prop.background",
+      "type": "enum",
+      "default": "green",
+      "options": [
+        { "value": "green", "label": "rmbg.video.color.green" },
+        { "value": "blue", "label": "rmbg.video.color.blue" },
+        { "value": "black", "label": "rmbg.video.color.black" },
+        { "value": "white", "label": "rmbg.video.color.white" },
+        { "value": "gray", "label": "rmbg.video.color.gray" }
+      ]
+    },
+    "model": {
+      "label": "rmbg.prop.model",
+      "type": "enum",
+      "default": "BiRefNet-general",
+      "options": [
+        { "value": "BiRefNet-general", "label": "rmbg.model.BiRefNet-general" },
+        { "value": "BiRefNet-HR", "label": "rmbg.model.BiRefNet-HR" },
+        { "value": "BiRefNet_toonout", "label": "rmbg.model.BiRefNet_toonout" },
+        { "value": "BiRefNet-portrait", "label": "rmbg.model.BiRefNet-portrait" },
+        { "value": "BiRefNet-matting", "label": "rmbg.model.BiRefNet-matting" },
+        { "value": "BiRefNet-HR-matting", "label": "rmbg.model.BiRefNet-HR-matting" },
+        { "value": "BiRefNet_lite", "label": "rmbg.model.BiRefNet_lite" },
+        { "value": "RMBG-2.0", "label": "rmbg.model.RMBG-2.0" },
+        { "value": "BEN2", "label": "rmbg.model.BEN2" },
+        { "value": "INSPYRENET", "label": "rmbg.model.INSPYRENET" }
+      ]
+    },
+    "sensitivity": {
+      "label": "rmbg.prop.sensitivity",
+      "type": "percent",
+      "default": 1
+    },
+    "offset": {
+      "label": "rmbg.prop.offset",
+      "type": "number",
+      "default": 0,
+      "min": -20,
+      "max": 20
+    },
+    "blur": {
+      "label": "rmbg.prop.blur",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 64
+    },
+    "refine": {
+      "label": "rmbg.prop.refine",
+      "type": "boolean",
+      "default": false
+    },
+    "resolution": {
+      "label": "rmbg.prop.resolution",
+      "type": "number",
+      "default": 1024,
+      "min": 256,
+      "max": 2048
+    },
+    "fps": {
+      "label": "rmbg.video.prop.fps",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 60
+    },
+    "width": {
+      "label": "rmbg.video.prop.width",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 8192
+    },
+    "skip": {
+      "label": "rmbg.video.prop.skip",
+      "type": "number",
+      "default": 0,
+      "min": 0
+    },
+    "limit": {
+      "label": "rmbg.video.prop.limit",
+      "type": "number",
+      "default": 0,
+      "min": 0
+    },
+    "every": {
+      "label": "rmbg.video.prop.every",
+      "type": "number",
+      "default": 1,
+      "min": 1
+    },
+    "audio": {
+      "label": "rmbg.video.prop.audio",
+      "type": "boolean",
+      "default": true
+    },
+    "result": {
+      "label": "rmbg.section.result",
+      "type": "video",
+      "default": ""
+    }
+  },
+  "actions": {
+    "run": {
+      "use": "rmbg.video.run",
+      "inputs": [
+        "source",
+        "output",
+        "background",
+        "model",
+        "sensitivity",
+        "offset",
+        "blur",
+        "refine",
+        "resolution",
+        "fps",
+        "width",
+        "skip",
+        "limit",
+        "every",
+        "audio"
+      ],
+      "outputs": {
+        "result": "result"
+      }
+    },
+    "clear": {
+      "use": "set",
+      "with": {
+        "result": ""
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "pinned",
+      "key": "software",
+      "layout": [
+        {
+          "control": "services.state",
+          "key": "comfyui",
+          "options": {
+            "service": "comfyui"
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "source",
+      "options": {
+        "label": "rmbg.section.source"
+      },
+      "layout": [
+        {
+          "control": "videocard",
+          "key": "source",
+          "options": {
+            "value": { "bind": "source" },
+            "name": { "bind": "sourceName" }
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "settings",
+      "options": {
+        "label": "rmbg.section.settings"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "settings",
+          "options": {
+            "entries": [
+              "output",
+              "background",
+              "model",
+              "sensitivity",
+              "offset",
+              "blur",
+              "refine",
+              "resolution",
+              "fps",
+              "width",
+              "skip",
+              "limit",
+              "every",
+              "audio"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "rmbg.section.result"
+      },
+      "layout": [
+        {
+          "control": "imagecard",
+          "key": "stage",
+          "options": {
+            "value": { "bind": "result" },
+            "showSize": false,
+            "empty": "rmbg.video.value.waiting",
+            "emptyAction": {
+              "action": "run",
+              "label": "rmbg.video.action.run",
+              "title": "rmbg.video.action.runTitle",
+              "cancelLabel": "rmbg.action.cancel"
+            },
+            "onClear": "clear"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+/* notepad: its window is one text card that fills it. The card's features are
+   the shell's (static/css/textcard.css). */
+
+/* The window is the card. */
+.mu-body:has(.mu-item[data-item-type="notepad.editor"]) {
+  overflow: hidden;
+}
+
+.mu-item[data-item-type="notepad.editor"] {
+  height: 100%;
+}
+
+.mu-item[data-item-type="notepad.editor"] > .mu-item-body,
+.mu-item[data-item-type="notepad.editor"] .mu-control {
+  flex: 1;
+  min-height: 0;
+}

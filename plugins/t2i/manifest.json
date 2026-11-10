@@ -1,0 +1,36 @@
+{
+  "id": "t2i",
+  "name": "Text to Image",
+  "version": "2.0.0",
+  "description": "Image generation with its ComfyUI workflow already in it: no workflow to import and no template to author, just the prompt, the size and run.",
+  "api": 1,
+  "translations": "i18n.json",
+  "items": ["items/t2i.json"],
+  "apps": ["apps/t2i.json"],
+  "assets": ["assets/anima.json", "assets/qwen.json", "assets/qwen21.json"],
+  "styles": [],
+  "permissions": [
+    "layout:place",
+    "comfy:run",
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "window:write",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "t2i.app"
+    ],
+    "valueTypes": [],
+    "controls": [],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "workflow",
+    "prompt",
+    "services"
+  ]
+}

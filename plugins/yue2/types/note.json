@@ -1,0 +1,20 @@
+{
+  "id": "yue2.note",
+  "label": "yue2.vtype.note",
+  "icon": "music-note-beamed",
+  "defaultControl": "yue2.notecard",
+  "fields": {
+    "layer": { "type": "string" },
+    "letter": { "type": "string" },
+    "alt": { "type": "number" },
+    "oct": { "type": "number" },
+    "len": { "type": "number" }
+  },
+  "default": {
+    "layer": "Vocal",
+    "letter": "C",
+    "alt": 0,
+    "oct": 5,
+    "len": 256
+  }
+}

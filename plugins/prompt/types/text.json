@@ -1,0 +1,6 @@
+{
+  "id": "prompt.text",
+  "base": "string",
+  "label": "prompt.vtype.text",
+  "icon": "text-paragraph"
+}

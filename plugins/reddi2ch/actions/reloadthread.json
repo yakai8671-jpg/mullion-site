@@ -1,0 +1,13 @@
+{
+  "id": "reddi2ch.reloadthread",
+  "permissions": [
+    "reddit:read",
+    "threadstore:access"
+  ],
+  "params": {
+    "app": {
+      "type": "ref"
+    }
+  },
+  "results": {}
+}

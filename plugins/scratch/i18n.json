@@ -1,0 +1,28 @@
+{
+  "en": {
+    "scratch.item.board": "Scratch Board",
+    "scratch.vtype.entries": "Things put down",
+    "scratch.vtype.entry": "Thing put down",
+    "scratch.prop.entries": "Things put down",
+    "scratch.control.zone": "Drop zone",
+    "scratch.value.empty": "Nothing here yet. Drag anything with a grip here to put it down.",
+    "scratch.value.dropMore": "Drop here to put down",
+    "scratch.value.unknown": "Something of kind “{kind}” that nothing here can show",
+    "scratch.status.failed": "Failed: {error}",
+    "scratch.control.card": "Scratch card",
+    "scratch.value.nothingIn": "(empty)"
+  },
+  "ja": {
+    "scratch.item.board": "仮置き場",
+    "scratch.vtype.entries": "置いたもの",
+    "scratch.vtype.entry": "置いたもの 1 つ",
+    "scratch.prop.entries": "置いたもの",
+    "scratch.control.zone": "置き場",
+    "scratch.value.empty": "まだ何もありません。ハンドルのあるものをここへドラッグして置けます。",
+    "scratch.value.dropMore": "ここへドロップして置く",
+    "scratch.value.unknown": "表示できない種類（{kind}）のもの",
+    "scratch.status.failed": "失敗しました: {error}",
+    "scratch.control.card": "仮置きカード",
+    "scratch.value.nothingIn": "（空）"
+  }
+}

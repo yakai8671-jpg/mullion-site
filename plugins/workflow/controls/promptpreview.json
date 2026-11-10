@@ -1,0 +1,56 @@
+{
+  "id": "workflow.promptpreview",
+  "label": "workflow.control.promptpreview",
+  "script": true,
+  "standalone": true,
+  "why": "the assembled prompt as text or as one card per part, with the way into the slot editor",
+  "params": {
+    "label": {
+      "type": "string"
+    },
+    "parts": {
+      "type": "data"
+    },
+    "text": {
+      "type": "string"
+    },
+    "empty": {
+      "type": "string"
+    },
+    "view": {
+      "type": "string"
+    },
+    "onView": {
+      "type": "data"
+    },
+    "full": {
+      "type": "boolean"
+    },
+    "onFull": {
+      "type": "data"
+    },
+    "onEdit": {
+      "type": "data"
+    },
+    "editTitle": {
+      "type": "string"
+    },
+    "onPresets": {
+      "type": "data"
+    },
+    "port": {
+      "type": "data"
+    }
+  },
+  "sampleParams": {
+    "parts": [
+      {
+        "text": "blue eyes",
+        "weight": 1
+      }
+    ],
+    "text": "blue eyes",
+    "view": "text",
+    "full": true
+  }
+}

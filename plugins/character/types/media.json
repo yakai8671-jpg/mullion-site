@@ -1,0 +1,22 @@
+{
+  "id": "character.media",
+  "label": "character.vtype.media",
+  "icon": "person-video",
+  "storable": false,
+  "port": "character.media",
+  "fields": {
+    "kind": {
+      "type": "string"
+    },
+    "media": {
+      "type": "data"
+    },
+    "character": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    }
+  },
+  "defaultControl": "character.mediainput"
+}

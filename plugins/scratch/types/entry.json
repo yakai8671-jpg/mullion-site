@@ -1,0 +1,26 @@
+{
+  "id": "scratch.entry",
+  "label": "scratch.vtype.entry",
+  "icon": "inboxes",
+  "storable": false,
+  "presetNew": false,
+  "identity": "id",
+  "portReceive": false,
+  "fields": {
+    "id": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string"
+    },
+    "value": {
+      "type": "data"
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "label": "scratch.vtype.entries",
+    "icon": "inboxes",
+    "storable": false
+  }
+}

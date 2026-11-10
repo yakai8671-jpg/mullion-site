@@ -1,0 +1,25 @@
+{
+  "id": "character.action",
+  "label": "character.vtype.action",
+  "icon": "play-btn",
+  "storable": false,
+  "presetNew": false,
+  "identity": "name",
+  "port": "character.action",
+  "fields": {
+    "name": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string"
+    },
+    "media": {
+      "type": "data"
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "label": "character.vtype.actions",
+    "icon": "play-btn"
+  }
+}

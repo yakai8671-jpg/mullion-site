@@ -1,0 +1,19 @@
+{
+  "id": "character.preview",
+  "label": "character.item.preview",
+  "icon": "eye",
+  "standalone": true,
+  "permissions": [],
+  "properties": {
+    "character": {
+      "label": "character.vtype.character",
+      "type": "character"
+    },
+    "mode": {
+      "label": "character.item.preview",
+      "type": "string",
+      "default": "references"
+    }
+  },
+  "screen": "character.preview"
+}

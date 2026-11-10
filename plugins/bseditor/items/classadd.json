@@ -1,0 +1,38 @@
+{
+  "id": "bseditor.classadd",
+  "label": "bseditor.item.classadd",
+  "icon": "tag",
+  "permissions": [],
+  "properties": {
+    "cell": {
+      "label": "bseditor.prop.cell",
+      "type": "bseditor.cell"
+    },
+    "find": {
+      "label": "bseditor.prop.find",
+      "type": "string",
+      "default": ""
+    },
+    "off": {
+      "label": "bseditor.prop.off",
+      "type": "data",
+      "default": []
+    },
+    "shown": {
+      "label": "bseditor.prop.shown",
+      "type": "number",
+      "default": 50
+    }
+  },
+  "screen": "bseditor.classadd",
+  "actions": {
+    "say": {
+      "use": "bseditor.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    }
+  }
+}

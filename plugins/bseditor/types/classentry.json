@@ -1,0 +1,25 @@
+{
+  "id": "bseditor.classentry",
+  "label": "bseditor.vtype.class",
+  "icon": "tag",
+  "identity": "className",
+  "port": "bseditor.class",
+  "fields": {
+    "className": {
+      "label": "bseditor.vtype.class",
+      "type": "string",
+      "readonly": true
+    }
+  },
+  "list": {
+    "port": "bseditor.classlist",
+    "label": "bseditor.vtype.classlist",
+    "icon": "tags"
+  },
+  "defaultControl": "summary",
+  "default": {
+    "className": "",
+    "category": "",
+    "description": ""
+  }
+}

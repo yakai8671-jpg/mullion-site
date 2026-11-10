@@ -1,0 +1,55 @@
+{
+  "id": "files",
+  "name": "File Manager",
+  "version": "1.0.0",
+  "description": "Browsing the disk, with where you are kept in the layout and the listing read fresh.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [
+    "files.css"
+  ],
+  "actions": [
+    "actions/openmkdir.json",
+    "actions/openinfo.json",
+    "actions/say.json",
+    "actions/mkdir.json",
+    "actions/rename.json",
+    "actions/delete.json"
+  ],
+  "controls": [],
+  "items": [
+    "items/browser.json",
+    "items/mkdir.json",
+    "items/info.json"
+  ],
+  "apps": [
+    "apps/browser.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "permissions": [
+    "fs:read",
+    "fs:write",
+    "window:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "files.browser",
+      "files.mkdir",
+      "files.info"
+    ],
+    "valueTypes": [],
+    "controls": [],
+    "actions": [
+      "files.openmkdir",
+      "files.openinfo",
+      "files.say",
+      "files.mkdir",
+      "files.rename",
+      "files.delete"
+    ],
+    "permissions": []
+  },
+  "requires": []
+}

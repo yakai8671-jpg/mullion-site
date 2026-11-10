@@ -1,0 +1,11 @@
+{
+  "id": "prompt.sentenceedit",
+  "label": "prompt.control.sentenceedit",
+  "script": true,
+  "why": "editor for a sentence preset with name, category and sentence text",
+  "needs": [
+    "text",
+    "setText"
+  ],
+  "params": {}
+}

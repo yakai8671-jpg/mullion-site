@@ -1,0 +1,55 @@
+{
+  "id": "compose.embedview",
+  "label": "compose.section.embeds",
+  "icon": "braces",
+  "identity": "id",
+  "port": false,
+  "storable": false,
+  "presetNew": false,
+  "fields": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "kind": { "type": "string" },
+    "typeLabel": { "label": "compose.field.type", "type": "string", "readonly": true },
+    "value": { "label": "compose.field.value", "type": "string", "readonly": true },
+    "format": { "label": "compose.opt.format", "type": "string" },
+    "pad": {
+      "label": "compose.opt.pad",
+      "type": "enum",
+      "options": [
+        { "value": "none", "label": "compose.opt.pad.none" },
+        { "value": "zero", "label": "compose.opt.pad.zero" },
+        { "value": "space", "label": "compose.opt.pad.space" }
+      ]
+    },
+    "width": { "label": "compose.opt.width", "type": "number", "min": 0, "max": 40, "step": 1 },
+    "decimals": { "label": "compose.opt.decimals", "type": "number", "min": -1, "max": 10, "step": 1 },
+    "unit": {
+      "label": "compose.opt.unit",
+      "type": "enum",
+      "options": [
+        { "value": "auto", "label": "compose.opt.unit.auto" },
+        { "value": "B", "label": "compose.opt.unit.B" },
+        { "value": "KB", "label": "compose.opt.unit.KB" },
+        { "value": "MB", "label": "compose.opt.unit.MB" }
+      ]
+    },
+    "transform": {
+      "label": "compose.opt.transform",
+      "type": "enum",
+      "options": [
+        { "value": "none", "label": "compose.opt.transform.none" },
+        { "value": "upper", "label": "compose.opt.transform.upper" },
+        { "value": "lower", "label": "compose.opt.transform.lower" },
+        { "value": "trim", "label": "compose.opt.transform.trim" }
+      ]
+    },
+    "max": { "label": "compose.opt.max", "type": "number", "min": 0, "max": 100000, "step": 1 }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "label": "compose.section.embeds",
+    "icon": "braces",
+    "storable": false
+  }
+}

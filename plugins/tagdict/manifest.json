@@ -1,0 +1,39 @@
+{
+  "id": "tagdict",
+  "name": "Tag Dictionary",
+  "version": "1.0.0",
+  "description": "What each tag of a tagger's vocabulary means: Danbooru's own definition, the tag groups it is listed in, its other names. Read from a file made offline (tools/tagdict); a window to look tags up in (with a Preview that reads the one picked), and the lookup other apps use to explain tags to a model.",
+  "api": 1,
+  "translations": "i18n.json",
+  "types": [
+    "types/entry.json"
+  ],
+  "items": [
+    "items/viewer.json"
+  ],
+  "controls": [],
+  "apps": [
+    "apps/viewer.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "permissions": [
+    "tagdict:read",
+    "window:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "tagdict.viewer"
+    ],
+    "valueTypes": [
+      "tagdict.entry"
+    ],
+    "controls": [],
+    "permissions": [
+      "tagdict:read"
+    ],
+    "skins": []
+  },
+  "requires": []
+}

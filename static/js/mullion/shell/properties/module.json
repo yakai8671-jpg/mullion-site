@@ -1,0 +1,35 @@
+{
+  "name": "properties",
+  "deps": [
+    "server",
+    "registry",
+    "apps",
+    "items",
+    "ports",
+    "i18n",
+    "media",
+    "library"
+  ],
+  "api": [
+    "TEXT_LANGUAGES",
+    "pickLanguage",
+    "candidatesFor",
+    "storable",
+    "groupingOf",
+    "groupOf",
+    "groupsIn",
+    "isKeptImage",
+    "imageFacts",
+    "describeImage",
+    "formatBytes",
+    "blobToDataUrl",
+    "decodeFile",
+    "axesOf",
+    "formatAxis",
+    "coerceImageList",
+    "optionsOf"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

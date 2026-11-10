@@ -1,0 +1,54 @@
+{
+  "id": "yue2.roll",
+  "label": "yue2.control.roll",
+  "why": "A section of YuE2's ABC as a piano roll: notes of the two voices and the chords, edited by dragging, written back as ABC text.",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "text": {
+      "type": "string",
+      "bind": "read"
+    },
+    "ctx": {
+      "type": "data",
+      "bind": "read"
+    },
+    "onChange": {
+      "type": "action",
+      "payload": {
+        "value": "string"
+      }
+    },
+    "readonly": {
+      "type": "boolean"
+    },
+    "parts": {
+      "type": "data",
+      "bind": "read"
+    },
+    "part": {
+      "type": "string",
+      "bind": "read"
+    },
+    "onPart": {
+      "type": "action",
+      "payload": {
+        "value": "string"
+      }
+    },
+    "port": {
+      "type": "data"
+    }
+  },
+  "sampleParams": {
+    "text": "V: Vocal\n\"C\"C8D8E8G8|\nV: Ins\nZ|",
+    "ctx": {
+      "den": 32,
+      "meter": [
+        4,
+        4
+      ],
+      "key": "C"
+    }
+  }
+}

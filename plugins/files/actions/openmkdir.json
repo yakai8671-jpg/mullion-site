@@ -1,0 +1,12 @@
+{
+  "id": "files.openmkdir",
+  "permissions": [
+    "window:write"
+  ],
+  "params": {
+    "path": {
+      "type": "filepath"
+    }
+  },
+  "results": {}
+}

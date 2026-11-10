@@ -1,0 +1,9 @@
+{
+  "id": "bays.add",
+  "permissions": [
+    "bays:read",
+    "bays:write"
+  ],
+  "params": {},
+  "results": {}
+}

@@ -1,0 +1,35 @@
+{
+  "name": "plugins",
+  "deps": [
+    "server",
+    "i18n",
+    "grants",
+    "media",
+    "history",
+    "library",
+    "registry",
+    "build",
+    "items",
+    "layout",
+    "ports",
+    "view",
+    "bays",
+    "apps",
+    "home",
+    "operations",
+    "pickers",
+    "hotkeys",
+    "frames",
+    "mount",
+    "properties",
+    "controls"
+  ],
+  "api": [
+    "loadedPlugins",
+    "coreFor",
+    "loadPlugins"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

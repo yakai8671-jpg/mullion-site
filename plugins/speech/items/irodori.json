@@ -1,0 +1,227 @@
+{
+  "id": "speech.irodori",
+  "label": "speech.irodori.item",
+  "icon": "mic",
+  "standalone": true,
+  "permissions": [
+    "speech:run",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "properties": {
+    "text": {
+      "label": "speech.irodori.prop.text",
+      "type": "string",
+      "default": "",
+      "placeholder": "speech.irodori.placeholder",
+      "port": "text"
+    },
+    "caption": {
+      "label": "speech.irodori.prop.caption",
+      "type": "string",
+      "default": "",
+      "placeholder": "speech.irodori.captionPlaceholder",
+      "port": "text"
+    },
+    "ref": {
+      "label": "speech.irodori.prop.ref",
+      "type": "audio",
+      "default": ""
+    },
+    "refName": {
+      "label": "speech.irodori.prop.refName",
+      "type": "string",
+      "default": ""
+    },
+    "steps": {
+      "label": "speech.irodori.prop.steps",
+      "type": "number",
+      "default": 40,
+      "min": 1,
+      "max": 200
+    },
+    "cfgText": {
+      "label": "speech.irodori.prop.cfgText",
+      "type": "number",
+      "control": "slider",
+      "default": 5,
+      "min": 0,
+      "max": 15,
+      "step": 0.5
+    },
+    "cfgCaption": {
+      "label": "speech.irodori.prop.cfgCaption",
+      "type": "number",
+      "control": "slider",
+      "default": 3,
+      "min": 0,
+      "max": 15,
+      "step": 0.5
+    },
+    "cfgSpeaker": {
+      "label": "speech.irodori.prop.cfgSpeaker",
+      "type": "number",
+      "control": "slider",
+      "default": 5,
+      "min": 0,
+      "max": 15,
+      "step": 0.5
+    },
+    "result": {
+      "label": "speech.irodori.prop.result",
+      "type": "audio",
+      "default": ""
+    },
+    "resultSeconds": {
+      "label": "speech.irodori.prop.result",
+      "type": "number",
+      "default": 0
+    },
+    "resultName": {
+      "label": "speech.irodori.prop.result",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "actions": {
+    "run": {
+      "use": "speech.irodori.run",
+      "inputs": [
+        "text",
+        "caption",
+        "ref",
+        "steps",
+        "cfgText",
+        "cfgCaption",
+        "cfgSpeaker"
+      ],
+      "outputs": {
+        "result": "result",
+        "resultSeconds": "resultSeconds",
+        "resultName": "resultName"
+      }
+    },
+    "clear": {
+      "use": "set",
+      "with": {
+        "result": "",
+        "resultSeconds": 0
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "pinned",
+      "key": "software",
+      "layout": [
+        {
+          "control": "services.state",
+          "key": "irodori",
+          "options": {
+            "service": "irodori"
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "text",
+      "options": {
+        "label": "speech.section.text"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "text",
+          "options": {
+            "value": { "bind": "text" },
+            "placeholder": "speech.irodori.placeholder",
+            "lines": 4
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "caption",
+      "options": {
+        "label": "speech.irodori.section.caption"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "caption",
+          "options": {
+            "value": { "bind": "caption" },
+            "placeholder": "speech.irodori.captionPlaceholder",
+            "lines": 2
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "reference",
+      "options": {
+        "label": "speech.section.reference"
+      },
+      "layout": [
+        {
+          "control": "audiocard",
+          "key": "ref",
+          "options": {
+            "value": { "bind": "ref" },
+            "name": { "bind": "refName" }
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "settings",
+      "options": {
+        "label": "speech.section.settings"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "settings",
+          "options": {
+            "entries": [
+              "steps",
+              "cfgText",
+              "cfgCaption",
+              "cfgSpeaker"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "speech.section.result"
+      },
+      "layout": [
+        {
+          "control": "audiocard",
+          "key": "result",
+          "options": {
+            "value": { "bind": "result" },
+            "filename": { "bind": "resultName" },
+            "empty": "speech.value.waiting",
+            "emptyAction": {
+              "action": "run",
+              "label": "speech.action.run",
+              "title": "speech.action.runTitle",
+              "cancelLabel": "speech.action.cancel"
+            },
+            "onClear": "clear"
+          }
+        }
+      ]
+    }
+  ]
+}

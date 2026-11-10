@@ -1,0 +1,370 @@
+{
+  "name": "Anima T2I 画像生成",
+  "tool": "t2i",
+  "workflow": {
+    "name": "test",
+    "platform": "comfyui",
+    "graph": {
+      "17": {
+        "inputs": {
+          "clip_name": "qwen_3_06b_base.safetensors",
+          "type": "stable_diffusion",
+          "device": "default"
+        },
+        "class_type": "CLIPLoader",
+        "_meta": {
+          "title": "Load CLIP"
+        }
+      },
+      "19": {
+        "inputs": {
+          "unet_name": "anima-base-v1.0.safetensors",
+          "weight_dtype": "default"
+        },
+        "class_type": "UNETLoader",
+        "_meta": {
+          "title": "Load Diffusion Model"
+        }
+      },
+      "20": {
+        "inputs": {
+          "width": [
+            "61",
+            0
+          ],
+          "height": [
+            "61",
+            1
+          ],
+          "batch_size": 1
+        },
+        "class_type": "EmptyLatentImage",
+        "_meta": {
+          "title": "Empty Latent Image"
+        }
+      },
+      "22": {
+        "inputs": {
+          "vae_name": "qwen_image_vae.safetensors"
+        },
+        "class_type": "VAELoader",
+        "_meta": {
+          "title": "Load VAE"
+        }
+      },
+      "23": {
+        "inputs": {
+          "lora_name": "anima-turbo-lora-v0.2.safetensors",
+          "strength_model": 1,
+          "model": [
+            "19",
+            0
+          ]
+        },
+        "class_type": "LoraLoaderModelOnly",
+        "_meta": {
+          "title": "Load LoRA (anima-turbo)"
+        }
+      },
+      "24": {
+        "inputs": {
+          "images": [
+            "81",
+            0
+          ]
+        },
+        "class_type": "PreviewImage",
+        "_meta": {
+          "title": "Preview Image"
+        }
+      },
+      "61": {
+        "inputs": {
+          "image": [
+            "62",
+            0
+          ]
+        },
+        "class_type": "GetImageSize",
+        "_meta": {
+          "title": "Get Image Size"
+        }
+      },
+      "62": {
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1,
+          "color": 0
+        },
+        "class_type": "EmptyImage",
+        "_meta": {
+          "title": "Empty Image"
+        }
+      },
+      "64": {
+        "inputs": {
+          "text": "",
+          "clip": [
+            "17",
+            0
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "CLIP Text Encode (Prompt)"
+        }
+      },
+      "66": {
+        "inputs": {
+          "text": "",
+          "clip": [
+            "17",
+            0
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "(white) cond_base"
+        }
+      },
+      "70": {
+        "inputs": {
+          "lora_name": "Turbo-ANIMA-v3.safetensors",
+          "strength_model": 1,
+          "model": [
+            "23",
+            0
+          ]
+        },
+        "class_type": "LoraLoaderModelOnly",
+        "_meta": {
+          "title": "Load LoRA"
+        }
+      },
+      "79": {
+        "inputs": {
+          "seed": 1,
+          "steps": 8,
+          "cfg": 1,
+          "sampler_name": "euler_ancestral",
+          "scheduler": "simple",
+          "denoise": 1,
+          "model": [
+            "82",
+            0
+          ],
+          "positive": [
+            "66",
+            0
+          ],
+          "negative": [
+            "64",
+            0
+          ],
+          "latent_image": [
+            "20",
+            0
+          ]
+        },
+        "class_type": "KSampler",
+        "_meta": {
+          "title": "KSampler"
+        }
+      },
+      "81": {
+        "inputs": {
+          "samples": [
+            "79",
+            0
+          ],
+          "vae": [
+            "22",
+            0
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "82": {
+        "inputs": {
+          "lora_name": "Turbo-ANIMA-v3.safetensors",
+          "strength_model": 0,
+          "model": [
+            "70",
+            0
+          ]
+        },
+        "class_type": "LoraLoaderModelOnly",
+        "_meta": {
+          "title": "Load LoRA"
+        }
+      }
+    },
+    "fields": []
+  },
+  "blocks": {
+    "prompts": {
+      "value": {
+        "node_id": "66",
+        "input_key": "text"
+      }
+    },
+    "image_size": {
+      "width": {
+        "node_id": "62",
+        "input_key": "width"
+      },
+      "height": {
+        "node_id": "62",
+        "input_key": "height"
+      }
+    },
+    "image": {
+      "value": {
+        "node_id": "24",
+        "input_key": "images"
+      }
+    },
+    "negative_prompts": {
+      "value": {
+        "node_id": "64",
+        "input_key": "text"
+      }
+    }
+  },
+  "settings": [
+    {
+      "node_id": "19",
+      "input_key": "unet_name",
+      "label": "モデル",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "UNETLoader",
+        "input_key": "unet_name"
+      }
+    },
+    {
+      "node_id": "17",
+      "input_key": "clip_name",
+      "label": "テキストエンコーダー",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "CLIPLoader",
+        "input_key": "clip_name"
+      }
+    },
+    {
+      "node_id": "22",
+      "input_key": "vae_name",
+      "label": "VAE",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "VAELoader",
+        "input_key": "vae_name"
+      }
+    },
+    {
+      "node_id": "23",
+      "input_key": "lora_name",
+      "label": "LoRA 1",
+      "group": "LoRA",
+      "options_source": {
+        "class_type": "LoraLoaderModelOnly",
+        "input_key": "lora_name"
+      }
+    },
+    {
+      "node_id": "23",
+      "input_key": "strength_model",
+      "label": "LoRA 1 の強さ",
+      "group": "LoRA",
+      "value_type": "number"
+    },
+    {
+      "node_id": "70",
+      "input_key": "lora_name",
+      "label": "LoRA 2",
+      "group": "LoRA",
+      "options_source": {
+        "class_type": "LoraLoaderModelOnly",
+        "input_key": "lora_name"
+      }
+    },
+    {
+      "node_id": "70",
+      "input_key": "strength_model",
+      "label": "LoRA 2 の強さ",
+      "group": "LoRA",
+      "value_type": "number"
+    },
+    {
+      "node_id": "82",
+      "input_key": "lora_name",
+      "label": "LoRA 3",
+      "group": "LoRA",
+      "options_source": {
+        "class_type": "LoraLoaderModelOnly",
+        "input_key": "lora_name"
+      }
+    },
+    {
+      "node_id": "82",
+      "input_key": "strength_model",
+      "label": "LoRA 3 の強さ",
+      "group": "LoRA",
+      "value_type": "number"
+    },
+    {
+      "node_id": "79",
+      "input_key": "steps",
+      "label": "ステップ数",
+      "group": "サンプラー",
+      "value_type": "integer"
+    },
+    {
+      "node_id": "79",
+      "input_key": "cfg",
+      "label": "CFG",
+      "group": "サンプラー",
+      "value_type": "number"
+    },
+    {
+      "node_id": "79",
+      "input_key": "sampler_name",
+      "label": "サンプラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "sampler_name"
+      }
+    },
+    {
+      "node_id": "79",
+      "input_key": "scheduler",
+      "label": "スケジューラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "scheduler"
+      }
+    },
+    {
+      "node_id": "79",
+      "input_key": "denoise",
+      "label": "デノイズ",
+      "group": "サンプラー",
+      "value_type": "number"
+    },
+    {
+      "node_id": "20",
+      "input_key": "batch_size",
+      "label": "生成枚数",
+      "group": "出力",
+      "value_type": "integer"
+    }
+  ],
+  "fixed": []
+}

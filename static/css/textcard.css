@@ -1,0 +1,301 @@
+/* The features of a text card (textfeatures.js): the action bar, find panel,
+   status line and line numbers around the shell's text card. The card itself
+   (header, grip, text) is the shell's. */
+
+/* Under the header, in the order they are read. The shell's own children
+   (header, text, one-line view) are named so the added ones can be slotted
+   between them without the shell's markup knowing about any of it. */
+.mu-tx-card > .mu-textcard-head { order: 0; }
+.mu-tx-card > .mu-tx-action-bar { order: 1; }
+.mu-tx-card > .mu-tx-panel { order: 2; }
+.mu-tx-card > .mu-textcard-input,
+.mu-tx-card > .mu-textcard-line { order: 3; }
+.mu-tx-card > .mu-tx-status { order: 4; }
+.mu-tx-card > .mu-textcard-view-body { order: 5; }
+.mu-tx-card > .mu-textcard-slot-body { order: 6; }
+.mu-textcard .mu-textcard-declared-slot[hidden],
+.mu-textcard > .mu-textcard-view-body[hidden],
+.mu-tx-card.is-alternate-view > .mu-tx-panel,
+.mu-tx-card.is-alternate-view > .mu-tx-status,
+.mu-tx-card.is-alternate-view > .mu-tx-action-bar > .mu-tx-action-row { display: none; }
+
+/* A card folded to one line is a line: nothing to tool or count. */
+.mu-tx-card.is-oneline > .mu-tx-action-bar,
+.mu-tx-card.is-oneline > .mu-tx-panel,
+.mu-tx-card.is-oneline > .mu-tx-status,
+.mu-tx-card.mu-tx-nostats > .mu-tx-status {
+  display: none;
+}
+
+.mu-tx-action-spacer {
+  flex: 1 1 auto;
+}
+
+.mu-tx-tool:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Search stays in the card below its action bar. */
+.mu-tx-panel {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border-bottom: var(--border-width) solid var(--border);
+  background: var(--bg-elevated);
+}
+
+.mu-tx-card[data-panel="find"] > .mu-tx-find {
+  display: flex;
+}
+
+.mu-tx-find {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.mu-tx-row {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.mu-tx-find-input {
+  flex: 1 1 8rem;
+  min-width: 0;
+}
+
+.mu-tx-find-input.is-bad {
+  outline: var(--border-width) solid var(--danger);
+}
+
+.mu-tx-find-count {
+  min-width: 3.5rem;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* The tidy and display controls live in anchored menus. */
+.mu-tx-menu {
+  position: fixed;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 12rem;
+  max-width: min(22rem, calc(100vw - 8px));
+  max-height: calc(100vh - 8px);
+  overflow: auto;
+  padding: 0.1875rem;
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow);
+  color: var(--fg);
+  font-size: var(--font-size-small);
+}
+
+.mu-tx-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 1.75rem;
+  padding: 0.25rem var(--space-2);
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.mu-tx-menu-item:hover,
+.mu-tx-menu-item:focus-visible {
+  background: var(--bg-hover);
+}
+
+.mu-tx-menu-item:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.mu-tx-menu-item > .bi {
+  flex: none;
+}
+
+.mu-tx-menu-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mu-tx-menu-check {
+  margin-left: auto;
+  color: var(--accent);
+  opacity: 0;
+}
+
+.mu-tx-menu-item.is-checked .mu-tx-menu-check {
+  opacity: 1;
+}
+
+.mu-tx-menu-divider {
+  height: var(--border-width);
+  margin: 0.125rem 0.25rem;
+  background: var(--border);
+}
+
+.mu-tx-menu-zoom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+}
+
+.mu-tx-zoom-value {
+  min-width: 3rem;
+  padding: 0.25rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg-muted);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.mu-tx-zoom-value:hover,
+.mu-tx-zoom-value:focus-visible {
+  background: var(--bg-hover);
+  color: var(--fg);
+}
+
+.mu-tx-status {
+  padding: 0.125rem var(--space-2);
+  border-top: var(--border-width) solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* How the text is shown. The one-line view follows, so a folded card reads
+   in the same face. */
+.mu-tx-card .mu-textcard-input,
+.mu-tx-card .mu-textcard-line {
+  font-size: calc(var(--font-size) * var(--mu-tx-zoom, 1));
+}
+
+.mu-tx-card.mu-tx-mono .mu-textcard-input,
+.mu-tx-card.mu-tx-mono .mu-textcard-line {
+  font-family: var(--font-mono);
+}
+
+.mu-tx-card.mu-tx-nowrap .mu-textcard-input {
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Told to fill: the card takes the pane, and the text takes what the card
+   has left, instead of growing with what is written. */
+.mu-control > .mu-tx-card.is-filling {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.mu-tx-card.is-filling > .mu-textcard-input {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  field-sizing: fixed;
+  resize: none;
+}
+
+/* ---- line numbers and the marks on every match -------------------------
+   Drawn by a copy of the text behind the textarea (see `sync` in
+   textfeatures.js): the textarea is made transparent and sits on top, so the
+   numbers and marks show through it. */
+.mu-tx-card {
+  position: relative;
+}
+
+.mu-tx-mirror {
+  position: absolute;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--input-bg);
+  pointer-events: none;
+}
+
+.mu-tx-card.is-fixed > .mu-tx-mirror {
+  background: transparent;
+}
+
+.mu-tx-mirror[hidden] {
+  display: none;
+}
+
+.mu-tx-mirror-in {
+  box-sizing: border-box;
+  color: transparent;
+  overflow-wrap: break-word;
+  counter-reset: mu-tx-line;
+}
+
+.mu-tx-ml {
+  position: relative;
+  min-height: 1lh;
+  counter-increment: mu-tx-line;
+}
+
+.mu-tx-mark {
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--accent) 40%, transparent);
+  color: transparent;
+}
+
+.mu-tx-card.mu-tx-backdrop > .mu-textcard-input {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  /* The margin's numbers are moved with the scroll, not with the elastic
+     overshoot at its ends, which only the textarea itself shows: no bounce,
+     so the two cannot come apart. */
+  overscroll-behavior: contain;
+}
+
+.mu-tx-mirror-in {
+  will-change: transform;
+}
+
+/* The margin of numbers is a place to press: it selects the line. */
+.mu-tx-card.mu-tx-numbers > .mu-textcard-input.mu-tx-over-gutter {
+  cursor: default;
+}
+
+/* The margin is the textarea's own left padding, made wider by the width of
+   the largest number. */
+.mu-tx-card.mu-tx-numbers > .mu-textcard-input,
+.mu-tx-card.mu-tx-numbers .mu-tx-mirror-in {
+  padding-left: calc(var(--mu-tx-gutter, 0px) + 8px);
+}
+
+.mu-tx-card.mu-tx-numbers .mu-tx-ml::before {
+  content: counter(mu-tx-line);
+  position: absolute;
+  left: calc(-1 * var(--mu-tx-gutter, 0px));
+  width: calc(var(--mu-tx-gutter, 0px) - 14px);
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  opacity: 0.7;
+  user-select: none;
+}

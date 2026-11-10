@@ -1,0 +1,87 @@
+{
+  "id": "clock.face",
+  "label": "clock.item.face",
+  "icon": "clock",
+  "standalone": true,
+  "permissions": [
+    "window:write"
+  ],
+  "properties": {
+    "mode": {
+      "label": "clock.prop.mode",
+      "type": "enum",
+      "default": "digital",
+      "options": [
+        {
+          "value": "digital",
+          "label": "clock.opt.digital"
+        },
+        {
+          "value": "analog",
+          "label": "clock.opt.analog"
+        }
+      ]
+    },
+    "hours": {
+      "label": "clock.prop.hours",
+      "type": "enum",
+      "default": "h24",
+      "options": [
+        {
+          "value": "h24",
+          "label": "clock.opt.h24"
+        },
+        {
+          "value": "h12",
+          "label": "clock.opt.h12"
+        }
+      ]
+    },
+    "seconds": {
+      "label": "clock.prop.seconds",
+      "type": "boolean",
+      "default": true
+    },
+    "caption": {
+      "label": "clock.prop.caption",
+      "type": "string",
+      "default": "",
+      "placeholder": "clock.placeholder.caption"
+    }
+  },
+  "actions": {
+    "settings": {
+      "use": "open",
+      "with": {
+        "screen": "clock.settings",
+        "share": [
+          "mode",
+          "hours",
+          "seconds",
+          "caption"
+        ]
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "clock.face",
+      "key": "face",
+      "options": {
+        "mode": {
+          "bind": "mode"
+        },
+        "hours": {
+          "bind": "hours"
+        },
+        "seconds": {
+          "bind": "seconds"
+        },
+        "caption": {
+          "bind": "caption"
+        },
+        "settings": "settings"
+      }
+    }
+  ]
+}

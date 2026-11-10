@@ -1,0 +1,18 @@
+{
+  "id": "workflow.runpreset",
+  "label": "workflow.vtype.runpreset",
+  "icon": "sliders",
+  "sample": {
+    "default": {
+      "app": "",
+      "template": "",
+      "summary": "",
+      "run": {},
+      "results": []
+    }
+  },
+  "defaultControl": "workflow.summaryline",
+  "groups": {
+    "label": "workflow.field.app"
+  }
+}

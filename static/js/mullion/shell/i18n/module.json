@@ -1,0 +1,17 @@
+{
+  "name": "i18n",
+  "deps": [
+    "server",
+    "preload"
+  ],
+  "api": [
+    "t",
+    "language",
+    "languages",
+    "translationTables",
+    "registerTranslations"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

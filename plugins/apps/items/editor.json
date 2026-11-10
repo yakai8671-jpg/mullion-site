@@ -1,0 +1,46 @@
+{
+  "id": "apps.editor",
+  "label": "apps.item.editor",
+  "standalone": true,
+  "icon": "pencil-square",
+  "permissions": [
+    "apps:read",
+    "apps:write",
+    "layout:place"
+  ],
+  "properties": {
+    "target": {
+      "label": "apps.section.app",
+      "type": "string",
+      "default": "",
+      "port": false
+    }
+  },
+  "derived": {
+    "app": {
+      "type": "app",
+      "label": "apps.section.app",
+      "from": {
+        "script": "editorApp"
+      },
+      "writable": true
+    }
+  },
+  "screen": "apps.editor",
+  "actions": {
+    "say": {
+      "use": "apps.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    },
+    "keep": {
+      "use": "apps.keep",
+      "inputs": {
+        "target": "target"
+      }
+    }
+  }
+}

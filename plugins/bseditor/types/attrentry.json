@@ -1,0 +1,25 @@
+{
+  "id": "bseditor.attrentry",
+  "label": "bseditor.vtype.attr",
+  "icon": "tag",
+  "identity": "name",
+  "port": "bseditor.attr",
+  "fields": {
+    "name": {
+      "label": "bseditor.vtype.attr",
+      "type": "string",
+      "readonly": true
+    }
+  },
+  "list": {
+    "port": "bseditor.attrlist",
+    "label": "bseditor.vtype.attrlist",
+    "icon": "tags"
+  },
+  "defaultControl": "summary",
+  "default": {
+    "name": "",
+    "value": "",
+    "description": ""
+  }
+}

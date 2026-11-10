@@ -1,0 +1,30 @@
+{
+  "id": "bseditor.htmlload",
+  "label": "bseditor.item.htmlload",
+  "icon": "file-earmark-code",
+  "permissions": [
+    "window:write"
+  ],
+  "properties": {
+    "html": {
+      "label": "bseditor.prop.html",
+      "type": "string",
+      "default": ""
+    },
+    "cell": {
+      "label": "bseditor.prop.cell",
+      "type": "bseditor.cell"
+    }
+  },
+  "screen": "bseditor.htmlload",
+  "actions": {
+    "say": {
+      "use": "bseditor.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    }
+  }
+}

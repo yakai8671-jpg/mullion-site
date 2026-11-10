@@ -1,0 +1,22 @@
+{
+  "id": "bays.removeSash",
+  "permissions": [
+    "bays:read",
+    "bays:write"
+  ],
+  "params": {
+    "bay": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "windows": {
+      "type": "number"
+    }
+  },
+  "results": {}
+}

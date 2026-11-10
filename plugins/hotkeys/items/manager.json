@@ -1,0 +1,131 @@
+{
+  "id": "hotkeys.manager",
+  "label": "hotkeys.item.manager",
+  "icon": "keyboard",
+  "standalone": true,
+  "permissions": [
+    "hotkeys:read",
+    "hotkeys:write"
+  ],
+  "properties": {
+    "picking": {
+      "type": "string",
+      "label": "hotkeys.target.picking",
+      "default": ""
+    }
+  },
+  "derived": {
+    "rows": {
+      "type": "list",
+      "each": {
+        "type": "hotkeys.row"
+      },
+      "label": "hotkeys.section.bindings",
+      "from": {
+        "script": "hotkeys.rows"
+      }
+    },
+    "keys": {
+      "type": "data",
+      "label": "hotkeys.key.choose",
+      "from": {
+        "script": "hotkeys.keys"
+      }
+    }
+  },
+  "actions": {
+    "add": {
+      "use": "hotkeys.add"
+    },
+    "remove": {
+      "use": "hotkeys.remove",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        }
+      }
+    },
+    "key": {
+      "use": "hotkeys.key",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        },
+        "key": {
+          "payload": "key"
+        }
+      },
+      "outputs": {
+        "picking": "picking"
+      }
+    },
+    "pick": {
+      "use": "hotkeys.pick",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        }
+      },
+      "outputs": {
+        "picking": "picking"
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "bindings",
+      "options": {
+        "label": "hotkeys.section.bindings",
+        "hint": "hotkeys.hint.single"
+      },
+      "layout": [
+        {
+          "control": "list",
+          "key": "hotkey-list",
+          "options": {
+            "add": {
+              "action": "add",
+              "label": "hotkeys.action.add"
+            }
+          },
+          "layout": [
+            {
+              "control": "card",
+              "key": "hotkey",
+              "each": {
+                "bind": "rows"
+              },
+              "as": "binding",
+              "options": {
+                "label": {
+                  "bind": "binding.title"
+                },
+                "discard": "remove"
+              },
+              "layout": [
+                {
+                  "control": "hotkeys.binding",
+                  "key": "body",
+                  "options": {
+                    "binding": {
+                      "bind": "binding"
+                    },
+                    "keys": {
+                      "bind": "keys"
+                    },
+                    "picking": {
+                      "bind": "picking"
+                    },
+                    "key": "key",
+                    "pick": "pick"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

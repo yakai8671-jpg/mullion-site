@@ -1,0 +1,10 @@
+{
+  "id": "chain.say",
+  "permissions": [],
+  "params": {
+    "key": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

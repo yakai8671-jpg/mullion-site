@@ -1,0 +1,182 @@
+{
+  "id": "tagdict.viewer",
+  "label": "tagdict.item.viewer",
+  "icon": "book",
+  "standalone": true,
+  "permissions": [
+    "tagdict:read"
+  ],
+  "properties": {
+    "picked": {
+      "label": "tagdict.prop.picked",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "derived": {
+    "definition": {
+      "label": "tagdict.prop.definition",
+      "type": "multitext",
+      "from": {
+        "script": "definition"
+      }
+    },
+    "results": {
+      "label": "tagdict.section.results",
+      "type": "list",
+      "each": {
+        "type": "tagdict.entry"
+      },
+      "view": {
+        "list": "tags",
+        "size": 100
+      },
+      "from": {
+        "script": "results"
+      }
+    },
+    "ready": {
+      "label": "tagdict.item.viewer",
+      "type": "boolean",
+      "from": {
+        "script": "ready"
+      }
+    },
+    "guide": {
+      "label": "tagdict.item.viewer",
+      "type": "string",
+      "from": {
+        "script": "guide"
+      }
+    },
+    "hasPicked": {
+      "label": "tagdict.prop.picked",
+      "type": "boolean",
+      "from": {
+        "script": "hasPicked"
+      }
+    },
+    "pickedName": {
+      "label": "tagdict.prop.picked",
+      "type": "string",
+      "from": {
+        "script": "pickedName"
+      }
+    },
+    "waiting": {
+      "label": "tagdict.item.viewer",
+      "type": "boolean",
+      "from": {
+        "script": "waiting"
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "card",
+      "key": "waiting",
+      "visible": {
+        "bind": "waiting"
+      },
+      "options": {
+        "label": "tagdict.item.viewer"
+      },
+      "layout": [
+        {
+          "control": "textbox",
+          "key": "guide",
+          "options": {
+            "value": {
+              "bind": "guide"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "control": "list",
+      "key": "tags",
+      "visible": {
+        "bind": "ready"
+      },
+      "options": {
+        "label": "tagdict.section.results",
+        "count": true,
+        "of": {
+          "bind": "results"
+        },
+        "search": true,
+        "filters": [
+          {
+            "field": "kind",
+            "label": "tagdict.prop.kind",
+            "icon": "tag"
+          },
+          {
+            "field": "group",
+            "label": "tagdict.prop.group",
+            "icon": "collection"
+          }
+        ]
+      },
+      "slots": {
+        "bars": [
+          [
+            {
+              "control": "card",
+              "key": "picked",
+              "visible": {
+                "bind": "hasPicked"
+              },
+              "options": {
+                "side": true,
+                "port": {
+                  "bind": "picked"
+                },
+                "discard": "unpick"
+              },
+              "layout": [
+                {
+                  "control": "textbox",
+                  "key": "tag",
+                  "options": {
+                    "value": {
+                      "bind": "pickedName"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "layout": [
+        {
+          "control": "picker",
+          "key": "list",
+          "options": {
+            "entries": {
+              "bind": "results"
+            },
+            "selected": {
+              "bind": "picked"
+            },
+            "value": {
+              "bind": "picked"
+            },
+            "bare": true,
+            "toggle": true
+          }
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "unpick": {
+      "use": "set",
+      "with": {
+        "picked": ""
+      }
+    }
+  }
+}

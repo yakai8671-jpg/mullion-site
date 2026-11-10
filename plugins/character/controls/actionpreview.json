@@ -1,0 +1,11 @@
+{
+  "id": "character.actionpreview",
+  "label": "character.preview.actions",
+  "why": "Preview actions panel",
+  "script": true,
+  "params": {
+    "character": {
+      "type": "data"
+    }
+  }
+}

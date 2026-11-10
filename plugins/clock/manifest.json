@@ -1,0 +1,39 @@
+{
+  "id": "clock",
+  "name": "Clock",
+  "version": "2.0.0",
+  "description": "A clock face: the smallest thing Mullion loads from outside its core.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [
+    "clock.css"
+  ],
+  "controls": [
+    "controls/face.json"
+  ],
+  "items": [
+    "items/face.json",
+    "items/settings.json"
+  ],
+  "apps": [
+    "apps/face.json"
+  ],
+  "scripts": [
+    "face.js"
+  ],
+  "permissions": [
+    "window:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "clock.face",
+      "clock.settings"
+    ],
+    "valueTypes": [],
+    "controls": [
+      "clock.face"
+    ],
+    "permissions": []
+  },
+  "requires": []
+}

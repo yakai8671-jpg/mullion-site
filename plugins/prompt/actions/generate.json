@@ -1,0 +1,49 @@
+{
+  "id": "prompt.generate",
+  "permissions": [
+    "ollama:run",
+    "tagdict:read",
+    "store:read",
+    "store:write"
+  ],
+  "params": {
+    "description": {
+      "type": "prompt.description"
+    },
+    "kind": {
+      "type": "enum"
+    },
+    "model": {
+      "type": "string"
+    },
+    "dictionary": {
+      "type": "boolean"
+    }
+  },
+  "results": {
+    "resultText": {
+      "type": "string"
+    },
+    "resultStyle": {
+      "type": "string"
+    },
+    "resultTags": {
+      "type": "list"
+    },
+    "resultPrompt": {
+      "type": "prompt.slot"
+    },
+    "resultList": {
+      "type": "list"
+    }
+  },
+  "concurrency": "ignore",
+  "cancellable": true,
+  "requires": {
+    "description": "nonEmpty",
+    "model": "nonEmpty",
+    "services": [
+      "ollama"
+    ]
+  }
+}

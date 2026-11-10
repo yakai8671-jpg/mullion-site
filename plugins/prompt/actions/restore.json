@@ -1,0 +1,35 @@
+{
+  "id": "prompt.restore",
+  "permissions": [],
+  "params": {
+    "entry": {
+      "type": "data"
+    }
+  },
+  "results": {
+    "description": {
+      "type": "prompt.description"
+    },
+    "kind": {
+      "type": "enum"
+    },
+    "model": {
+      "type": "string"
+    },
+    "resultText": {
+      "type": "string"
+    },
+    "resultStyle": {
+      "type": "string"
+    },
+    "resultTags": {
+      "type": "list"
+    },
+    "resultPrompt": {
+      "type": "prompt.slot"
+    },
+    "resultList": {
+      "type": "list"
+    }
+  }
+}

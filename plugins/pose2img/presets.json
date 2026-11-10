@@ -1,0 +1,166 @@
+[
+  {
+    "type": "prompt.part",
+    "name": "俯瞰",
+    "value": {
+      "name": "俯瞰",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "from above"
+        },
+        {
+          "id": "t1",
+          "text": "high angle shot"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  },
+  {
+    "type": "prompt.part",
+    "name": "目線",
+    "value": {
+      "name": "目線",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "eye level shot"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  },
+  {
+    "type": "prompt.part",
+    "name": "煽り",
+    "value": {
+      "name": "煽り",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "from below"
+        },
+        {
+          "id": "t1",
+          "text": "low angle shot"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  },
+  {
+    "type": "prompt.part",
+    "name": "正面",
+    "value": {
+      "name": "正面",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "front view"
+        },
+        {
+          "id": "t1",
+          "text": "facing viewer"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  },
+  {
+    "type": "prompt.part",
+    "name": "斜め",
+    "value": {
+      "name": "斜め",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "three-quarter view"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  },
+  {
+    "type": "prompt.part",
+    "name": "横",
+    "value": {
+      "name": "横",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "from side"
+        },
+        {
+          "id": "t1",
+          "text": "profile view"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  },
+  {
+    "type": "prompt.part",
+    "name": "背面",
+    "value": {
+      "name": "背面",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "from behind"
+        },
+        {
+          "id": "t1",
+          "text": "back view"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  },
+  {
+    "type": "prompt.part",
+    "name": "全身",
+    "value": {
+      "name": "全身",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "full body shot"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  },
+  {
+    "type": "prompt.part",
+    "name": "バストアップ",
+    "value": {
+      "name": "バストアップ",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "upper body shot"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  },
+  {
+    "type": "prompt.part",
+    "name": "クローズアップ",
+    "value": {
+      "name": "クローズアップ",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "close-up"
+        },
+        {
+          "id": "t1",
+          "text": "portrait"
+        }
+      ],
+      "category": "カメラアングル"
+    }
+  }
+]

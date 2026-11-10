@@ -1,0 +1,12 @@
+{
+  "id": "reddi2ch.translate",
+  "permissions": [
+    "items:write"
+  ],
+  "params": {
+    "app": {
+      "type": "ref"
+    }
+  },
+  "results": {}
+}

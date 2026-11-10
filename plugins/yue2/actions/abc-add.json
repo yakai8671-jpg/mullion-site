@@ -1,0 +1,13 @@
+{
+  "id": "yue2.abc.add",
+  "params": {
+    "abc": {
+      "type": "yue2.abc"
+    }
+  },
+  "results": {
+    "abc": {
+      "type": "yue2.abc"
+    }
+  }
+}

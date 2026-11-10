@@ -1,0 +1,194 @@
+{
+  "id": "yue2.editor",
+  "label": "yue2.item.editor",
+  "icon": "music-note-list",
+  "standalone": true,
+  "properties": {
+    "abc": {
+      "label": "yue2.prop.abc",
+      "type": "yue2.abc",
+      "default": {
+        "header": "",
+        "sections": []
+      }
+    },
+    "abcView": {
+      "label": "yue2.prop.abcView",
+      "type": "enum",
+      "default": "score",
+      "options": [
+        "score",
+        "text"
+      ]
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "preview",
+      "options": {
+        "label": "yue2.section.preview"
+      },
+      "layout": [
+        {
+          "control": "yue2.abccard",
+          "key": "preview-card",
+          "options": {
+            "value": {
+              "bind": "abc"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "header",
+      "options": {
+        "label": "yue2.prop.abcHeader"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "abc-header",
+          "options": {
+            "value": {
+              "bind": "abc.header"
+            },
+            "lines": 3
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "parts",
+      "options": {
+        "label": "yue2.prop.parts"
+      },
+      "layout": [
+        {
+          "control": "list",
+          "key": "abc-list",
+          "options": {
+            "port": {
+              "bind": "abc.sections"
+            },
+            "add": {
+              "action": "add",
+              "label": "yue2.action.addPart"
+            }
+          },
+          "layout": [
+            {
+              "control": "card",
+              "key": "part",
+              "each": {
+                "bind": "abc.sections"
+              },
+              "as": "partEntry",
+              "options": {
+                "label": {
+                  "bind": "partEntry.name"
+                },
+                "discard": "remove",
+                "port": true
+              },
+              "slots": {
+                "tools": [
+                  {
+                    "key": "up",
+                    "icon": "arrow-up",
+                    "label": "yue2.action.moveUp",
+                    "action": "up"
+                  },
+                  {
+                    "key": "down",
+                    "icon": "arrow-down",
+                    "label": "yue2.action.moveDown",
+                    "action": "down"
+                  }
+                ],
+                "body": [
+                  {
+                    "control": "texteditor",
+                    "key": "part-name",
+                    "options": {
+                      "value": {
+                        "bind": "partEntry.name"
+                      },
+                      "lines": 1
+                    }
+                  },
+                  {
+                    "control": "texteditor",
+                    "key": "part-text",
+                    "options": {
+                      "value": {
+                        "bind": "partEntry.text"
+                      },
+                      "lines": 6
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "add": {
+      "use": "yue2.abc.add",
+      "inputs": [
+        "abc"
+      ],
+      "outputs": {
+        "abc": "abc"
+      }
+    },
+    "remove": {
+      "use": "yue2.abc.remove",
+      "inputs": {
+        "abc": "abc",
+        "id": {
+          "payload": "id"
+        }
+      },
+      "outputs": {
+        "abc": "abc"
+      }
+    },
+    "up": {
+      "use": "yue2.abc.move",
+      "inputs": {
+        "abc": "abc",
+        "id": {
+          "payload": "id"
+        }
+      },
+      "with": {
+        "direction": -1
+      },
+      "outputs": {
+        "abc": "abc"
+      }
+    },
+    "down": {
+      "use": "yue2.abc.move",
+      "inputs": {
+        "abc": "abc",
+        "id": {
+          "payload": "id"
+        }
+      },
+      "with": {
+        "direction": 1
+      },
+      "outputs": {
+        "abc": "abc"
+      }
+    }
+  }
+}

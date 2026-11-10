@@ -1,0 +1,8 @@
+{
+  "id": "services.watch",
+  "label": "services.control.watch",
+  "why": "keeps the screen drawn from what the server last said of the programs: it asks while the screen is there and draws the item again when the answer changed",
+  "standalone": true,
+  "script": true,
+  "params": {}
+}

@@ -1,0 +1,11 @@
+{
+  "id": "scratch.put",
+  "params": {
+    "entries": { "type": "list", "each": { "type": "scratch.entry" } },
+    "value": { "type": "data" },
+    "kind": { "type": "string" }
+  },
+  "results": {
+    "entries": { "type": "list", "each": { "type": "scratch.entry" } }
+  }
+}

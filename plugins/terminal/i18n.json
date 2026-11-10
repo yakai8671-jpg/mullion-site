@@ -1,0 +1,38 @@
+{
+  "en": {
+    "terminal.item.shell": "Terminal",
+    "terminal.prop.cwd": "Directory",
+    "terminal.prop.command": "Command",
+    "terminal.prop.output": "Transcript",
+    "terminal.prop.history": "History",
+    "terminal.prop.follow": "Follow output",
+    "terminal.placeholder.cwd": "leave empty for the default",
+    "terminal.placeholder.command": "a command, then Enter",
+    "terminal.section.output": "Output",
+    "terminal.action.run": "Run",
+    "terminal.action.runTitle": "Run the command in this directory",
+    "terminal.action.clear": "Clear",
+    "terminal.action.clearTitle": "Empty the transcript (Ctrl+L)",
+    "terminal.field.shell": "shell",
+    "terminal.status.running": "running {command}",
+    "terminal.status.exit": "exit {code} · {cwd}"
+  },
+  "ja": {
+    "terminal.item.shell": "ターミナル",
+    "terminal.prop.cwd": "作業ディレクトリ",
+    "terminal.prop.command": "コマンド",
+    "terminal.prop.output": "出力",
+    "terminal.prop.history": "履歴",
+    "terminal.prop.follow": "出力を追従",
+    "terminal.placeholder.cwd": "空なら既定のディレクトリ",
+    "terminal.placeholder.command": "コマンドを入力して Enter",
+    "terminal.section.output": "出力",
+    "terminal.action.run": "実行",
+    "terminal.action.runTitle": "このディレクトリでコマンドを実行",
+    "terminal.action.clear": "クリア",
+    "terminal.action.clearTitle": "出力を消去 (Ctrl+L)",
+    "terminal.field.shell": "シェル",
+    "terminal.status.running": "{command} を実行中",
+    "terminal.status.exit": "終了コード {code} · {cwd}"
+  }
+}

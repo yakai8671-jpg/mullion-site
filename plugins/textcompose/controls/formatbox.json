@@ -1,0 +1,7 @@
+{
+  "id": "compose.formatbox",
+  "extends": "textbox",
+  "label": "compose.control.formatbox",
+  "why": "a text row whose label carries a hint on what may be written in it",
+  "script": true
+}

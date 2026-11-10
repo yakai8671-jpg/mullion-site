@@ -1,0 +1,11 @@
+{
+  "id": "bseditor.cellrow",
+  "label": "bseditor.control.cellrow",
+  "why": "one cell as the row the list shows it in",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "cell": { "type": "data" },
+    "port": { "type": "data" }
+  }
+}

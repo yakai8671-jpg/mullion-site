@@ -1,0 +1,21 @@
+{
+  "id": "propgroup",
+  "label": "propgroup.vtype.group",
+  "icon": "collection",
+  "port": "propgroup",
+  "fields": {
+    "name": {
+      "label": "propgroup.field.name",
+      "type": "string"
+    },
+    "entries": {
+      "label": "propgroup.field.entryList",
+      "type": "list",
+      "each": {
+        "type": "propgroup.entry"
+      }
+    }
+  },
+  "portKeeps": true,
+  "defaultControl": "summary"
+}

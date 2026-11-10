@@ -1,0 +1,26 @@
+{
+  "id": "compose.embed",
+  "label": "compose.vtype.embeds",
+  "icon": "braces",
+  "identity": "id",
+  "port": false,
+  "storable": false,
+  "presetNew": false,
+  "fields": {
+    "id": {
+      "type": "string"
+    },
+    "var": {
+      "type": "string"
+    },
+    "opts": {
+      "type": "data"
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "label": "compose.vtype.embeds",
+    "icon": "braces",
+    "storable": false
+  }
+}

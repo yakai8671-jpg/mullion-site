@@ -1,0 +1,35 @@
+{
+  "id": "rmbg.video.run",
+  "permissions": [
+    "comfy:run",
+    "store:write"
+  ],
+  "params": {
+    "source": { "type": "video" },
+    "output": { "type": "enum" },
+    "background": { "type": "enum" },
+    "model": { "type": "enum" },
+    "sensitivity": { "type": "percent" },
+    "offset": { "type": "number" },
+    "blur": { "type": "number" },
+    "refine": { "type": "boolean" },
+    "resolution": { "type": "number" },
+    "fps": { "type": "number" },
+    "width": { "type": "number" },
+    "skip": { "type": "number" },
+    "limit": { "type": "number" },
+    "every": { "type": "number" },
+    "audio": { "type": "boolean" }
+  },
+  "results": {
+    "result": { "type": "video" }
+  },
+  "concurrency": "ignore",
+  "cancellable": true,
+  "requires": {
+    "source": "nonEmpty",
+    "services": [
+      "comfyui"
+    ]
+  }
+}

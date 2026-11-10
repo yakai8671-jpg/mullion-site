@@ -1,0 +1,103 @@
+/* The screen shown while the shell starts (templates/index.html draws it, the
+ * script beside it moves its bar). It is the window the start-up problem page
+ * uses -- the shell's own window and title bar, and the head of problem.css --
+ * with a bar for how far the start has got, so a slow start is something to
+ * watch instead of a blank page. Every colour and measurement is a variable. */
+
+.mu-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-inset);
+  transition: opacity 0.2s ease;
+  /* A start that takes a moment shows nothing for a moment, not a screen that
+     flashes and is gone: it appears only if the wait is long enough to notice. */
+  animation: mu-loading-in 0.15s ease 0.12s backwards;
+}
+
+.mu-loading > .app-shell {
+  flex: 1;
+  min-height: 0;
+}
+
+.mu-loading.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes mu-loading-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.mu-loading .mu-loading-icon {
+  color: var(--accent);
+  animation: mu-loading-spin 1s linear infinite;
+}
+
+@keyframes mu-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mu-loading-bar {
+  height: 0.5rem;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.mu-loading-fill {
+  width: 0;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+/* What it is doing, and how far: the one the bar cannot say by itself. */
+.mu-loading-line {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--fg-muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.mu-loading-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* It did not get there: the same window, saying so, and the bar stops where it was. */
+.mu-loading[data-state="failed"] .mu-loading-icon {
+  color: var(--danger);
+  animation: none;
+}
+
+.mu-loading[data-state="failed"] .mu-loading-fill {
+  background: var(--danger);
+}
+
+.mu-loading[data-state="failed"] .mu-loading-line {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mu-loading,
+  .mu-loading-fill {
+    animation: none;
+    transition: none;
+  }
+
+  .mu-loading .mu-loading-icon {
+    animation: none;
+  }
+}

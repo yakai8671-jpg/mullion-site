@@ -1,0 +1,7 @@
+{
+  "id": "workflow.summaryline",
+  "label": "workflow.control.summaryline",
+  "script": true,
+  "why": "shows a summary line of a run preset",
+  "params": {}
+}

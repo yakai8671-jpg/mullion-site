@@ -1,0 +1,13 @@
+{
+  "id": "hotkeys.remove",
+  "permissions": [
+    "hotkeys:read",
+    "hotkeys:write"
+  ],
+  "params": {
+    "id": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

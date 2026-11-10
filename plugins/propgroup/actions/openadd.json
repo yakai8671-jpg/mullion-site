@@ -1,0 +1,8 @@
+{
+  "id": "propgroup.openadd",
+  "permissions": [
+    "window:write"
+  ],
+  "params": {},
+  "results": {}
+}

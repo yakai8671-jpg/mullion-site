@@ -1,0 +1,15 @@
+{
+  "id": "prompt.tagline",
+  "label": "prompt.control.tagline",
+  "script": true,
+  "why": "single tag text line editor",
+  "needs": [
+    "text",
+    "setText"
+  ],
+  "params": {
+    "placeholder": {
+      "type": "string"
+    }
+  }
+}

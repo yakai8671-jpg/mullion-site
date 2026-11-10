@@ -1,0 +1,111 @@
+{
+  "id": "character.editor",
+  "label": "character.item.editor",
+  "icon": "person-badge",
+  "standalone": true,
+  "permissions": [
+    "store:read",
+    "store:write"
+  ],
+  "properties": {
+    "uid": {
+      "label": "character.field.uid",
+      "type": "string",
+      "default": ""
+    },
+    "name": {
+      "label": "character.field.name",
+      "type": "string",
+      "default": ""
+    },
+    "references": {
+      "label": "character.references.title",
+      "type": "data"
+    },
+    "actions": {
+      "label": "character.section.actions",
+      "type": "list",
+      "each": {
+        "type": "character.action"
+      },
+      "default": []
+    }
+  },
+  "derived": {
+    "character": {
+      "label": "character.vtype.character",
+      "type": "character",
+      "from": {
+        "script": "editorCharacter"
+      },
+      "writable": true
+    }
+  },
+  "screen": "character.editor",
+  "actions": {
+    "save": {
+      "use": "character.save",
+      "inputs": {
+        "uid": "uid",
+        "name": "name",
+        "references": "references",
+        "actions": "actions"
+      },
+      "with": {
+        "asNew": false
+      },
+      "outputs": {
+        "uid": "uid",
+        "name": "name"
+      }
+    },
+    "saveAsNew": {
+      "use": "character.save",
+      "inputs": {
+        "uid": "uid",
+        "name": "name",
+        "references": "references",
+        "actions": "actions"
+      },
+      "with": {
+        "asNew": true
+      },
+      "outputs": {
+        "uid": "uid",
+        "name": "name"
+      }
+    },
+    "replace": {
+      "use": "character.replace",
+      "inputs": {
+        "uid": "uid",
+        "name": "name",
+        "references": "references",
+        "actions": "actions",
+        "value": {
+          "payload": "value"
+        },
+        "title": {
+          "payload": "title"
+        }
+      },
+      "outputs": {
+        "uid": "uid",
+        "name": "name",
+        "references": "references",
+        "actions": "actions"
+      }
+    }
+  },
+  "surface": {
+    "outputs": [
+      {
+        "property": "character",
+        "key": "character",
+        "label": "character.vtype.character",
+        "kind": "character",
+        "node": "editor"
+      }
+    ]
+  }
+}

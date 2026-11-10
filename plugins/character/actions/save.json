@@ -1,0 +1,32 @@
+{
+  "id": "character.save",
+  "permissions": [
+    "store:read",
+    "store:write"
+  ],
+  "params": {
+    "uid": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "references": {
+      "type": "data"
+    },
+    "actions": {
+      "type": "list"
+    },
+    "asNew": {
+      "type": "boolean"
+    }
+  },
+  "results": {
+    "uid": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}

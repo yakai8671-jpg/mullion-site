@@ -1,0 +1,17 @@
+{
+  "id": "lists.add",
+  "permissions": [],
+  "params": {
+    "draft": {
+      "type": "data"
+    },
+    "where": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "draft": {
+      "type": "data"
+    }
+  }
+}

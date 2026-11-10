@@ -1,0 +1,15 @@
+{
+  "name": "build",
+  "deps": [
+    "registry"
+  ],
+  "api": [
+    "API_VERSIONS",
+    "buildPlugin",
+    "VALUE_ADAPTERS",
+    "adaptDescriptor"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

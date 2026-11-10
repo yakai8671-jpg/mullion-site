@@ -1,0 +1,26 @@
+{
+  "id": "rmbg.run",
+  "permissions": [
+    "comfy:run"
+  ],
+  "params": {
+    "source": { "type": "image" },
+    "model": { "type": "enum" },
+    "sensitivity": { "type": "percent" },
+    "offset": { "type": "number" },
+    "blur": { "type": "number" },
+    "refine": { "type": "boolean" },
+    "resolution": { "type": "number" }
+  },
+  "results": {
+    "result": { "type": "image" }
+  },
+  "concurrency": "ignore",
+  "cancellable": true,
+  "requires": {
+    "source": "nonEmpty",
+    "services": [
+      "comfyui"
+    ]
+  }
+}

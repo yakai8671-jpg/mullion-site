@@ -1,0 +1,10 @@
+{
+  "id": "chain.stop",
+  "permissions": [],
+  "params": {
+    "host": {
+      "type": "ref"
+    }
+  },
+  "results": {}
+}

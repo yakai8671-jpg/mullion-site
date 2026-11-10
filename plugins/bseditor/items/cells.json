@@ -1,0 +1,45 @@
+{
+  "id": "bseditor.cells",
+  "label": "bseditor.item.cells",
+  "standalone": true,
+  "icon": "list-nested",
+  "permissions": [
+    "window:write"
+  ],
+  "properties": {
+    "doc": {
+      "label": "bseditor.prop.doc",
+      "type": "bseditor.doc"
+    }
+  },
+  "screen": "bseditor.cells",
+  "derived": {
+    "cell": {
+      "label": "bseditor.prop.cell",
+      "type": "bseditor.cell",
+      "writable": true,
+      "from": {
+        "script": "pickedCell"
+      }
+    }
+  },
+  "actions": {
+    "say": {
+      "use": "bseditor.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    },
+    "clear": {
+      "use": "bseditor.clear",
+      "inputs": {
+        "doc": "doc"
+      },
+      "outputs": {
+        "doc": "doc"
+      }
+    }
+  }
+}

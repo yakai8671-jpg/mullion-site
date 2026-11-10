@@ -1,0 +1,87 @@
+{
+  "id": "propgroup",
+  "name": "Property Group",
+  "version": "1.0.0",
+  "description": "A value type that bundles named things put down like a scratch board's (text, tags, prompts, pictures), and an app that lists its presets: add, rename, delete, and go to one shown in a preview.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [],
+  "actions": [
+    "actions/rename.json",
+    "actions/remove.json",
+    "actions/go.json",
+    "actions/opencreate.json",
+    "actions/openadd.json",
+    "actions/keep.json",
+    "actions/create.json",
+    "actions/addentry.json",
+    "actions/addreset.json",
+    "actions/viewset.json",
+    "actions/viewclear.json",
+    "actions/viewadd.json",
+    "actions/closeresult.json"
+  ],
+  "types": [
+    "types/entry.json",
+    "types/groupref.json",
+    "types/propgroup.json"
+  ],
+  "controls": [
+    "controls/namebox.json",
+    "controls/zone.json"
+  ],
+  "items": [
+    "items/app.json",
+    "items/create.json",
+    "items/add.json",
+    "items/view.json"
+  ],
+  "apps": [
+    "apps/app.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "permissions": [
+    "store:read",
+    "store:write",
+    "window:write",
+    "items:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "propgroup.app",
+      "propgroup.create",
+      "propgroup.add",
+      "propgroup.view"
+    ],
+    "valueTypes": [
+      "propgroup",
+      "propgroup.entry",
+      "propgroup.groupref"
+    ],
+    "controls": [
+      "propgroup.namebox",
+      "propgroup.zone"
+    ],
+    "actions": [
+      "propgroup.rename",
+      "propgroup.remove",
+      "propgroup.go",
+      "propgroup.opencreate",
+      "propgroup.openadd",
+      "propgroup.keep",
+      "propgroup.create",
+      "propgroup.addentry",
+      "propgroup.addreset",
+      "propgroup.viewset",
+      "propgroup.viewclear",
+      "propgroup.viewadd",
+      "propgroup.closeresult"
+    ],
+    "permissions": []
+  },
+  "requires": [
+    "scratch"
+  ]
+}

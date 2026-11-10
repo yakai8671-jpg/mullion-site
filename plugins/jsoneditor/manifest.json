@@ -1,0 +1,27 @@
+{
+  "id": "jsoneditor",
+  "name": "JSON Editor",
+  "version": "2.0.0",
+  "description": "A JSON editor: the document as text, or as a tree of typed blocks that can be folded, dragged, cut, copied and pasted. The document is the text of the shell's text card.",
+  "api": 1,
+  "translations": "i18n.json",
+  "items": ["items/editor.json"],
+  "controls": ["controls/card.json"],
+  "scripts": ["card.js"],
+  "styles": [
+    "jsoneditor.css"
+  ],
+  "permissions": [],
+  "provides": {
+    "itemTypes": [
+      "jsoneditor.editor"
+    ],
+    "valueTypes": [],
+    "controls": [
+      "jsoneditor.card"
+    ],
+    "permissions": []
+  },
+  "apps": ["apps/editor.json"],
+  "requires": []
+}

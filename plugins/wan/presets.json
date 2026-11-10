@@ -1,0 +1,106 @@
+[
+  {
+    "type": "workflow.image_size",
+    "name": "動画 横 16:9 (832×480)",
+    "value": [
+      832,
+      480
+    ]
+  },
+  {
+    "type": "workflow.image_size",
+    "name": "動画 縦 9:16 (480×832)",
+    "value": [
+      480,
+      832
+    ]
+  },
+  {
+    "type": "workflow.image_size",
+    "name": "動画 正方形 (640×640)",
+    "value": [
+      640,
+      640
+    ]
+  },
+  {
+    "type": "workflow.image_size",
+    "name": "動画 横 720p (1280×720)",
+    "value": [
+      1280,
+      720
+    ]
+  },
+  {
+    "type": "prompt.sentence",
+    "name": "ゆっくり寄る",
+    "value": {
+      "name": "ゆっくり寄る",
+      "text": "The camera slowly pushes in toward the subject.",
+      "category": "カメラワーク"
+    }
+  },
+  {
+    "type": "prompt.sentence",
+    "name": "ゆっくり引く",
+    "value": {
+      "name": "ゆっくり引く",
+      "text": "The camera slowly pulls back to reveal the surroundings.",
+      "category": "カメラワーク"
+    }
+  },
+  {
+    "type": "prompt.sentence",
+    "name": "左から右へパン",
+    "value": {
+      "name": "左から右へパン",
+      "text": "The camera pans smoothly from left to right.",
+      "category": "カメラワーク"
+    }
+  },
+  {
+    "type": "prompt.sentence",
+    "name": "周りを回り込む",
+    "value": {
+      "name": "周りを回り込む",
+      "text": "The camera orbits slowly around the subject.",
+      "category": "カメラワーク"
+    }
+  },
+  {
+    "type": "prompt.sentence",
+    "name": "固定カメラ",
+    "value": {
+      "name": "固定カメラ",
+      "text": "The camera stays still; only the subject moves.",
+      "category": "カメラワーク"
+    }
+  },
+  {
+    "type": "prompt.sentence",
+    "name": "手持ちカメラ",
+    "value": {
+      "name": "手持ちカメラ",
+      "text": "Handheld camera with slight natural shake.",
+      "category": "カメラワーク"
+    }
+  },
+  {
+    "type": "prompt.sentence",
+    "name": "アニメ調",
+    "value": {
+      "name": "アニメ調",
+      "text": "Anime style, clean line art, cel shading, consistent character design.",
+      "category": "スタイル"
+    }
+  },
+  {
+    "type": "prompt.sentence",
+    "name": "実写・映画風",
+    "value": {
+      "name": "実写・映画風",
+      "text": "Cinematic live-action footage, shallow depth of field, natural lighting.",
+      "category": "スタイル"
+    }
+  }
+]

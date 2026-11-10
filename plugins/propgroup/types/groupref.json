@@ -1,0 +1,20 @@
+{
+  "id": "propgroup.groupref",
+  "label": "propgroup.vtype.groupref",
+  "icon": "collection",
+  "identity": "id",
+  "port": false,
+  "fields": {
+    "name": {
+      "label": "propgroup.field.name",
+      "type": "string"
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "port": "propgroupgroups",
+    "label": "propgroup.vtype.groups",
+    "icon": "collection",
+    "storable": false
+  }
+}

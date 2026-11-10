@@ -1,0 +1,26 @@
+{
+  "en": {
+    "i2p.item.app": "Image to Prompt",
+    "i2p.prop.chain": "Sorting step",
+    "i2p.prop.sortKind": "Kind",
+    "i2p.prop.sortPrompt": "Classification prompt",
+    "i2p.prop.stepTags": "Tagger output",
+    "i2p.prop.categoriesJson": "Categories (JSON)",
+    "i2p.prop.tagNotes": "What the tags mean",
+    "i2p.placeholder.sortPrompt": "Type it, or link a composed text here by its grip. {categories} stands for the categories as JSON, {input} for the tagger's tags, {notes} for what the tag dictionary says they mean.",
+    "i2p.sort.categories": "Generate tags + sort into categories",
+    "i2p.action.run": "Generate tags"
+  },
+  "ja": {
+    "i2p.item.app": "画像からプロンプト生成",
+    "i2p.prop.chain": "分類ステップ",
+    "i2p.prop.sortKind": "種類",
+    "i2p.prop.sortPrompt": "分類プロンプト",
+    "i2p.prop.stepTags": "タガーの出力",
+    "i2p.prop.categoriesJson": "カテゴリ(JSON)",
+    "i2p.prop.tagNotes": "タグの意味",
+    "i2p.placeholder.sortPrompt": "直接入力するか、文字列組み立ての結果をハンドルでここへドラッグしてリンク。{categories} はカテゴリのJSON、{input} はタガーのタグ、{notes} はタグ辞書の説明になります。",
+    "i2p.sort.categories": "タグ生成＋カテゴリ分類",
+    "i2p.action.run": "タグ生成"
+  }
+}

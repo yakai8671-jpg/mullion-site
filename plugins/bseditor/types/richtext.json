@@ -1,0 +1,8 @@
+{
+  "id": "bseditor.richtext",
+  "base": "string",
+  "label": "bseditor.vtype.rich",
+  "icon": "fonts",
+  "port": "bseditor.richtext",
+  "default": ""
+}

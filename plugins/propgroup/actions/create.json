@@ -1,0 +1,26 @@
+{
+  "id": "propgroup.create",
+  "permissions": [
+    "store:read",
+    "store:write"
+  ],
+  "params": {
+    "name": {
+      "type": "string"
+    },
+    "app": {
+      "type": "ref"
+    }
+  },
+  "results": {
+    "name": {
+      "type": "string"
+    },
+    "resultRef": {
+      "type": "string"
+    },
+    "result": {
+      "type": "portvalue"
+    }
+  }
+}

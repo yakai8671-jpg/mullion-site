@@ -1,0 +1,20 @@
+{
+  "id": "tagdict.entry",
+  "label": "tagdict.item.viewer",
+  "icon": "tag",
+  "identity": "id",
+  "storable": false,
+  "port": false,
+  "fields": {
+    "id": {
+      "type": "string"
+    },
+    "primary": {
+      "type": "string"
+    },
+    "secondary": {
+      "type": "string"
+    }
+  },
+  "defaultControl": "summary"
+}

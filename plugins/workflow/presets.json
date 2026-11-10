@@ -1,0 +1,32 @@
+[
+  {
+    "type": "list:description",
+    "name": "キャラクターイラスト標準",
+    "value": [
+      {
+        "name": "character",
+        "description": "人数や性別、キャラクター名、作品名など、誰が描かれているか（1girl, solo など）"
+      },
+      {
+        "name": "appearance",
+        "description": "髪型・髪色・目の色・表情・体型など、体と顔の特徴"
+      },
+      {
+        "name": "clothing",
+        "description": "服装、靴、帽子、アクセサリーなど身に着けているもの"
+      },
+      {
+        "name": "pose",
+        "description": "姿勢、動作、手の位置、視線、構図・カメラアングル"
+      },
+      {
+        "name": "background",
+        "description": "場所、背景、天気、時間帯、周囲の物"
+      },
+      {
+        "name": "style",
+        "description": "画風、画質、色調、光の当たり方などの描き方"
+      }
+    ]
+  }
+]

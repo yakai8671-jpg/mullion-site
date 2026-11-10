@@ -1,0 +1,33 @@
+{
+  "id": "jsoneditor.editor",
+  "label": "jsoneditor.item.editor",
+  "standalone": true,
+  "icon": "braces",
+  "properties": {
+    "text": {
+      "label": "jsoneditor.prop.text",
+      "type": "string",
+      "control": "jsoneditor.card",
+      "placeholder": "jsoneditor.placeholder",
+      "default": ""
+    },
+    "mode": {
+      "label": "jsoneditor.prop.mode",
+      "type": "enum",
+      "options": ["text", "blocks"],
+      "default": "blocks"
+    }
+  },
+  "layout": [
+    {
+      "control": "jsoneditor.card",
+      "key": "document",
+      "options": {
+        "value": { "bind": "text" },
+        "fill": true,
+        "scrollKey": { "item": "id" },
+        "options": { "mode": { "bind": "mode" } }
+      }
+    }
+  ]
+}

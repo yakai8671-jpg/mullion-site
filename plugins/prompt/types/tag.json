@@ -1,0 +1,30 @@
+{
+  "id": "prompt.tag",
+  "label": "prompt.vtype.tag",
+  "icon": "tag",
+  "port": "tag",
+  "identity": "id",
+  "fields": {
+    "text": {
+      "type": "string"
+    }
+  },
+  "sample": {
+    "default": {
+      "id": "t0",
+      "text": "blue eyes"
+    }
+  },
+  "defaultControl": "prompt.tagline",
+  "list": {
+    "port": "taglist",
+    "label": "prompt.vtype.tags",
+    "icon": "tags",
+    "preview": {
+      "control": "badges",
+      "options": {
+        "bare": true
+      }
+    }
+  }
+}

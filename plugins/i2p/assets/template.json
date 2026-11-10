@@ -1,0 +1,138 @@
+{
+  "name": "WD14 画像からプロンプト生成",
+  "tool": "image_to_prompt",
+  "workflow": {
+    "name": "WD14 Tagger",
+    "platform": "comfyui",
+    "graph": {
+      "2": {
+        "inputs": {
+          "image": ""
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "Load Image"
+        }
+      },
+      "9": {
+        "inputs": {
+          "source": [
+            "92",
+            0
+          ]
+        },
+        "class_type": "PreviewAny",
+        "_meta": {
+          "title": "CXH_JoyTag"
+        }
+      },
+      "92": {
+        "inputs": {
+          "string": [
+            "93",
+            0
+          ],
+          "find": "_",
+          "replace": " "
+        },
+        "class_type": "StringReplace",
+        "_meta": {
+          "title": "Text Replace"
+        }
+      },
+      "93": {
+        "inputs": {
+          "model": "wd-eva02-large-tagger-v3",
+          "threshold": 0.35,
+          "character_threshold": 0.85,
+          "replace_underscore": false,
+          "trailing_comma": false,
+          "exclude_tags": "",
+          "tags": "",
+          "image": [
+            "2",
+            0
+          ]
+        },
+        "class_type": "WD14Tagger|pysssss",
+        "_meta": {
+          "title": "WD14 Tagger 🐍"
+        }
+      }
+    },
+    "fields": []
+  },
+  "blocks": {
+    "source_image": {
+      "value": {
+        "node_id": "2",
+        "input_key": "image"
+      }
+    },
+    "prompt": {
+      "value": {
+        "node_id": "9",
+        "input_key": "source"
+      }
+    }
+  },
+  "settings": [
+    {
+      "node_id": "93",
+      "input_key": "model",
+      "label": "タガーモデル",
+      "group": "タガー",
+      "options_source": {
+        "class_type": "WD14Tagger|pysssss",
+        "input_key": "model"
+      }
+    },
+    {
+      "node_id": "93",
+      "input_key": "threshold",
+      "label": "しきい値",
+      "value_type": "number",
+      "group": "タガー"
+    },
+    {
+      "node_id": "93",
+      "input_key": "character_threshold",
+      "label": "キャラしきい値",
+      "value_type": "number",
+      "group": "タガー"
+    },
+    {
+      "node_id": "93",
+      "input_key": "exclude_tags",
+      "label": "除外タグ",
+      "group": "タガー"
+    },
+    {
+      "node_id": "93",
+      "input_key": "replace_underscore",
+      "label": "アンダースコアを空白にする",
+      "value_type": "boolean",
+      "group": "タガー"
+    },
+    {
+      "node_id": "93",
+      "input_key": "trailing_comma",
+      "label": "末尾にカンマを付ける",
+      "value_type": "boolean",
+      "group": "タガー"
+    },
+    {
+      "node_id": "92",
+      "input_key": "find",
+      "label": "置換前",
+      "group": "文字の置換"
+    },
+    {
+      "node_id": "92",
+      "input_key": "replace",
+      "label": "置換後",
+      "group": "文字の置換"
+    }
+  ],
+  "fixed": []
+}

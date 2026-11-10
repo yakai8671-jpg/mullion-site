@@ -1,0 +1,14 @@
+{
+  "id": "rmbg.keep",
+  "permissions": [
+    "store:write"
+  ],
+  "params": {
+    "src": { "type": "image" },
+    "sourceName": { "type": "string" }
+  },
+  "results": {},
+  "requires": {
+    "src": "nonEmpty"
+  }
+}

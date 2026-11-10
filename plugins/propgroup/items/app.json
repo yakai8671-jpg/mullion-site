@@ -1,0 +1,111 @@
+{
+  "id": "propgroup.app",
+  "label": "propgroup.item.app",
+  "icon": "collection",
+  "standalone": true,
+  "permissions": [
+    "store:read",
+    "store:write",
+    "window:write"
+  ],
+  "properties": {
+    "shown": {
+      "label": "propgroup.prop.child",
+      "type": "portvalue"
+    },
+    "opened": {
+      "label": "propgroup.prop.opened",
+      "type": "number",
+      "default": 0
+    },
+    "groupName": {
+      "label": "propgroup.field.groupName",
+      "type": "string",
+      "default": ""
+    },
+    "groupRef": {
+      "label": "propgroup.field.targetGroup",
+      "type": "string",
+      "default": ""
+    },
+    "propertyName": {
+      "label": "propgroup.field.propertyName",
+      "type": "string",
+      "default": ""
+    },
+    "propertyValue": {
+      "label": "propgroup.field.property",
+      "type": "portvalue"
+    },
+    "resultRef": {
+      "label": "propgroup.field.groupReference",
+      "type": "string",
+      "default": "",
+      "readonly": true
+    }
+  },
+  "derived": {
+    "groups": {
+      "label": "propgroup.prop.groups",
+      "type": "list", "each": { "type": "propgroup.groupref" },
+      "writable": true,
+      "from": {
+        "script": "groups"
+      }
+    }
+  },
+  "screen": "propgroup.app",
+  "actions": {
+    "rename": {
+      "use": "propgroup.rename",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        },
+        "name": {
+          "payload": "name"
+        }
+      }
+    },
+    "remove": {
+      "use": "propgroup.remove",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        },
+        "opened": "opened"
+      },
+      "outputs": {
+        "opened": "opened"
+      }
+    },
+    "go": {
+      "use": "propgroup.go",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        }
+      },
+      "outputs": {
+        "shown": "shown",
+        "opened": "opened"
+      }
+    },
+    "opencreate": {
+      "use": "propgroup.opencreate"
+    },
+    "openadd": {
+      "use": "propgroup.openadd"
+    },
+    "keep": {
+      "use": "propgroup.keep",
+      "inputs": {
+        "opened": "opened",
+        "shown": "shown"
+      },
+      "outputs": {
+        "shown": "shown"
+      }
+    }
+  }
+}

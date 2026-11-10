@@ -1,0 +1,101 @@
+{
+  "id": "yue2.scoreEditor",
+  "label": "yue2.item.scoreEditor",
+  "icon": "bar-chart-steps",
+  "standalone": true,
+  "properties": {
+    "parts": {
+      "label": "yue2.prop.parts",
+      "type": "list", "each": { "type": "yue2.part" },
+      "default": []
+    },
+    "header": {
+      "label": "yue2.prop.abcHeader",
+      "type": "string",
+      "default": ""
+    },
+    "part": {
+      "label": "yue2.prop.part",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "layout": [
+    {
+      "control": "yue2.roll",
+      "key": "score-roll",
+      "options": {
+        "text": {
+          "bind": "scoreText"
+        },
+        "ctx": {
+          "bind": "scoreContext"
+        },
+        "parts": {
+          "bind": "scoreParts"
+        },
+        "part": {
+          "bind": "scorePart"
+        },
+        "onChange": "change",
+        "onPart": "select"
+      }
+    }
+  ],
+  "derived": {
+    "scoreText": {
+      "type": "string",
+      "label": "yue2.prop.abc",
+      "from": {
+        "script": "scoreText"
+      }
+    },
+    "scoreContext": {
+      "type": "data",
+      "label": "yue2.prop.abcHeader",
+      "from": {
+        "script": "scoreContext"
+      }
+    },
+    "scoreParts": {
+      "type": "data",
+      "label": "yue2.prop.parts",
+      "from": {
+        "script": "scoreParts"
+      }
+    },
+    "scorePart": {
+      "type": "string",
+      "label": "yue2.prop.part",
+      "from": {
+        "script": "scorePart"
+      }
+    }
+  },
+  "actions": {
+    "change": {
+      "use": "yue2.score.change",
+      "inputs": {
+        "parts": "parts",
+        "part": "scorePart",
+        "text": {
+          "payload": "value"
+        }
+      },
+      "outputs": {
+        "parts": "parts"
+      }
+    },
+    "select": {
+      "use": "yue2.score.part",
+      "inputs": {
+        "part": {
+          "payload": "value"
+        }
+      },
+      "outputs": {
+        "part": "part"
+      }
+    }
+  }
+}

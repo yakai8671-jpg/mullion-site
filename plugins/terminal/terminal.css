@@ -1,0 +1,22 @@
+/* Like Notepad, this only says how much room the output gets. What it looks
+   like is the shell's `log` control, so a terminal and an editor sitting
+   side by side are recognisably the same application. */
+.mu-body:has(> .mu-item[data-item-type="terminal.shell"]) {
+  overflow: hidden;
+}
+
+.mu-item[data-item-type="terminal.shell"] {
+  height: 100%;
+}
+
+.mu-item[data-item-type="terminal.shell"] > .mu-item-body,
+.mu-item[data-item-type="terminal.shell"] .mu-view-section:last-child,
+.mu-item[data-item-type="terminal.shell"] .mu-view-section:last-child > .mu-section-body {
+  flex: 1;
+  min-height: 0;
+}
+
+.mu-item[data-item-type="terminal.shell"] .mu-control[data-control-name="log"] {
+  flex: 1;
+  min-height: 0;
+}

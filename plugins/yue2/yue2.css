@@ -1,0 +1,494 @@
+/* yue2.abccard: preview controls use Mullion's action bar, icon buttons and
+   segmented toggles; only the score drawing and transport layout are local. */
+
+.yue2-abc-card > .mu-textcard-head { order: 0; }
+.yue2-abc-card > .yue2-abc-bar { order: 1; }
+.yue2-abc-card > .mu-textcard-input,
+.yue2-abc-card > .mu-textcard-line { order: 3; }
+.yue2-abc-card > .yue2-abc-score { order: 4; }
+
+.yue2-abc-card > .mu-textcard-input {
+  font-family: var(--font-mono);
+  tab-size: 4;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* A card folded to one line is a line. CSS and not `hidden`: the shell's own
+   fold redraws the card without asking this control. */
+.yue2-abc-card.is-oneline > .yue2-abc-bar,
+.yue2-abc-card.is-oneline > .yue2-abc-score,
+.yue2-abc-card[data-view="text"] > .yue2-abc-score,
+.yue2-abc-card[data-view="score"] > .mu-textcard-input {
+  display: none;
+}
+
+.yue2-abc-card.is-busy > .mu-textcard-input {
+  opacity: 0.6;
+}
+
+.yue2-abc-bar {
+  gap: var(--space-1);
+}
+
+/* As text there is nothing to play and no song to describe: only the switch. */
+.yue2-abc-card[data-view="text"] .yue2-abc-left,
+.yue2-abc-card[data-view="text"] .yue2-abc-transport {
+  display: none;
+}
+
+.yue2-abc-bar[hidden] { display: none; }
+
+.yue2-abc-transport { gap: var(--space-1); }
+
+.yue2-abc-skip:disabled { opacity: 0.35; cursor: default; }
+.yue2-abc-play.is-active { background: var(--danger); color: var(--danger-fg, #fff); }
+
+.yue2-gap {
+  flex: 1 1 auto;
+}
+
+.yue2-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  height: 1.5rem;
+  padding: 0 0.5rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg-muted);
+  font: inherit;
+  font-size: var(--font-size-small);
+  cursor: pointer;
+}
+
+.yue2-chip:hover {
+  background: var(--bg-hover);
+  color: var(--fg);
+}
+
+.yue2-chip.is-active {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+
+
+/* The score: its own scroll, so a long song does not make the window one
+   long page, and the notes in the text's own colour. */
+.yue2-abc-score {
+  max-height: 32rem;
+  overflow: auto;
+  margin: 0 var(--space-1);
+  padding: var(--space-1);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  color: var(--fg);
+}
+
+/* A muted voice's staff is drawn in a faint colour (abcjs marks every element
+   of voice N with .abcjs-vN; the colour is inherited, so nesting does not
+   compound it). The tempo mark belongs to no voice. */
+.yue2-abc-paper[data-mute~="0"] .abcjs-v0,
+.yue2-abc-paper[data-mute~="1"] .abcjs-v1,
+.yue2-abc-paper[data-mute~="2"] .abcjs-v2,
+.yue2-abc-paper[data-mute~="3"] .abcjs-v3 {
+  color: color-mix(in srgb, var(--fg) 22%, transparent);
+}
+
+.yue2-abc-paper .abcjs-tempo { color: var(--fg); }
+
+/* The chord track has no staff: with it muted, the chord symbols are faint. */
+.yue2-abc-paper[data-mute-chords] .abcjs-chord {
+  fill: color-mix(in srgb, var(--fg) 22%, transparent);
+}
+
+/* The score is shown a page of lines at a time (see PAGE_LINES). */
+.yue2-abc-paper > .yue2-page-off { display: none; }
+
+.yue2-abc-paper svg {
+  display: block;
+  width: 100%;
+  /* scaled to the card, but not below what can be read: narrower, the score scrolls */
+  min-width: 640px;
+  max-width: 1400px;
+  height: auto;
+}
+
+.yue2-abc-paper .abcjs-note,
+.yue2-abc-paper .abcjs-rest {
+  cursor: pointer;
+}
+
+.yue2-abc-paper .yue2-now {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.yue2-abc-status {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-width: 0;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.yue2-abc-facts {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+}
+
+.yue2-abc-problem {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--danger);
+}
+
+
+/* ---- yue2.roll: a section of the ABC as a piano roll ------------------------
+   A card: its action bar (two rows, the score's and the note's), then a
+   scroller (the head -- measure numbers and the chord lane -- stays at the top,
+   the pitch gutter at the left). */
+.yue2-roll {
+  --roll-vocal: var(--accent);
+  --roll-ins: #d9822b;
+  min-width: 0;
+  outline: none;
+}
+
+/* The scroller is the card's body, not a box of its own inside it. */
+.yue2-roll > .yue2-roll-scroll {
+  border: 0;
+  border-radius: 0;
+}
+
+.yue2-roll-start,
+.yue2-roll-end {
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.yue2-roll-end {
+  white-space: normal;
+  justify-content: flex-end;
+}
+
+.yue2-roll-playhead {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* A fixed width, so opened into its stepper it stays out of the transport beside it. */
+.yue2-roll-zoom {
+  flex: none;
+  width: 8rem;
+}
+
+
+/* The note's row: the card in the middle, the moves on either side of it. */
+.yue2-roll-noterow {
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.yue2-notecard-remove { margin-left: var(--space-1); }
+.yue2-notecard-remove[hidden] { display: none; }
+
+/* Nothing selected: only the guide, with no frame of its own. */
+.yue2-notecard.is-empty {
+  border-color: transparent;
+  background: transparent;
+}
+
+.yue2-notecard.is-empty > .mu-sidecard-head { display: none; }
+
+.yue2-notecard.is-empty .mu-fieldform {
+  border-color: transparent;
+  background: transparent;
+}
+
+.yue2-roll .select {
+  width: auto;
+  min-width: 3.6rem;
+  height: auto;
+  padding: 0.15rem 0.5rem;
+  font-size: var(--font-size-small);
+  line-height: 1.4;
+}
+
+.yue2-roll-scroll {
+  /* As tall as its rows (the window scrolls when it is shorter); along, its own scroll. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+}
+
+/* Room under the last row, so the scroll bar does not lie over it. */
+.yue2-roll-scroll::after {
+  content: "";
+  display: block;
+  height: 16px;
+}
+
+.yue2-roll-headrow {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+}
+
+.yue2-roll-corner,
+.yue2-roll-gutter {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  flex: 0 0 44px;
+  width: 44px;
+  background: var(--bg-elevated);
+  border-right: var(--border-width) solid var(--border);
+}
+
+.yue2-roll-corner {
+  height: 48px;
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+.yue2-roll-head {
+  position: relative;
+  flex: none;
+  border-bottom: var(--border-width) solid var(--border);
+  background: var(--bg-elevated);
+}
+
+/* The head of a measure: a handle at its left, the number in the middle. */
+.yue2-roll-barnum {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  border-left: var(--border-width) solid var(--border-strong);
+  color: var(--fg-muted);
+  font-size: 11px;
+  line-height: 24px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.yue2-roll-barnum:hover { background: var(--bg-hover); }
+
+.yue2-roll-barnum.is-selected {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.yue2-roll-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  color: var(--fg-muted);
+  font-size: 12px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.yue2-roll-handle:hover,
+.yue2-roll-barnum.is-selected .yue2-roll-handle { color: var(--accent); }
+
+.yue2-roll-handle:active { cursor: grabbing; }
+
+/* A measure selected, in the plot; one being carried by its handle. */
+.yue2-roll-barcol.is-selected { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.yue2-roll-barcol.is-moving { background: color-mix(in srgb, var(--accent) 20%, transparent); }
+
+/* The shell's guides (mu-guides / mu-guide) over the plot: the halves of the
+   measures a measure may go before or after. The measure's own head stays in sight. */
+.yue2-roll-plot > .mu-guides { z-index: 4; }
+
+.yue2-roll-guide {
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: var(--space-2);
+  box-sizing: border-box;
+}
+
+/* The head of a selected measure: handle, number in the middle, icon buttons. */
+.yue2-roll-bartools {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 2px;
+  bottom: 0;
+  align-items: center;
+  gap: 2px;
+}
+
+.yue2-roll-barnum.is-selected .yue2-roll-bartools { display: flex; }
+
+.yue2-roll-barbtn {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  font-size: 12px;
+}
+
+.yue2-roll-barbtn.is-first {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+.yue2-roll-barnum.is-selected.is-tight .yue2-roll-barno { display: none; }
+
+.yue2-roll [hidden] { display: none !important; }
+
+.yue2-roll-lane {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  cursor: copy;
+}
+
+.yue2-roll-chord {
+  position: absolute;
+  height: 20px;
+  margin-top: 2px;
+  padding: 0 6px;
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  font-size: 11px;
+  line-height: 18px;
+  white-space: nowrap;
+  cursor: grab;
+}
+
+.yue2-roll-chord.is-selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.yue2-roll-chord.is-unknown { border-style: dashed; color: var(--danger); }
+
+.yue2-roll-bodyrow {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+}
+
+.yue2-roll-gutter { position: sticky; }
+
+.yue2-roll-key {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 12px;
+  padding-right: 4px;
+  color: var(--fg-muted);
+  font-size: 9px;
+  line-height: 12px;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+.yue2-roll-key.is-black { background: color-mix(in srgb, var(--fg) 14%, var(--bg-elevated)); }
+.yue2-roll-key.is-c { color: var(--fg); font-weight: 600; }
+
+.yue2-roll-plot {
+  position: relative;
+  flex: none;
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+.yue2-roll-row {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 12px;
+  border-bottom: var(--border-width) solid color-mix(in srgb, var(--fg) 7%, transparent);
+  box-sizing: border-box;
+}
+
+.yue2-roll-row.is-black { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+.yue2-roll-row.is-c { border-bottom-color: color-mix(in srgb, var(--fg) 22%, transparent); }
+
+.yue2-roll-barcol {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: var(--border-width) solid var(--border-strong);
+  box-sizing: border-box;
+}
+
+.yue2-roll-barcol.is-odd { background: color-mix(in srgb, var(--fg) 4%, transparent); }
+
+.yue2-roll-beat {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: color-mix(in srgb, var(--fg) 10%, transparent);
+}
+
+.yue2-roll-note {
+  position: absolute;
+  height: 11px;
+  overflow: hidden;
+  padding-left: 2px;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 9px;
+  line-height: 11px;
+  white-space: nowrap;
+  cursor: grab;
+  box-sizing: border-box;
+}
+
+.yue2-roll-note.v-Vocal { background: var(--roll-vocal); color: var(--accent-fg, #fff); }
+.yue2-roll-note.v-Ins { background: var(--roll-ins); color: #2a1500; }
+.yue2-roll-note.is-dim { opacity: 0.55; }
+.yue2-roll-note.is-draft { opacity: 0.6; pointer-events: none; }
+.yue2-roll-note.is-selected { opacity: 1; box-shadow: 0 0 0 2px var(--fg); z-index: 1; }
+
+.yue2-roll-grow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.yue2-roll-sel { color: var(--fg); font-size: var(--font-size-small); font-weight: 600; }
+
+.yue2-roll-bad { padding: var(--space-2); }
+.yue2-roll.is-readonly .yue2-roll-plot,
+.yue2-roll.is-readonly .yue2-roll-lane { cursor: default; }

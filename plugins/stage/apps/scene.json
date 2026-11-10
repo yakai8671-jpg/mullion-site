@@ -1,0 +1,6 @@
+{
+  "type": "stage.scene",
+  "layout": {
+    "children": ["self"]
+  }
+}

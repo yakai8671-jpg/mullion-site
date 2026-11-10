@@ -1,0 +1,13 @@
+{
+  "id": "yue2.score.part",
+  "params": {
+    "part": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "part": {
+      "type": "string"
+    }
+  }
+}

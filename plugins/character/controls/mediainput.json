@@ -1,0 +1,14 @@
+{
+  "id": "character.mediainput",
+  "label": "character.control.mediainput",
+  "why": "holds a picture, a video or a character with its action as one value; the card is the shell's header over its own body",
+  "script": true,
+  "params": {
+    "allowCharacter": {
+      "type": "boolean"
+    },
+    "port": {
+      "type": "data"
+    }
+  }
+}

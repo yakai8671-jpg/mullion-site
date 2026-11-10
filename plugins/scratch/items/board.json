@@ -1,0 +1,43 @@
+{
+  "id": "scratch.board",
+  "label": "scratch.item.board",
+  "icon": "inboxes",
+  "standalone": true,
+  "permissions": ["store:write"],
+  "properties": {
+    "entries": { "label": "scratch.prop.entries", "type": "list", "each": { "type": "scratch.entry" }, "default": [] }
+  },
+  "actions": {
+    "put": {
+      "use": "scratch.put",
+      "inputs": { "entries": "entries", "value": { "payload": "value" }, "kind": { "payload": "kind" } },
+      "outputs": ["entries"]
+    },
+    "remove": {
+      "use": "scratch.remove",
+      "inputs": { "entries": "entries", "id": { "payload": "id" } },
+      "outputs": ["entries"]
+    },
+    "keep": {
+      "use": "scratch.keep",
+      "inputs": { "entries": "entries", "id": { "payload": "id" }, "type": { "payload": "type" } }
+    },
+    "settle": { "use": "scratch.settle", "inputs": ["entries"], "outputs": ["entries"] }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "entries",
+      "layout": [
+        {
+          "control": "scratch.card",
+          "key": "entry",
+          "each": { "bind": "entries" },
+          "as": "entry",
+          "options": { "value": { "bind": "entry" }, "discard": "remove", "keep": "keep", "settle": "settle" }
+        },
+        { "control": "scratch.zone", "key": "zone", "options": { "entries": { "bind": "entries" }, "put": "put" } }
+      ]
+    }
+  ]
+}

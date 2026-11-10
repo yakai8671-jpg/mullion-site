@@ -1,0 +1,26 @@
+{
+  "en": {
+    "notepad.item.editor": "Notepad",
+    "notepad.prop.text": "Document",
+    "notepad.prop.wrap": "Wrap lines",
+    "notepad.prop.mono": "Monospace",
+    "notepad.prop.zoom": "Size (%)",
+    "notepad.prop.tab": "Tab types a tab",
+    "notepad.prop.spellcheck": "Spell check",
+    "notepad.prop.stats": "Status line",
+    "notepad.prop.numbers": "Line numbers",
+    "notepad.placeholder.text": "Write here"
+  },
+  "ja": {
+    "notepad.item.editor": "メモ帳",
+    "notepad.prop.text": "本文",
+    "notepad.prop.wrap": "折り返し",
+    "notepad.prop.mono": "等幅フォント",
+    "notepad.prop.zoom": "サイズ (%)",
+    "notepad.prop.tab": "Tab キーでタブ入力",
+    "notepad.prop.spellcheck": "スペルチェック",
+    "notepad.prop.stats": "状態行",
+    "notepad.prop.numbers": "行番号",
+    "notepad.placeholder.text": "ここに書く"
+  }
+}

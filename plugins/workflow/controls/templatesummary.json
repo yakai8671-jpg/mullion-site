@@ -1,0 +1,13 @@
+{
+  "id": "workflow.templatesummary",
+  "label": "workflow.control.templatesummary",
+  "script": true,
+  "why": "summary line for a workflow template showing name, tool, workflow and readiness",
+  "params": {},
+  "needs": [
+    "name",
+    "tool",
+    "workflow",
+    "problems"
+  ]
+}

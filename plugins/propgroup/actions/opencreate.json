@@ -1,0 +1,8 @@
+{
+  "id": "propgroup.opencreate",
+  "permissions": [
+    "window:write"
+  ],
+  "params": {},
+  "results": {}
+}

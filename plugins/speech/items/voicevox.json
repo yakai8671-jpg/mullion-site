@@ -1,0 +1,227 @@
+{
+  "id": "speech.voicevox",
+  "label": "speech.voicevox.item",
+  "icon": "megaphone",
+  "standalone": true,
+  "permissions": [
+    "speech:run",
+    "services:read",
+    "services:write"
+  ],
+  "properties": {
+    "text": {
+      "label": "speech.voicevox.prop.text",
+      "type": "string",
+      "default": "",
+      "placeholder": "speech.voicevox.placeholder",
+      "port": "text"
+    },
+    "speaker": {
+      "label": "speech.voicevox.prop.speaker",
+      "type": "enum",
+      "default": "3",
+      "options": [
+        { "value": "3", "label": "ずんだもん（ノーマル）" },
+        { "value": "1", "label": "ずんだもん（あまあま）" },
+        { "value": "7", "label": "ずんだもん（ツンツン）" },
+        { "value": "5", "label": "ずんだもん（セクシー）" },
+        { "value": "22", "label": "ずんだもん（ささやき）" },
+        { "value": "38", "label": "ずんだもん（ヒソヒソ）" },
+        { "value": "2", "label": "四国めたん（ノーマル）" },
+        { "value": "0", "label": "四国めたん（あまあま）" },
+        { "value": "6", "label": "四国めたん（ツンツン）" },
+        { "value": "4", "label": "四国めたん（セクシー）" },
+        { "value": "36", "label": "四国めたん（ささやき）" },
+        { "value": "37", "label": "四国めたん（ヒソヒソ）" },
+        { "value": "8", "label": "春日部つむぎ（ノーマル）" },
+        { "value": "10", "label": "雨晴はう（ノーマル）" },
+        { "value": "9", "label": "波音リツ（ノーマル）" },
+        { "value": "11", "label": "玄野武宏（ノーマル）" },
+        { "value": "12", "label": "白上虎太郎（ふつう）" },
+        { "value": "13", "label": "青山龍星（ノーマル）" },
+        { "value": "14", "label": "冥鳴ひまり（ノーマル）" },
+        { "value": "16", "label": "九州そら（ノーマル）" },
+        { "value": "20", "label": "もち子さん（ノーマル）" },
+        { "value": "21", "label": "剣崎雌雄（ノーマル）" }
+      ]
+    },
+    "speedScale": {
+      "label": "speech.voicevox.prop.speedScale",
+      "type": "number",
+      "control": "slider",
+      "default": 1,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05
+    },
+    "pitchScale": {
+      "label": "speech.voicevox.prop.pitchScale",
+      "type": "number",
+      "control": "slider",
+      "default": 0,
+      "min": -0.15,
+      "max": 0.15,
+      "step": 0.01
+    },
+    "intonationScale": {
+      "label": "speech.voicevox.prop.intonationScale",
+      "type": "number",
+      "control": "slider",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    "volumeScale": {
+      "label": "speech.voicevox.prop.volumeScale",
+      "type": "number",
+      "control": "slider",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    "prePhonemeLength": {
+      "label": "speech.voicevox.prop.prePhonemeLength",
+      "type": "number",
+      "control": "slider",
+      "default": 0.1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05
+    },
+    "postPhonemeLength": {
+      "label": "speech.voicevox.prop.postPhonemeLength",
+      "type": "number",
+      "control": "slider",
+      "default": 0.1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05
+    },
+    "result": {
+      "label": "speech.voicevox.prop.result",
+      "type": "audio",
+      "default": ""
+    },
+    "resultSeconds": {
+      "label": "speech.voicevox.prop.result",
+      "type": "number",
+      "default": 0
+    },
+    "resultName": {
+      "label": "speech.voicevox.prop.result",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "actions": {
+    "run": {
+      "use": "speech.voicevox.run",
+      "inputs": [
+        "text",
+        "speaker",
+        "speedScale",
+        "pitchScale",
+        "intonationScale",
+        "volumeScale",
+        "prePhonemeLength",
+        "postPhonemeLength"
+      ],
+      "outputs": {
+        "result": "result",
+        "resultSeconds": "resultSeconds",
+        "resultName": "resultName"
+      }
+    },
+    "clear": {
+      "use": "set",
+      "with": {
+        "result": "",
+        "resultSeconds": 0
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "pinned",
+      "key": "software",
+      "layout": [
+        {
+          "control": "services.state",
+          "key": "voicevox",
+          "options": {
+            "service": "voicevox"
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "text",
+      "options": {
+        "label": "speech.section.text"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "text",
+          "options": {
+            "value": { "bind": "text" },
+            "placeholder": "speech.voicevox.placeholder",
+            "lines": 4
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "settings",
+      "options": {
+        "label": "speech.section.settings"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "settings",
+          "options": {
+            "entries": [
+              "speaker",
+              "speedScale",
+              "pitchScale",
+              "intonationScale",
+              "volumeScale",
+              "prePhonemeLength",
+              "postPhonemeLength"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "speech.section.result"
+      },
+      "layout": [
+        {
+          "control": "audiocard",
+          "key": "result",
+          "options": {
+            "value": { "bind": "result" },
+            "filename": { "bind": "resultName" },
+            "empty": "speech.value.waiting",
+            "emptyAction": {
+              "action": "run",
+              "label": "speech.action.run",
+              "title": "speech.action.runTitle",
+              "cancelLabel": "speech.action.cancel"
+            },
+            "onClear": "clear"
+          }
+        }
+      ]
+    }
+  ]
+}

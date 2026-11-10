@@ -1,0 +1,40 @@
+{
+  "id": "bays.bay",
+  "label": "bays.item.manager",
+  "icon": "window-stack",
+  "identity": "id",
+  "storable": false,
+  "fields": {
+    "name": {
+      "type": "string"
+    },
+    "placed": {
+      "type": "boolean"
+    },
+    "offScreen": {
+      "type": "boolean"
+    },
+    "slide": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "slideIcon": {
+      "type": "string"
+    },
+    "slideTitle": {
+      "type": "string"
+    },
+    "sashes": {
+      "type": "list",
+      "each": {
+        "type": "bays.sash"
+      }
+    }
+  },
+  "defaultControl": "summary",
+  "format": {
+    "field": "title"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "i2p",
+  "name": "Image to Prompt",
+  "version": "2.0.0",
+  "description": "A picture in, the prompt for it out: promptmanager's tagger workflow already in the app.",
+  "api": 1,
+  "translations": "i18n.json",
+  "items": [
+    "items/i2p.json"
+  ],
+  "apps": [
+    "apps/i2p.json"
+  ],
+  "assets": [
+    "assets/template.json"
+  ],
+  "scripts": [
+    "hooks.js"
+  ],
+  "styles": [],
+  "permissions": [
+    "layout:place",
+    "comfy:run",
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "window:write",
+    "services:read",
+    "services:write",
+    "tagdict:read"
+  ],
+  "provides": {
+    "itemTypes": [
+      "i2p.app"
+    ],
+    "valueTypes": [],
+    "controls": [],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "workflow",
+    "prompt",
+    "textcompose",
+    "tagdict",
+    "services"
+  ]
+}

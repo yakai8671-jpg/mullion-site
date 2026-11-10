@@ -1,0 +1,20 @@
+{
+  "id": "notepad",
+  "name": "Notepad",
+  "version": "3.0.0",
+  "description": "A text editor whose document and display options live in the layout. No files: the text is moved in and out through the shell's text card.",
+  // Declared, not written in code: the first plugin built by the declarative
+  // engine (static/js/mullion/build/).
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": ["notepad.css"],
+  "items": ["items/editor.json"],
+  "controls": ["controls/document.json"],
+  "apps": ["apps/editor.json"],
+  "permissions": [],
+  "provides": {
+    "itemTypes": ["notepad.editor"],
+    "controls": ["notepad.document"],
+  },
+  "requires": [],
+}

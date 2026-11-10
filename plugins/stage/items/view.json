@@ -1,0 +1,67 @@
+{
+  "id": "stage.view",
+  "label": "stage.item.view",
+  "icon": "badge-3d",
+  "standalone": true,
+  "permissions": [
+    "comfy:run"
+  ],
+  "properties": {
+    "yaw": {
+      "label": "stage.prop.yaw",
+      "type": "number",
+      "min": -180,
+      "max": 180,
+      "default": 0
+    },
+    "pitch": {
+      "label": "stage.prop.pitch",
+      "type": "number",
+      "min": -89,
+      "max": 89,
+      "default": 0
+    },
+    "fov": {
+      "label": "stage.prop.fov",
+      "type": "number",
+      "min": 20,
+      "max": 140,
+      "default": 90
+    },
+    "showStructure": {
+      "label": "stage.prop.showStructure",
+      "type": "boolean",
+      "default": false
+    },
+    "showDepth": {
+      "label": "stage.prop.showDepth",
+      "type": "boolean",
+      "default": false
+    },
+    "blend": {
+      "label": "stage.prop.blend",
+      "type": "boolean",
+      "default": true
+    },
+    "autoRotate": {
+      "label": "stage.prop.autoRotate",
+      "type": "boolean",
+      "default": false
+    },
+    "scene": {
+      "label": "stage.prop.scene",
+      "type": "ref",
+      "itemType": "stage.scene",
+      "link": true
+    }
+  },
+  "layout": [
+    {
+      "control": "stage.view",
+      "key": "view",
+      "options": {
+        "itemId": { "item": "id" }
+      }
+    }
+  ]
+}

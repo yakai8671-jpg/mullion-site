@@ -1,0 +1,13 @@
+{
+  "id": "apps.adddropped",
+  "permissions": [
+    "apps:read",
+    "apps:write"
+  ],
+  "params": {
+    "value": {
+      "type": "app"
+    }
+  },
+  "results": {}
+}

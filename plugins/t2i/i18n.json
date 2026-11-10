@@ -1,0 +1,14 @@
+{
+  "en": {
+    "t2i.item.app": "Image Generation",
+    "t2i.engine.anima": "Anima (tags)",
+    "t2i.engine.qwen": "Qwen-Image (sentences)",
+    "t2i.engine.qwen21": "Qwen-Image 2.1 Turbo (sentences)"
+  },
+  "ja": {
+    "t2i.item.app": "画像生成",
+    "t2i.engine.anima": "Anima（タグ）",
+    "t2i.engine.qwen": "Qwen-Image（文章）",
+    "t2i.engine.qwen21": "Qwen-Image 2.1 Turbo（文章）"
+  }
+}

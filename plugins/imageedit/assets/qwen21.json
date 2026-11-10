@@ -1,0 +1,375 @@
+{
+  "name": "Qwen-Image 2.1 Turbo 画像編集",
+  "tool": "image_edit",
+  "workflow": {
+    "name": "qwen_image_21_turbo_edit",
+    "platform": "comfyui",
+    "graph": {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "qwen_image_2.1_int8_convrot.safetensors",
+          "weight_dtype": "default"
+        },
+        "_meta": {
+          "title": "Load Diffusion Model"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen3vl_8b_int8_convrot.safetensors",
+          "type": "qwen_image",
+          "device": "default"
+        },
+        "_meta": {
+          "title": "Load Text Encoder"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+        },
+        "_meta": {
+          "title": "Load VAE"
+        }
+      },
+      "4": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "lora_name": "qwen_image_2.1_turbo_lora_avg_rank_178_bf16.safetensors",
+          "strength_model": 1,
+          "model": [
+            "1",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Load LoRA (Turbo)"
+        }
+      },
+      "5": {
+        "class_type": "QwenImage21Cache",
+        "inputs": {
+          "device": "auto",
+          "dtype": "default",
+          "model": [
+            "4",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Prefix KV Cache"
+        }
+      },
+      "6": {
+        "class_type": "TextEncodeQwenImage21",
+        "inputs": {
+          "prompt": "",
+          "negative_prompt": "",
+          "resolution": 1024,
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ],
+          "images.image_1": [
+            "20",
+            0
+          ],
+          "images.image_2": [
+            "21",
+            0
+          ],
+          "images.image_3": [
+            "22",
+            0
+          ],
+          "images.image_4": [
+            "23",
+            0
+          ],
+          "images.image_5": [
+            "24",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Prompt (with the pictures)"
+        }
+      },
+      "8": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "euler"
+        },
+        "_meta": {
+          "title": "Sampler"
+        }
+      },
+      "9": {
+        "class_type": "ManualSigmas",
+        "inputs": {
+          "sigmas": "1.0, 0.978453, 0.95418, 0.926626, 0.89508, 0.845148, 0.704534, 0.414568, 0"
+        },
+        "_meta": {
+          "title": "Turbo Sigmas"
+        }
+      },
+      "10": {
+        "class_type": "SamplerCustom",
+        "inputs": {
+          "add_noise": true,
+          "noise_seed": 1,
+          "cfg": 1,
+          "model": [
+            "5",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "negative": [
+            "6",
+            1
+          ],
+          "sampler": [
+            "8",
+            0
+          ],
+          "sigmas": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "6",
+            2
+          ]
+        },
+        "_meta": {
+          "title": "SamplerCustom"
+        }
+      },
+      "11": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "10",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "12": {
+        "class_type": "PreviewImage",
+        "inputs": {
+          "images": [
+            "11",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Preview Image"
+        }
+      },
+      "20": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": ""
+        },
+        "_meta": {
+          "title": "Picture to change"
+        }
+      },
+      "21": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": ""
+        },
+        "_meta": {
+          "title": "Reference 1"
+        }
+      },
+      "22": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": ""
+        },
+        "_meta": {
+          "title": "Reference 2"
+        }
+      },
+      "23": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": ""
+        },
+        "_meta": {
+          "title": "Reference 3"
+        }
+      },
+      "24": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": ""
+        },
+        "_meta": {
+          "title": "Reference 4"
+        }
+      }
+    },
+    "fields": []
+  },
+  "blocks": {
+    "prompts": {
+      "value": {
+        "node_id": "6",
+        "input_key": "prompt"
+      }
+    },
+    "negative_prompts": {
+      "value": {
+        "node_id": "6",
+        "input_key": "negative_prompt"
+      }
+    },
+    "source_image": {
+      "value": {
+        "node_id": "20",
+        "input_key": "image"
+      }
+    },
+    "ref_image_1": {
+      "value": {
+        "node_id": "21",
+        "input_key": "image"
+      }
+    },
+    "ref_image_2": {
+      "value": {
+        "node_id": "22",
+        "input_key": "image"
+      }
+    },
+    "ref_image_3": {
+      "value": {
+        "node_id": "23",
+        "input_key": "image"
+      }
+    },
+    "ref_image_4": {
+      "value": {
+        "node_id": "24",
+        "input_key": "image"
+      }
+    },
+    "image": {
+      "value": {
+        "node_id": "12",
+        "input_key": "images"
+      }
+    }
+  },
+  "settings": [
+    {
+      "node_id": "1",
+      "input_key": "unet_name",
+      "label": "モデル",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "UNETLoader",
+        "input_key": "unet_name"
+      }
+    },
+    {
+      "node_id": "2",
+      "input_key": "clip_name",
+      "label": "テキストエンコーダー",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "CLIPLoader",
+        "input_key": "clip_name"
+      }
+    },
+    {
+      "node_id": "3",
+      "input_key": "vae_name",
+      "label": "VAE",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "VAELoader",
+        "input_key": "vae_name"
+      }
+    },
+    {
+      "node_id": "5",
+      "input_key": "device",
+      "label": "KV キャッシュ",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "QwenImage21Cache",
+        "input_key": "device"
+      }
+    },
+    {
+      "node_id": "4",
+      "input_key": "lora_name",
+      "label": "高速化 LoRA (Turbo)",
+      "group": "LoRA",
+      "options_source": {
+        "class_type": "LoraLoaderModelOnly",
+        "input_key": "lora_name"
+      }
+    },
+    {
+      "node_id": "4",
+      "input_key": "strength_model",
+      "label": "高速化 LoRA の強さ",
+      "group": "LoRA",
+      "value_type": "number"
+    },
+    {
+      "node_id": "6",
+      "input_key": "resolution",
+      "label": "解像度（約 N×N ピクセル）",
+      "group": "出力",
+      "value_type": "integer"
+    },
+    {
+      "node_id": "9",
+      "input_key": "sigmas",
+      "label": "シグマ（ステップ）",
+      "group": "サンプラー",
+      "value_type": "string"
+    },
+    {
+      "node_id": "10",
+      "input_key": "cfg",
+      "label": "CFG",
+      "group": "サンプラー",
+      "value_type": "number"
+    },
+    {
+      "node_id": "8",
+      "input_key": "sampler_name",
+      "label": "サンプラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSamplerSelect",
+        "input_key": "sampler_name"
+      }
+    }
+  ],
+  "fixed": []
+}

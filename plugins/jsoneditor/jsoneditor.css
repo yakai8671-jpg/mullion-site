@@ -1,0 +1,565 @@
+/* jsoneditor.card: the row of views, the blocks and the status line around
+   the shell's text card. The card itself (header, grip, text) is the
+   shell's; this is what is added to it, and how it takes the room it is
+   given when it is told to fill. */
+
+/* Under the header, in the order they are read. */
+.je-card > .mu-textcard-head { order: 0; }
+.je-card > .je-bar { order: 1; }
+.je-card > .mu-textcard-input,
+.je-card > .mu-textcard-line,
+.je-card > .je-pane { order: 3; }
+.je-card > .je-status { order: 4; }
+
+/* A card folded to one line is a line. */
+.je-card.is-oneline > .je-bar,
+.je-card.is-oneline > .je-status {
+  display: none;
+}
+
+/* Which of the text and the blocks is shown is the view's say, and a card
+   folded to a line shows neither. It is CSS and not `hidden` because the
+   shell's own fold redraws the card without asking this control: it would
+   show the textarea again, or leave the blocks standing under the line. */
+.je-card[data-view="blocks"] > .mu-textcard-input,
+.je-card[data-view="text"] > .je-pane,
+.je-card.is-oneline > .je-pane {
+  display: none;
+}
+
+.mu-control > .je-card.is-filling {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Folded to a line, the card is only that line, not the pane it was given. */
+.mu-control > .je-card.is-filling.is-oneline {
+  flex: 0 0 auto;
+  align-self: flex-start;
+}
+
+.je-card.is-filling > .mu-textcard-input {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  field-sizing: fixed;
+  resize: none;
+  font-family: var(--font-mono);
+  tab-size: 2;
+}
+
+.je-card:not(.is-filling) > .mu-textcard-input {
+  font-family: var(--font-mono);
+  tab-size: 2;
+}
+
+/* Text that is not JSON. */
+.je-card[data-json="bad"][data-view="text"] > .mu-textcard-input {
+  outline: var(--border-width) solid var(--danger);
+  outline-offset: calc(-1 * var(--border-width));
+}
+
+/* The window is the card. */
+.mu-body:has(.mu-item[data-item-type="jsoneditor.editor"]) {
+  overflow: hidden;
+}
+
+.mu-item[data-item-type="jsoneditor.editor"] {
+  height: 100%;
+}
+
+.mu-item[data-item-type="jsoneditor.editor"] > .mu-item-body,
+.mu-item[data-item-type="jsoneditor.editor"] .mu-control {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---- the row under the header ---- */
+.je-bar {
+  gap: 0.125rem;
+}
+
+.je-gap {
+  flex: 1 1 auto;
+}
+
+.je-views {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: var(--space-1) 0;
+}
+
+/* A switch: a small pill, filled when it is the view shown. */
+.je-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  height: 1.5rem;
+  padding: 0 0.6rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg-muted);
+  font: inherit;
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.je-chip:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--fg);
+}
+
+.je-chip.is-active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-fg, #fff);
+}
+
+.je-chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.je-tool:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* ---- the line under the document ---- */
+.je-status {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 0.125rem var(--space-2);
+  border-top: var(--border-width) solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.je-message {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.je-cursor {
+  margin-left: auto;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.je-card[data-json="ok"] .je-message {
+  color: var(--success);
+}
+
+.je-card[data-json="bad"] .je-message {
+  color: var(--danger);
+}
+
+/* ---- the blocks ---- */
+.je-blocks {
+  position: relative;
+  flex: 0 1 auto;
+  min-height: 6rem;
+  overflow: auto;
+  padding: var(--space-2);
+  background: var(--bg-inset);
+}
+
+.je-card.is-filling > .je-blocks {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.je-blocks.is-fixed {
+  opacity: 0.7;
+}
+
+.je-blocks.is-fixed .je-block {
+  pointer-events: none;
+}
+
+/* What is being cut or copied, and the way out of it, at the top of the pane
+   while the pane scrolls beneath. */
+.je-clipbar {
+  position: sticky;
+  z-index: 3;
+  top: calc(-1 * var(--space-2));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) var(--space-2);
+  padding: 0.125rem var(--space-2);
+  border-bottom: var(--border-width) dashed var(--accent);
+  background: var(--bg-elevated);
+  font-size: var(--font-size-small);
+}
+
+.je-clipbar[hidden],
+.je-content[hidden],
+.je-menu[hidden] {
+  display: none;
+}
+
+.je-clipinfo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.je-root:has(> .je-block.is-entering),
+.je-children:has(> .je-block.is-entering),
+.je-root:has(> .je-block.is-removing),
+.je-children:has(> .je-block.is-removing) {
+  overflow: clip;
+}
+
+.je-block {
+  position: relative;
+  z-index: 1;
+  min-width: 15rem;
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  transition: border-color 120ms ease;
+}
+
+.je-block.is-entering {
+  z-index: 0;
+  animation: je-enter 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.je-block.is-removing {
+  z-index: 0;
+  animation: je-exit 160ms cubic-bezier(0.4, 0, 0.8, 0.2) forwards;
+}
+
+.je-block.is-dragging {
+  opacity: 0.45;
+}
+
+.je-block.is-clip-source {
+  border-style: dashed;
+  border-color: var(--accent);
+}
+
+.je-block.is-cut {
+  opacity: 0.65;
+}
+
+.je-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 1.75rem;
+}
+
+.je-children {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-1) 0;
+}
+
+.je-handle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  color: var(--fg-muted);
+  cursor: grab;
+  user-select: none;
+}
+
+.je-handle:hover {
+  color: var(--fg);
+}
+
+.je-handle:active {
+  cursor: grabbing;
+}
+
+/* The type of a block, and the way to change it: a coloured tile. */
+.je-type {
+  flex: 0 0 auto;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 2rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-mono);
+  cursor: pointer;
+}
+
+.je-type > .bi {
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.je-type-name {
+  font-size: 0.5rem;
+  font-weight: 700;
+  line-height: 0.6rem;
+}
+
+.je-type:hover,
+.je-type.is-open {
+  filter: brightness(1.12);
+}
+
+.je-badge,
+.je-mini {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+}
+
+.je-badge {
+  width: 1.4rem;
+  height: 1.4rem;
+  font-size: 0.8rem;
+}
+
+.je-mini {
+  width: 1.1rem;
+  height: 1.1rem;
+  font-size: 0.65rem;
+  border-radius: 0.2rem;
+}
+
+.type-string { background: #2b8a5a; }
+.type-number { background: #a56614; }
+.type-boolean { background: #7654b5; }
+.type-null { background: #68717d; }
+.je-clipinfo.type-string,
+.je-clipinfo.type-number,
+.je-clipinfo.type-boolean,
+.je-clipinfo.type-null {
+  background: transparent;
+}
+
+.je-field {
+  min-width: 0;
+  height: 1.75rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.je-key {
+  flex: 0 0 8rem;
+  width: 8rem;
+}
+
+.je-value {
+  flex: 1 1 8rem;
+  font-family: var(--font-mono);
+}
+
+.je-bool {
+  flex: 0 0 auto;
+  height: 1.75rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-family: var(--font-mono);
+}
+
+.je-index {
+  flex: 0 0 auto;
+  min-width: 2.25rem;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.je-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.je-action.action-delete:hover {
+  color: var(--danger);
+}
+
+/* An object's or array's children, behind a guide down their left side that
+   folds them. */
+.je-collection {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  margin-top: var(--space-1);
+}
+
+.je-block.has-handle > .je-collection {
+  margin-left: 1.25rem;
+}
+
+.je-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.je-guide {
+  position: relative;
+  width: 2rem;
+  min-height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.je-guide::before {
+  content: "";
+  position: absolute;
+  top: 0.0625rem;
+  bottom: 0.0625rem;
+  left: 0.9375rem;
+  width: 0.125rem;
+  border-radius: 0.125rem;
+  background: var(--border-strong);
+}
+
+.je-guide:hover::before {
+  background: var(--accent);
+}
+
+.je-guide[data-folded="true"] {
+  height: 1.375rem;
+  min-height: 1.375rem;
+}
+
+.je-guide[data-folded="true"]::before {
+  top: 0.6875rem;
+  bottom: auto;
+  left: 0.5rem;
+  width: 1rem;
+  height: 0.125rem;
+}
+
+/* Folded, the guide says what is inside as a row of types. */
+.je-summary {
+  display: none;
+  position: absolute;
+  top: 0.125rem;
+  left: 2.125rem;
+  align-items: center;
+  gap: 0.1875rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.je-guide[data-folded="true"] .je-summary {
+  display: flex;
+}
+
+.je-rest {
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+}
+
+.je-add {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  height: 1.5rem;
+  padding: 0 0.6rem;
+  border: var(--border-width) dashed var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg-muted);
+  font: inherit;
+  font-size: var(--font-size-small);
+  cursor: pointer;
+}
+
+.je-add:hover,
+.je-add.is-open {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.je-add.is-paste {
+  border-style: solid;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* The menu of types: one for the whole pane, fixed to the screen. */
+.je-menu {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 11rem;
+  padding: 0.25rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow);
+}
+
+.je-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.25rem 0.375rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.je-menu-item:hover {
+  background: var(--bg-hover);
+}
+
+@media (max-width: 40rem) {
+  .je-row {
+    flex-wrap: wrap;
+  }
+
+  .je-value {
+    flex-basis: 100%;
+  }
+}
+
+@keyframes je-enter {
+  from { opacity: 0; transform: translateY(-0.75rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes je-exit {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-0.75rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .je-block.is-entering,
+  .je-block.is-removing {
+    animation: none;
+  }
+}

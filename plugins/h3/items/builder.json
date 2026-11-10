@@ -1,0 +1,160 @@
+{
+  "id": "h3.builder",
+  "label": "h3.item.builder",
+  "icon": "film",
+  "standalone": true,
+  "permissions": [
+    "window:write"
+  ],
+  "properties": {
+    "mode": {
+      "label": "h3.prop.mode",
+      "type": "enum",
+      "control": "select",
+      "default": "auto",
+      "options": ["auto", "frames", "ref"]
+    },
+    "style": {
+      "label": "h3.prop.style",
+      "type": "string",
+      "default": "",
+      "placeholder": "h3.placeholder.style"
+    },
+    "speakers": {
+      "label": "h3.prop.speakers",
+      "type": "list",
+      "each": { "type": "h3.speaker" },
+      "default": []
+    },
+    "scenes": {
+      "label": "h3.prop.scenes",
+      "type": "list",
+      "each": { "type": "h3.scene" },
+      "default": []
+    },
+    "soundscape": {
+      "label": "h3.prop.soundscape",
+      "type": "string",
+      "default": "",
+      "placeholder": "h3.placeholder.soundscape"
+    },
+    "music": {
+      "label": "h3.prop.music",
+      "type": "string",
+      "default": "",
+      "placeholder": "h3.placeholder.music"
+    },
+    "subjects": {
+      "label": "h3.prop.subjects",
+      "type": "string",
+      "default": "",
+      "placeholder": "h3.placeholder.subjects"
+    },
+    "summary": {
+      "label": "h3.prop.summary",
+      "type": "string",
+      "default": "",
+      "placeholder": "h3.placeholder.summary"
+    },
+    "app": {
+      "label": "h3.prop.app",
+      "type": "ref",
+      "itemType": "h3.i2v",
+      "link": true
+    }
+  },
+  "derived": {
+    "output": {
+      "label": "h3.prop.output",
+      "type": "string",
+      "from": { "script": "h3.output" }
+    },
+    "draft": {
+      "label": "h3.vtype.draft",
+      "type": "h3.draft",
+      "from": { "script": "h3.draft" },
+      "writable": true
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "output",
+      "options": {
+        "label": "h3.section.output"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "output",
+          "options": {
+            "value": { "bind": "output" },
+            "placeholder": "h3.value.noOutput"
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "run",
+      "options": {
+        "label": "h3.section.run"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "run-fields",
+          "options": {
+            "entries": ["mode"]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "doc",
+      "options": {
+        "label": "h3.section.doc",
+        "hint": "h3.hint.speakers"
+      },
+      "layout": [
+        {
+          "control": "card",
+          "key": "doc-content",
+          "options": {
+            "label": "h3.section.doc"
+          },
+          "layout": [
+            {
+              "control": "texteditor",
+              "key": "style",
+              "options": {
+                "value": { "bind": "style" },
+                "placeholder": "h3.placeholder.style",
+                "lines": 2
+              }
+            },
+            {
+              "control": "texteditor",
+              "key": "soundscape",
+              "options": {
+                "value": { "bind": "soundscape" },
+                "placeholder": "h3.placeholder.soundscape",
+                "lines": 2
+              }
+            },
+            {
+              "control": "texteditor",
+              "key": "music",
+              "options": {
+                "value": { "bind": "music" },
+                "placeholder": "h3.placeholder.music",
+                "lines": 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

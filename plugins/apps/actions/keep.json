@@ -1,0 +1,13 @@
+{
+  "id": "apps.keep",
+  "permissions": [
+    "apps:read",
+    "apps:write"
+  ],
+  "params": {
+    "target": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

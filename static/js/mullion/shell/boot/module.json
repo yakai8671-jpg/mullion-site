@@ -1,0 +1,37 @@
+{
+  "name": "boot",
+  "deps": [
+    "page",
+    "server",
+    "registry",
+    "pickers",
+    "layout",
+    "mount",
+    "items",
+    "apps",
+    "view",
+    "bays",
+    "ports",
+    "hotkeys",
+    "operations",
+    "grants",
+    "frames",
+    "library",
+    "permissions",
+    "i18n",
+    "builtins"
+  ],
+  "api": [
+    "init",
+    "resetLayout",
+    "layoutFileName",
+    "startupProblems",
+    "showStartupProblems",
+    "followProfileQuery"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": [
+    "items.actionHost"
+  ]
+}

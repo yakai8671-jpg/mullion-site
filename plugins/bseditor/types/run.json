@@ -1,0 +1,23 @@
+{
+  "id": "bseditor.run",
+  "label": "bseditor.vtype.run",
+  "icon": "fonts",
+  "identity": "id",
+  "port": "bseditor.richtext",
+  "fields": {
+    "text": {
+      "label": "bseditor.vtype.rich",
+      "type": "bseditor.richtext"
+    }
+  },
+  "list": {
+    "port": "bseditor.runlist",
+    "label": "bseditor.vtype.runlist",
+    "icon": "fonts"
+  },
+  "defaultControl": "summary",
+  "default": {
+    "id": "",
+    "text": ""
+  }
+}

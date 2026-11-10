@@ -1,0 +1,16 @@
+{
+  "id": "prompt.sentence",
+  "label": "prompt.vtype.sentence",
+  "icon": "chat-quote",
+  "sample": {
+    "default": {
+      "name": "slow push-in",
+      "text": "The camera slowly pushes in toward her face.",
+      "category": "camera"
+    }
+  },
+  "groups": {
+    "label": "prompt.field.category"
+  },
+  "defaultControl": "prompt.sentenceedit"
+}

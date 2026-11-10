@@ -1,0 +1,19 @@
+{
+  "id": "workflow.image_size",
+  "base": "vector",
+  "label": "workflow.vtype.imageSize",
+  "icon": "aspect-ratio",
+  "defaults": {
+    "axes": ["W", "H"],
+    "min": 64,
+    "max": 8192,
+    "step": 8,
+    "default": [1024, 1024]
+  },
+  "sample": {
+    "default": [1024, 1024]
+  },
+  "groups": {
+    "label": "workflow.field.orientation"
+  }
+}

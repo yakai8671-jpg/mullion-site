@@ -1,0 +1,28 @@
+{
+  "id": "speech.irodori.run",
+  "permissions": [
+    "speech:run"
+  ],
+  "params": {
+    "text": { "type": "string" },
+    "caption": { "type": "string" },
+    "ref": { "type": "audio" },
+    "steps": { "type": "number" },
+    "cfgText": { "type": "number" },
+    "cfgCaption": { "type": "number" },
+    "cfgSpeaker": { "type": "number" }
+  },
+  "results": {
+    "result": { "type": "audio" },
+    "resultSeconds": { "type": "number" },
+    "resultName": { "type": "string" }
+  },
+  "concurrency": "ignore",
+  "cancellable": true,
+  "requires": {
+    "text": "nonEmpty",
+    "services": [
+      "irodori"
+    ]
+  }
+}

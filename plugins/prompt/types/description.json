@@ -1,0 +1,6 @@
+{
+  "id": "prompt.description",
+  "base": "string",
+  "label": "prompt.vtype.description",
+  "icon": "chat-square-text"
+}

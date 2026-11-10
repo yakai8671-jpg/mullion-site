@@ -1,0 +1,57 @@
+{
+  "id": "terminal.shell",
+  "label": "terminal.item.shell",
+  "icon": "terminal",
+  "standalone": true,
+  "permissions": ["shell:exec"],
+  "properties": {
+    "cwd": { "label": "terminal.prop.cwd", "type": "filepath", "default": "", "placeholder": "terminal.placeholder.cwd" },
+    "follow": { "label": "terminal.prop.follow", "type": "boolean", "default": true },
+    "command": { "label": "terminal.prop.command", "type": "string", "default": "", "placeholder": "terminal.placeholder.command" },
+    "output": { "label": "terminal.prop.output", "type": "data", "default": [] },
+    "history": { "label": "terminal.prop.history", "type": "data", "default": [] }
+  },
+  "derived": {
+    "shell": { "label": "terminal.field.shell", "type": "string", "from": { "api": "shell.program" } }
+  },
+  "actions": {
+    "run": {
+      "use": "terminal.run",
+      "inputs": ["command", "cwd", "output", "history"],
+      "outputs": ["command", "cwd", "output", "history"]
+    },
+    "clear": { "use": "set", "with": { "output": [] } }
+  },
+  "layout": [
+    {
+      "control": "buttonrow",
+      "key": "actions",
+      "options": {
+        "buttons": [
+          { "key": "run", "label": "terminal.action.run", "title": "terminal.action.runTitle", "action": "run" },
+          { "key": "clear", "label": "terminal.action.clear", "title": "terminal.action.clearTitle", "action": "clear" }
+        ]
+      }
+    },
+    { "control": "props", "key": "head", "options": { "entries": ["cwd", "follow", "shell"] } },
+    {
+      "control": "section",
+      "key": "output",
+      "options": { "label": "terminal.section.output" },
+      "layout": [
+        { "control": "log", "key": "log", "options": { "value": { "bind": "output" }, "follow": { "bind": "follow" } } },
+        {
+          "control": "commandline",
+          "key": "input",
+          "options": {
+            "value": { "bind": "command" },
+            "history": { "bind": "history" },
+            "onSubmit": "run",
+            "status": { "status": "run" },
+            "placeholder": "terminal.placeholder.command"
+          }
+        }
+      ]
+    }
+  ]
+}

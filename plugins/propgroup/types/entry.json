@@ -1,0 +1,26 @@
+{
+  "id": "propgroup.entry",
+  "label": "propgroup.vtype.entry",
+  "icon": "collection",
+  "identity": "id",
+  "port": false,
+  "fields": {
+    "name": {
+      "label": "propgroup.field.name",
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "readonly": true
+    },
+    "value": {
+      "type": "data"
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "port": "propgroupentries",
+    "label": "propgroup.vtype.entries",
+    "icon": "collection"
+  }
+}

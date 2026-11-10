@@ -1,0 +1,31 @@
+{
+  "id": "panorama.editor",
+  "extends": "workflow.run",
+  "label": "stage.item.editor",
+  "icon": "globe",
+  "config": {
+    "promptText": true,
+    "attention": false,
+    "engines": [
+      {
+        "key": "flux",
+        "label": "panorama.engine.flux",
+        "template": "assets/flux.json"
+      },
+      {
+        "key": "qwen",
+        "label": "panorama.engine.qwen",
+        "template": "assets/qwen.json"
+      }
+    ]
+  },
+  "properties": {
+    "panorama": {
+      "label": "stage.prop.panorama",
+      "type": "panorama",
+      "readonly": true,
+      "storable": false
+    }
+  },
+  "hooks": "stage.editor"
+}

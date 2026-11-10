@@ -1,0 +1,13 @@
+{
+  "name": "preload",
+  "deps": [],
+  "api": [
+    "preloadedSettings",
+    "preloadedLanguages",
+    "preloadedTranslations",
+    "preloadedBackend"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

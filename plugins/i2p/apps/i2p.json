@@ -1,0 +1,55 @@
+{
+  "type": "i2p.app",
+  "layout": {
+    "dir": "row",
+    "ratio": 0.55,
+    "children": [
+      "self",
+      {
+        "add": "compose.app",
+        "tag": "compose",
+        "props": {
+          "embeds": [
+            {
+              "id": "categories",
+              "var": "categoriesJson:value",
+              "opts": {}
+            },
+            {
+              "id": "tags",
+              "var": "stepTags:value",
+              "opts": {}
+            },
+            {
+              "id": "meant",
+              "var": "tagNotes:value",
+              "opts": {}
+            }
+          ],
+          "text": "Sort the tags below into the categories.\n\nCategories (JSON):\n⁠‌‍​⁢‌‍​‌‌⁢‌​‌‍‌‌‌‍‌⁢‌‍⁢⁢‌⁢​‍‌‍‍‌‌‍‌‌‌⁢​⁢⁣\n\nAbout the tags: they come from a WD14 image tagger and use the Danbooru vocabulary. Each is a short lowercase English word or phrase. Most are general tags: how many people there are (1girl, 2boys, solo, no humans), looks and expression (long hair, blue eyes, smile), clothing and accessories, pose, gaze and hand position, objects, place, weather and time of day, composition and camera angle (close-up, from above), and art style or image quality (monochrome, realistic). A character name, written as name (series), appears only when the tagger is sure who it is.\n\nTags:\n⁠‌⁢‌​‌‍​‌‌‍‌⁢‌⁢​⁢⁣⁠‌‍⁢‌‌‍‌‌‌‍​‌‌‍⁢‍‌⁢‌​⁣"
+        }
+      }
+    ],
+    "links": [
+      {
+        "to": {
+          "at": "self",
+          "key": "sortPrompt"
+        },
+        "from": {
+          "at": "+compose",
+          "key": "result"
+        }
+      }
+    ],
+    "appLinks": [
+      {
+        "at": "+compose",
+        "key": "targets",
+        "to": [
+          "self"
+        ]
+      }
+    ]
+  }
+}

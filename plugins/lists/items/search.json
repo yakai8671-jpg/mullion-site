@@ -1,0 +1,74 @@
+{
+  "id": "list.search",
+  "label": "lists.item.search",
+  "icon": "search",
+  "standalone": true,
+  "permissions": [],
+  "properties": {
+    "source": {
+      "label": "lists.prop.source",
+      "type": "list.any",
+      "default": []
+    },
+    "filter": {
+      "label": "lists.prop.filter",
+      "type": "data",
+      "default": {
+        "field": "",
+        "op": "contains",
+        "value": "",
+        "ignoreCase": true,
+        "take": "all",
+        "index": 1
+      }
+    }
+  },
+  "derived": {
+    "result": {
+      "label": "lists.prop.result",
+      "type": "portvalue",
+      "from": {
+        "script": "searchResult"
+      }
+    },
+    "info": {
+      "label": "lists.prop.source",
+      "type": "data",
+      "from": {
+        "script": "sharedList"
+      }
+    }
+  },
+  "screen": "lists.search",
+  "actions": {
+    "pick": {
+      "use": "lists.pick",
+      "inputs": {
+        "writable": {
+          "payload": "writable"
+        }
+      }
+    },
+    "search": {
+      "use": "lists.search",
+      "inputs": {
+        "filter": "filter"
+      }
+    },
+    "unshare": {
+      "use": "lists.unshare"
+    }
+  },
+  "surface": {
+    "outputs": [
+      {
+        "property": "result",
+        "key": "result",
+        "label": "lists.prop.result",
+        "node": [
+          "filter"
+        ]
+      }
+    ]
+  }
+}

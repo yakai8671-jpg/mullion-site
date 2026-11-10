@@ -1,0 +1,29 @@
+{
+  "name": "permissions",
+  "deps": [
+    "server",
+    "media",
+    "library",
+    "grants",
+    "items",
+    "layout",
+    "registry",
+    "apps",
+    "bays",
+    "ports",
+    "pickers",
+    "mount",
+    "frames",
+    "operations",
+    "i18n",
+    "hotkeys",
+    "plugins"
+  ],
+  "api": [
+    "familyUses",
+    "setLayoutReset"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

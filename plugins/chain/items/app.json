@@ -1,0 +1,90 @@
+{
+  "id": "chain.app",
+  "label": "chain.item.app",
+  "icon": "diagram-3",
+  "standalone": true,
+  "permissions": [
+    "comfy:run",
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "window:write"
+  ],
+  "properties": {
+    "apps": {
+      "label": "chain.prop.apps",
+      "type": "list",
+      "link": true,
+      "default": [],
+      "itemType": {
+        "kind": "surfaced",
+        "exclude": [
+          "chain.app"
+        ]
+      }
+    },
+    "blocks": {
+      "label": "chain.prop.blocks",
+      "type": "list",
+      "each": {
+        "type": "chain.block"
+      },
+      "default": []
+    },
+    "variableList": {
+      "label": "chain.prop.variableList",
+      "type": "list",
+      "each": {
+        "type": "chain.variable"
+      },
+      "default": []
+    }
+  },
+  "derived": {
+    "variables": {
+      "label": "chain.prop.variables",
+      "type": "list",
+      "each": {
+        "type": "chain.variablevalue"
+      },
+      "from": {
+        "script": "chainVariables"
+      }
+    },
+    "report": {
+      "label": "chain.state.item",
+      "type": "data",
+      "from": {
+        "script": "chainView"
+      }
+    }
+  },
+  "screen": "chain.app",
+  "actions": {
+    "run": {
+      "use": "chain.run",
+      "inputs": {
+        "blocks": "blocks",
+        "apps": "apps",
+        "variableList": "variableList"
+      },
+      "outputs": {
+        "variableList": "variableList"
+      }
+    },
+    "cancel": {
+      "use": "chain.cancel"
+    },
+    "say": {
+      "use": "chain.say",
+      "inputs": {
+        "key": {
+          "payload": "key"
+        }
+      }
+    },
+    "open": {
+      "use": "chain.open"
+    }
+  }
+}

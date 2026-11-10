@@ -1,0 +1,41 @@
+{
+  "id": "qwenpe",
+  "name": "Prompt Enhancer (Qwen-Image 2.1)",
+  "version": "1.0.0",
+  "description": "A short request in, the long prompt Qwen-Image 2.1 was trained on out -- one window, Qwen's PE-T2I / PE-I2I rewriters on ComfyUI's own TextGenerate.",
+  "api": 1,
+  "translations": "i18n.json",
+  "items": [
+    "items/app.json"
+  ],
+  "apps": [
+    "apps/app.json"
+  ],
+  "actions": [
+    "actions/run.json"
+  ],
+  "scripts": [
+    "actions.js"
+  ],
+  "styles": [],
+  "permissions": [
+    "comfy:run",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "qwenpe.app"
+    ],
+    "actions": [
+      "qwenpe.run"
+    ],
+    "valueTypes": [],
+    "controls": [],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "services"
+  ]
+}

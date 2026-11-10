@@ -1,0 +1,9 @@
+{
+  "id": "list.any",
+  "base": "list",
+  "label": "lists.vtype.any",
+  "icon": "list-ul",
+  "shareFrom": "list",
+  "identity": "id",
+  "storable": false
+}

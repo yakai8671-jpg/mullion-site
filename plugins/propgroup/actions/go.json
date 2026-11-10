@@ -1,0 +1,20 @@
+{
+  "id": "propgroup.go",
+  "permissions": [
+    "store:read",
+    "window:write"
+  ],
+  "params": {
+    "id": {
+      "type": "number"
+    }
+  },
+  "results": {
+    "shown": {
+      "type": "portvalue"
+    },
+    "opened": {
+      "type": "number"
+    }
+  }
+}

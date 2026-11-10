@@ -1,0 +1,9 @@
+{
+  "id": "hotkeys.add",
+  "permissions": [
+    "hotkeys:read",
+    "hotkeys:write"
+  ],
+  "params": {},
+  "results": {}
+}

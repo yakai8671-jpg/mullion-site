@@ -1,0 +1,7 @@
+{
+  "id": "services.toggle",
+  "permissions": ["services:read", "services:write"],
+  "params": { "id": { "type": "string" } },
+  "results": {},
+  "requires": { "id": "nonEmpty" }
+}

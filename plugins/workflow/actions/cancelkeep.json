@@ -1,0 +1,6 @@
+{
+  "id": "workflow.keeper.cancel",
+  "permissions": ["window:write"],
+  "params": {},
+  "results": { "src": { "type": "string" } }
+}

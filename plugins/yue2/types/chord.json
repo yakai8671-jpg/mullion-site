@@ -1,0 +1,16 @@
+{
+  "id": "yue2.chord",
+  "label": "yue2.vtype.chord",
+  "icon": "music-note-list",
+  "defaultControl": "yue2.notecard",
+  "fields": {
+    "root": { "type": "string" },
+    "quality": { "type": "string" },
+    "bass": { "type": "string" }
+  },
+  "default": {
+    "root": "C",
+    "quality": "",
+    "bass": ""
+  }
+}

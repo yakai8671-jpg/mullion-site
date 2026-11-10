@@ -1,0 +1,20 @@
+{
+  "id": "services.entry",
+  "label": "services.vtype.entry",
+  "icon": "plug",
+  "identity": "id",
+  "port": false,
+  "storable": false,
+  "fields": {
+    "id": { "type": "string" },
+    "label": { "type": "string" },
+    "icon": { "type": "string" },
+    "known": { "type": "boolean" },
+    "runLabel": { "type": "string" },
+    "runIcon": { "type": "string" },
+    "runTitle": { "type": "string" },
+    "runDisabled": { "type": "boolean" }
+  },
+  "defaultControl": "summary",
+  "format": { "field": "label" }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "lists.pick",
+  "permissions": [],
+  "params": {
+    "writable": {
+      "type": "boolean"
+    }
+  },
+  "results": {}
+}

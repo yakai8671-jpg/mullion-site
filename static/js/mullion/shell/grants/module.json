@@ -1,0 +1,10 @@
+{
+  "name": "grants",
+  "deps": [],
+  "api": [
+    "grants"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

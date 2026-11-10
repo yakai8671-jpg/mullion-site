@@ -1,0 +1,10 @@
+{
+  "id": "bseditor.doc",
+  "label": "bseditor.vtype.doc",
+  "icon": "layout-text-window",
+  "port": "bseditor.doc",
+  "defaultControl": "summary",
+  "default": {
+    "cells": []
+  }
+}

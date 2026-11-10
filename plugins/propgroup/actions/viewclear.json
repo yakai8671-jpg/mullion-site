@@ -1,0 +1,10 @@
+{
+  "id": "propgroup.viewclear",
+  "permissions": [],
+  "params": {
+    "app": {
+      "type": "ref"
+    }
+  },
+  "results": {}
+}

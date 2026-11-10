@@ -1,0 +1,15 @@
+{
+  "id": "reddi2ch.setcurrent",
+  "permissions": [
+    "items:write"
+  ],
+  "params": {
+    "app": {
+      "type": "ref"
+    },
+    "path": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

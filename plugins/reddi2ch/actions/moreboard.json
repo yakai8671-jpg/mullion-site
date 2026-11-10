@@ -1,0 +1,19 @@
+{
+  "id": "reddi2ch.moreboard",
+  "permissions": [
+    "reddit:read",
+    "threadstore:access"
+  ],
+  "params": {
+    "subreddit": {
+      "type": "string"
+    },
+    "sort": {
+      "type": "enum"
+    },
+    "span": {
+      "type": "enum"
+    }
+  },
+  "results": {}
+}

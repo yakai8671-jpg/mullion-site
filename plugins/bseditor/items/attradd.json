@@ -1,0 +1,28 @@
+{
+  "id": "bseditor.attradd",
+  "label": "bseditor.item.attradd",
+  "icon": "tag",
+  "permissions": [],
+  "properties": {
+    "cell": {
+      "label": "bseditor.prop.cell",
+      "type": "bseditor.cell"
+    },
+    "find": {
+      "label": "bseditor.prop.find",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "screen": "bseditor.attradd",
+  "actions": {
+    "say": {
+      "use": "bseditor.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "id": "workflow.history.remove",
+  "permissions": ["store:write"],
+  "params": { "id": { "type": "string" } },
+  "results": {}
+}

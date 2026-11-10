@@ -1,0 +1,16 @@
+{
+  "id": "yue2.abc.remove",
+  "params": {
+    "abc": {
+      "type": "yue2.abc"
+    },
+    "id": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "abc": {
+      "type": "yue2.abc"
+    }
+  }
+}

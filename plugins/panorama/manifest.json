@@ -1,0 +1,36 @@
+{
+  "id": "panorama",
+  "name": "360° Panorama",
+  "version": "1.0.0",
+  "description": "What a panorama is: a whole-sphere picture and, once worked out, its depth -- with the way of reading floor, walls and things out of the depth and the workflows that make a panorama and its depth in one run. The Panorama Generator (stage plugin) is where one is made and looked into.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [
+    "panorama.css"
+  ],
+  "types": [
+    "types/panorama.json"
+  ],
+  "controls": [
+    "controls/card.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "presets": "presets.json",
+  "permissions": [],
+  "provides": {
+    "itemTypes": [],
+    "valueTypes": [
+      "panorama"
+    ],
+    "controls": [
+      "panorama.card"
+    ],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "workflow"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "id": "compose.catalog",
+  "label": "compose.item.catalog",
+  "icon": "collection",
+  "standalone": true,
+  "permissions": [
+    "items:write"
+  ],
+  "properties": {
+    "app": {
+      "label": "compose.prop.app",
+      "type": "ref",
+      "itemType": "compose.app",
+      "link": true
+    }
+  },
+  "derived": {
+    "variables": {
+      "label": "compose.prop.variables",
+      "type": "list", "each": { "type": "compose.variable" },
+      "from": {
+        "script": "variables"
+      }
+    },
+    "needsConnection": {
+      "label": "compose.prop.variables",
+      "type": "boolean",
+      "from": {
+        "script": "needsConnection"
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "list",
+      "key": "variables",
+      "options": { "label": "compose.prop.variables", "icon": "collection", "empty": "compose.value.noApp" },
+      "layout": [
+        {
+          "control": "card",
+          "key": "variable",
+          "each": { "bind": "variables" },
+          "as": "variable",
+          "options": { "label": { "bind": "variable.name" }, "icon": "braces" },
+          "slots": {
+            "lead": [
+              { "key": "add", "icon": "plus-lg", "label": "compose.action.add", "title": "compose.action.addTitle", "action": "embed" }
+            ],
+            "body": [
+              { "control": "textbox", "key": "now", "options": { "value": { "bind": "variable.value" } } }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "card",
+      "key": "none-connected",
+      "visible": { "bind": "needsConnection" },
+      "options": { "empty": "compose.value.connectFirst" }
+    }
+  ],
+  "actions": {
+    "embed": {
+      "use": "textcompose.catalog.embed",
+      "inputs": {
+        "app": "app",
+        "key": {
+          "payload": "key"
+        }
+      }
+    }
+  }
+}

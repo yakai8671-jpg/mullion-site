@@ -1,0 +1,15 @@
+{
+  "id": "workflow.fieldlabel",
+  "label": "workflow.control.fieldlabel",
+  "script": true,
+  "standalone": true,
+  "why": "a field's name over something that is not a property row; built from the property table's own elements so skins reach it",
+  "params": {
+    "text": {
+      "type": "string"
+    }
+  },
+  "sampleParams": {
+    "text": "Categories"
+  }
+}

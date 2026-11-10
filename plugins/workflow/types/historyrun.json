@@ -1,0 +1,36 @@
+{
+  "id": "workflow.historyrun",
+  "label": "workflow.vtype.historyrun",
+  "icon": "clock-history",
+  "storable": false,
+  "presetNew": false,
+  "identity": "id",
+  "fields": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "value": {
+      "type": "data"
+    }
+  },
+  "portReceive": false,
+  "sample": {
+    "default": {
+      "id": "h0",
+      "name": "run",
+      "value": {
+        "app": "",
+        "at": ""
+      }
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "storable": false,
+    "label": "workflow.vtype.historyentries",
+    "icon": "clock-history"
+  }
+}

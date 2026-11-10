@@ -1,0 +1,297 @@
+{
+  "id": "apps.list",
+  "label": "apps.item.list",
+  "standalone": true,
+  "icon": "app-indicator",
+  "permissions": [
+    "apps:read",
+    "apps:write",
+    "layout:place"
+  ],
+  "properties": {},
+  "derived": {
+    "apps": {
+      "type": "list",
+      "each": {
+        "type": "apps.entry"
+      },
+      "label": "apps.vtype.entries",
+      "from": {
+        "script": "list"
+      }
+    },
+    "own": {
+      "label": "apps.section.own",
+      "type": "list",
+      "each": {
+        "type": "apps.entry"
+      },
+      "from": {
+        "script": "own"
+      }
+    },
+    "builtin": {
+      "label": "apps.section.builtin",
+      "type": "list",
+      "each": {
+        "type": "apps.entry"
+      },
+      "from": {
+        "script": "builtin"
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "own",
+      "options": {
+        "label": "apps.section.own",
+        "hint": "apps.hint"
+      },
+      "layout": [
+        {
+          "control": "list",
+          "key": "own-list",
+          "options": {
+            "add": {
+              "action": "create",
+              "label": "apps.action.add",
+              "drop": {
+                "kind": "app",
+                "action": "adddropped"
+              }
+            },
+            "of": {
+              "bind": "own"
+            },
+            "search": [
+              "name"
+            ]
+          },
+          "layout": [
+            {
+              "control": "card",
+              "key": "app",
+              "each": {
+                "bind": "own"
+              },
+              "as": "app",
+              "options": {
+                "label": {
+                  "bind": "app.title"
+                },
+                "icon": {
+                  "bind": "app.icon"
+                },
+                "port": true,
+                "discard": "remove"
+              },
+              "slots": {
+                "lead": [
+                  {
+                    "key": "open",
+                    "icon": "play-fill",
+                    "label": "apps.action.open",
+                    "action": "place"
+                  }
+                ],
+                "tools": [
+                  {
+                    "key": "edit",
+                    "icon": "pencil",
+                    "label": "apps.action.edit",
+                    "title": "apps.action.edit",
+                    "action": "edit"
+                  }
+                ],
+                "body": [
+                  {
+                    "control": "layoutpreview",
+                    "key": "tree",
+                    "visible": {
+                      "bind": "app.hasTree"
+                    },
+                    "options": {
+                      "tree": {
+                        "bind": "app.tree"
+                      },
+                      "bare": true
+                    }
+                  },
+                  {
+                    "control": "checkbox",
+                    "key": "history",
+                    "options": {
+                      "value": {
+                        "bind": "app.excludeHistory"
+                      },
+                      "change": "excludehistory"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "builtin",
+      "options": {
+        "label": "apps.section.builtin"
+      },
+      "layout": [
+        {
+          "control": "list",
+          "key": "builtin-list",
+          "layout": [
+            {
+              "control": "card",
+              "key": "app",
+              "each": {
+                "bind": "builtin"
+              },
+              "as": "app",
+              "options": {
+                "label": {
+                  "bind": "app.title"
+                },
+                "icon": {
+                  "bind": "app.icon"
+                },
+                "port": true
+              },
+              "slots": {
+                "lead": [
+                  {
+                    "key": "open",
+                    "icon": "play-fill",
+                    "label": "apps.action.open",
+                    "action": "place"
+                  }
+                ],
+                "tools": [
+                  {
+                    "key": "edit",
+                    "icon": "pencil",
+                    "label": "apps.action.edit",
+                    "title": "apps.action.edit",
+                    "action": "edit"
+                  },
+                  {
+                    "key": "reset",
+                    "icon": "arrow-counterclockwise",
+                    "label": "apps.action.reset",
+                    "title": "apps.action.reset",
+                    "disabled": {
+                      "bind": "app.pristine"
+                    },
+                    "action": "reset"
+                  }
+                ],
+                "body": [
+                  {
+                    "control": "layoutpreview",
+                    "key": "tree",
+                    "visible": {
+                      "bind": "app.hasTree"
+                    },
+                    "options": {
+                      "tree": {
+                        "bind": "app.tree"
+                      },
+                      "bare": true
+                    }
+                  },
+                  {
+                    "control": "checkbox",
+                    "key": "history",
+                    "options": {
+                      "value": {
+                        "bind": "app.excludeHistory"
+                      },
+                      "change": "excludehistory"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "options": {
+            "of": {
+              "bind": "builtin"
+            },
+            "search": [
+              "name"
+            ],
+            "page": 15
+          }
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "remove": {
+      "use": "apps.remove",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        },
+        "name": {
+          "payload": "name"
+        }
+      }
+    },
+    "place": {
+      "use": "apps.place",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        }
+      }
+    },
+    "edit": {
+      "use": "apps.edit",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        }
+      }
+    },
+    "create": {
+      "use": "apps.edit",
+      "with": {
+        "id": ""
+      }
+    },
+    "reset": {
+      "use": "apps.reset",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        }
+      }
+    },
+    "excludehistory": {
+      "use": "apps.excludehistory",
+      "inputs": {
+        "id": {
+          "payload": "id"
+        },
+        "value": {
+          "payload": "value"
+        }
+      }
+    },
+    "adddropped": {
+      "use": "apps.adddropped",
+      "inputs": {
+        "value": {
+          "payload": "value"
+        }
+      }
+    }
+  }
+}

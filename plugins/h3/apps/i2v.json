@@ -1,0 +1,21 @@
+{
+  "type": "h3.i2v",
+  "layout": {
+    "dir": "row",
+    "ratio": 0.5,
+    "children": [
+      { "dir": "col", "ratio": 0.55, "children": [{ "add": "preview", "tag": "preview" }, "self"] },
+      { "dir": "col", "ratio": 0.55, "children": [{ "add": "h3.builder", "tag": "builder" }, { "add": "h3.writer", "tag": "writer" }] }
+    ],
+    "links": [
+      { "to": { "at": "+preview", "key": "input" }, "from": { "at": "self", "key": "outputVideo" } },
+      { "to": { "at": "self", "key": "promptText" }, "from": { "at": "+builder", "key": "output" } }
+    ],
+    "appLinks": [
+      { "at": "+builder", "key": "app", "to": ["self"] },
+      { "at": "+writer", "key": "app", "to": ["self"] },
+      { "at": "+writer", "key": "builder", "to": ["+builder"] }
+    ]
+  },
+  "defaultItem": "h3.i2v"
+}

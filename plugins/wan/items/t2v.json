@@ -1,0 +1,11 @@
+{
+  "id": "wan.t2v",
+  "extends": "workflow.run",
+  "label": "wan.item.t2v",
+  "icon": "film",
+  "config": {
+    "promptText": false,
+    "attention": true,
+    "template": "assets/t2v.json"
+  }
+}

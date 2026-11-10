@@ -1,0 +1,13 @@
+{
+  "id": "files.say",
+  "permissions": [],
+  "params": {
+    "key": {
+      "type": "string"
+    },
+    "error": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

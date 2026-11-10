@@ -1,0 +1,4 @@
+{
+  "type": "terminal.shell",
+  "hotkeys": [{ "key": "ctrl+l", "at": "self", "action": "clear" }]
+}

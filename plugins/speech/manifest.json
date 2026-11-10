@@ -1,0 +1,47 @@
+{
+  "id": "speech",
+  "name": "Speech",
+  "version": "2.0.0",
+  "description": "Text read aloud, in one window each: VOICEVOX (a voice and its style, speed, pitch) and Irodori-TTS (a description of the voice, or a recording to take it from).",
+  "api": 1,
+  "translations": "i18n.json",
+  "items": [
+    "items/voicevox.json",
+    "items/irodori.json"
+  ],
+  "apps": [
+    "apps/voicevox.json",
+    "apps/irodori.json"
+  ],
+  "actions": [
+    "actions/voicevox-run.json",
+    "actions/irodori-run.json"
+  ],
+  "scripts": [
+    "actions.js"
+  ],
+  "styles": [],
+  "permissions": [
+    "speech:run",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "speech.voicevox",
+      "speech.irodori"
+    ],
+    "actions": [
+      "speech.voicevox.run",
+      "speech.irodori.run"
+    ],
+    "valueTypes": [],
+    "controls": [],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "services"
+  ]
+}

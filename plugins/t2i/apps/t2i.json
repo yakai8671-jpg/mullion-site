@@ -1,0 +1,15 @@
+{
+  "type": "t2i.app",
+  "layout": {
+    "dir": "row",
+    "ratio": 0.5,
+    "children": [
+      { "dir": "col", "ratio": 0.55, "children": [{ "add": "preview", "tag": "preview" }, "self"] },
+      { "dir": "col", "ratio": 0.5, "children": [{ "add": "prompt.assembler", "tag": "editor" }, { "add": "prompt.generator", "tag": "generator" }] }
+    ],
+    "links": [
+      { "to": { "at": "+preview", "key": "input" }, "from": { "at": "self", "key": "outputs" } },
+      { "to": { "at": "self", "key": "promptText" }, "from": { "at": "+editor", "key": "output" } }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "id": "workflow.history.enable",
+  "permissions": ["app:write"],
+  "params": {},
+  "results": {}
+}

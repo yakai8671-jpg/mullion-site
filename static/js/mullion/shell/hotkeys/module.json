@@ -1,0 +1,41 @@
+{
+  "name": "hotkeys",
+  "deps": [
+    "items",
+    "layout",
+    "apps",
+    "bays",
+    "i18n",
+    "registry",
+    "operations"
+  ],
+  "api": [
+    "HOTKEY_ACTIONS",
+    "hotkeysHooks",
+    "registerHotkeysHook",
+    "HOTKEY_KEYS",
+    "stashedNode",
+    "hotkeyCombo",
+    "innerAppFrame",
+    "outerAppFrame",
+    "outerAppFrames",
+    "frameMain",
+    "rolePath",
+    "hotkeyAddress",
+    "resolveHotkeyAddress",
+    "hotkeyTargetLabel",
+    "DRAFT",
+    "hotkeyList",
+    "hotkeyParts",
+    "nextBindingId",
+    "addHotkey",
+    "setHotkey",
+    "removeHotkey",
+    "coerceHotkeys"
+  ],
+  "events": [
+    "change"
+  ],
+  "slots": [],
+  "fills": []
+}

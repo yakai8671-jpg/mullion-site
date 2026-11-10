@@ -1,0 +1,70 @@
+{
+  "id": "stage",
+  "name": "Panorama Editor",
+  "version": "0.1.0",
+  "description": "Makes a panorama and its depth in one run, and sets a stage in it: the panorama as the room, and objects -- a picture, a video or a character, with a place by direction, distance, height and scale -- stood in it and hidden behind whatever stands in front of them.",
+  "api": 1,
+  "translations": "i18n.json",
+  "types": [
+    "types/placement.json",
+    "types/stage.json"
+  ],
+  "controls": [
+    "controls/objectedit.json",
+    "controls/view.json"
+  ],
+  "items": [
+    "items/editor.json",
+    "items/view.json",
+    "items/scene.json"
+  ],
+  "apps": [
+    "apps/editor.json",
+    "apps/scene.json"
+  ],
+  "assets": [
+    "assets/flux.json",
+    "assets/qwen.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "styles": [
+    "stage.css"
+  ],
+  "permissions": [
+    "layout:place",
+    "comfy:run",
+    "ollama:run",
+    "store:read",
+    "store:write",
+    "window:write",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "panorama.editor",
+      "stage.view",
+      "stage.scene"
+    ],
+    "valueTypes": [
+      "stage",
+      "stage.placement"
+    ],
+    "controls": [
+      "stage.view",
+      "stage.objectedit"
+    ],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "panorama",
+    "workflow",
+    "t2i",
+    "wan",
+    "character",
+    "services"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "panorama.editor",
+  "name": "stage.app.name",
+  "layout": {
+    "dir": "row",
+    "ratio": 0.62,
+    "children": [
+      {
+        "dir": "col",
+        "ratio": 0.62,
+        "children": [
+          { "add": "stage.view", "tag": "view" },
+          "self"
+        ]
+      },
+      { "add": "stage.scene", "tag": "scene" }
+    ],
+    "appLinks": [
+      { "at": "+view", "key": "scene", "to": ["+scene"] }
+    ]
+  },
+  "props": {
+    "size": [2048, 1024]
+  }
+}

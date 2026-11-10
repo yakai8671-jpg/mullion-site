@@ -1,0 +1,36 @@
+{
+  "id": "prompt.promptlist",
+  "label": "prompt.control.promptlist",
+  "script": true,
+  "why": "prompt list in a card with add button and slot controls",
+  "needs": [
+    "items",
+    "set"
+  ],
+  "params": {
+    "itemId": {
+      "type": "string"
+    },
+    "port": {
+      "type": "data"
+    },
+    "empty": {
+      "type": "string"
+    },
+    "rowPorts": {
+      "type": "data"
+    },
+    "onDiscard": {
+      "type": "data"
+    },
+    "onKeep": {
+      "type": "data"
+    },
+    "onLoad": {
+      "type": "data"
+    },
+    "load": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "library",
+  "deps": [
+    "server",
+    "media"
+  ],
+  "api": [
+    "watchLibrary",
+    "saved",
+    "savedOfType",
+    "savedValue",
+    "savedTypes",
+    "libraryLoaded",
+    "loadLibrary",
+    "saveValue",
+    "deleteValue",
+    "store",
+    "catchUp"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

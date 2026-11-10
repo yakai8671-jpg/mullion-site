@@ -1,0 +1,11 @@
+{
+  "id": "prompt.modelselect",
+  "label": "prompt.prop.model",
+  "script": true,
+  "why": "Choose an available Ollama model",
+  "needs": [
+    "text",
+    "setText"
+  ],
+  "params": {}
+}

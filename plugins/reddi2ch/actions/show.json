@@ -1,0 +1,18 @@
+{
+  "id": "reddi2ch.show",
+  "permissions": [
+    "window:write"
+  ],
+  "params": {
+    "key": {
+      "type": "string"
+    },
+    "board": {
+      "type": "ref"
+    },
+    "thread": {
+      "type": "ref"
+    }
+  },
+  "results": {}
+}

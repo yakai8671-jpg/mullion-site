@@ -1,0 +1,13 @@
+{
+  "id": "apps.reset",
+  "permissions": [
+    "apps:read",
+    "apps:write"
+  ],
+  "params": {
+    "id": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

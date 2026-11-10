@@ -1,0 +1,184 @@
+/*
+ * Theme and skin definitions. Every colour and measurement used anywhere in
+ * the app comes from a variable defined here -- component stylesheets never
+ * hardcode one.
+ *
+ * There are two axes, and they are independent:
+ *
+ *   [data-theme]  the palette. Add a block below and list it in THEMES.
+ *   [data-skin]   everything else: density, shape, type. Blocks live in
+ *                 skins.css (or in a plugin's own stylesheet), and are
+ *                 listed by registerSkin().
+ *
+ * The shape group below is what a skin is expected to move. A skin is not
+ * limited to it -- it may write any rule it likes -- but a skin that only
+ * sets these is guaranteed to leave the layout working.
+ */
+
+:root {
+  --font-sans: -apple-system, "Segoe UI", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "Consolas", "MS Gothic", ui-monospace, monospace;
+
+  /* How a property is set out -- a row of an item, or a card standing in as
+     one -- written once, so the two cannot drift apart: the face and weight
+     of its label, and how far it is set in from the edges. */
+  --prop-font: var(--font-mono);
+  --prop-label-weight: 400;
+  --prop-inset: var(--space-2); /* a window sets its own: less when it is narrow (see .mu-window) */
+  /* The room between a name and what it names -- a row's label and its value
+     when they stack, a card's name and the card, a section's title and its
+     body. Between one thing and the next it is --space-2. */
+  --prop-label-gap: var(--space-1);
+  /* The height a name takes (a line of the small size) and, with the gap,
+     what a card that is named from outside holds room for above itself. */
+  --prop-label-height: calc(1.5 * var(--font-size-small));
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+
+  --radius: 4px;
+  --border-width: 1px;
+
+  /* What can be typed into: a step lighter than whatever it sits on, in
+     every palette -- so a field reads as a field inside a card, a table or
+     a window alike. (Worked out here, on the element the theme is set on.) */
+  --input-bg: color-mix(in srgb, var(--bg-elevated), #ffffff 7%);
+
+  /* ---- shape: what a skin moves ------------------------------------ */
+  --font-size: 14px; /* everything else is relative to this */
+  --font-size-small: 0.6875rem; /* labels, breadcrumbs, readouts */
+  --seam: var(--border-width); /* the line two windows share */
+  --bar-height: 1.875rem; /* title bars and card headers */
+  --action-bar-height: 1.875rem; /* item bars and card bars: at least this, taller when a card with a vertical header stands in them */
+  --titlebar-bg: var(--bg);
+  --window-radius: 0; /* gapless by default, so square by default */
+}
+
+/* ---- Light ------------------------------------------------------- */
+:root,
+[data-theme="light"] {
+  --bg: #f3f3f3;
+  --bg-elevated: #ffffff;
+  --bg-inset: #fbfbfb;
+  --bg-hover: #e8e8e8;
+  --bg-selected: #dbeafe;
+
+  --fg: #1a1a1a;
+  --fg-muted: #6b6b6b;
+  --fg-inverted: #ffffff;
+
+  --border: #d6d6d6;
+  --border-strong: #b7b7b7;
+
+  --accent: #2563eb;
+  --accent-fg: #ffffff;
+  --danger: #d92d20;
+  --danger-fg: #ffffff;
+  --success: #1a7f37;
+
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* ---- Dark ---------------------------------------------------------- */
+[data-theme="dark"] {
+  --bg: #1e1f22;
+  --bg-elevated: #26272b;
+  --bg-inset: #1a1b1e;
+  --bg-hover: #303136;
+  --bg-selected: #2c3e60;
+
+  --fg: #e4e4e6;
+  --fg-muted: #98999e;
+  --fg-inverted: #101113;
+
+  --border: #38393e;
+  --border-strong: #4a4b51;
+
+  --accent: #5b9dff;
+  --accent-fg: #0b1220;
+  --danger: #ff6b61;
+  --danger-fg: #2a0906;
+  --success: #4fce6e;
+
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ---- Solarized ------------------------------------------------------ */
+[data-theme="solarized"] {
+  --bg: #002b36;
+  --bg-elevated: #073642;
+  --bg-inset: #00252e;
+  --bg-hover: #0a4351;
+  --bg-selected: #275b6b;
+
+  --fg: #eee8d5;
+  --fg-muted: #93a1a1;
+  --fg-inverted: #002b36;
+
+  --border: #0a4351;
+  --border-strong: #14586a;
+
+  --accent: #2aa198;
+  --accent-fg: #002b36;
+  --danger: #dc322f;
+  --danger-fg: #fdf6e3;
+  --success: #859900;
+
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* ---- Prompt Violet -------------------------------------------------
+ * Lifted from the promptmanager project: navy so dark it reads as black,
+ * panels a step lighter, and one violet doing all the work. Borders are
+ * translucent white rather than a fixed grey, which is what keeps the
+ * panels looking like glass rather than like boxes.
+ */
+[data-theme="prompt"] {
+  --bg: #0b0f19;
+  --bg-elevated: #0f172a;
+  --bg-inset: #070a11;
+  --bg-hover: rgba(255, 255, 255, 0.09);
+  --bg-selected: rgba(139, 92, 246, 0.18);
+
+  --fg: #f3f4f6;
+  --fg-muted: #9ca3af;
+  --fg-inverted: #0b0f19;
+
+  --border: rgba(255, 255, 255, 0.16);
+  --border-strong: rgba(255, 255, 255, 0.3);
+
+  --accent: #8b5cf6;
+  --accent-fg: #ffffff;
+  --danger: #ef4444;
+  --danger-fg: #ffffff;
+  --success: #10b981;
+
+  --shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+
+/* ---- Nord ------------------------------------------------------- */
+[data-theme="nord"] {
+  --bg: #2e3440;
+  --bg-elevated: #3b4252;
+  --bg-inset: #272c37;
+  --bg-hover: #434c5e;
+  --bg-selected: #4c6079;
+
+  --fg: #e5e9f0;
+  --fg-muted: #9aa5b7;
+  --fg-inverted: #2e3440;
+
+  --border: #4c566a;
+  --border-strong: #5e6a84;
+
+  --accent: #88c0d0;
+  --accent-fg: #2e3440;
+  --danger: #bf616a;
+  --danger-fg: #eceff4;
+  --success: #a3be8c;
+
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}

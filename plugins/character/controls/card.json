@@ -1,0 +1,18 @@
+{
+  "id": "character.card",
+  "label": "character.control.card",
+  "why": "the whole character: a card that takes one in and gives one out, with its summary, state and the prompt it yields",
+  "needs": [
+    "character"
+  ],
+  "script": true,
+  "params": {
+    "port": { "type": "data" },
+    "state": { "type": "string" },
+    "onKeep": { "type": "function" },
+    "onSaveAsNew": { "type": "function" },
+    "onPresets": { "type": "function" },
+    "onNew": { "type": "function" },
+    "onDiscard": { "type": "function" }
+  }
+}

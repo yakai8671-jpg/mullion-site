@@ -1,0 +1,10 @@
+{
+  "en": {
+    "wan.item.t2v": "Video Generation (Wan)",
+    "wan.item.i2v": "Image to Video (Wan)"
+  },
+  "ja": {
+    "wan.item.t2v": "動画生成 (Wan)",
+    "wan.item.i2v": "画像から動画生成 (Wan)"
+  }
+}

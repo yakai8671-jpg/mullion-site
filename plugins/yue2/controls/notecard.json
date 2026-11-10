@@ -1,0 +1,17 @@
+{
+  "id": "yue2.notecard",
+  "label": "yue2.control.notecard",
+  "why": "A note or chord of the piano roll as one card: a vertical header with the grip, a drop-down per field of the value in one form, delete at the end",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "lead": { "type": "data" },
+    "options": { "type": "data" },
+    "empty": { "type": "string" },
+    "onRemove": { "type": "action" },
+    "readonly": { "type": "boolean" }
+  },
+  "sampleParams": {
+    "empty": "-"
+  }
+}

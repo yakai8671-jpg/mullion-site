@@ -1,0 +1,16 @@
+{
+  "id": "pose2img.viewport",
+  "label": "pose2img.control.viewport",
+  "standalone": true,
+  "script": true,
+  "why": "a three.js canvas: a WebGL context is not rebuilt on every redraw, so it owns its DOM",
+  "params": {
+    "sceneId": { "type": "string" },
+    "scene": { "type": "data", "bind": "read" },
+    "aspect": { "type": "number", "bind": "read" },
+    "mode": { "type": "string", "bind": "read" },
+    "onEdit": { "type": "action" },
+    "onMode": { "type": "action" },
+    "onShot": { "type": "action" }
+  }
+}

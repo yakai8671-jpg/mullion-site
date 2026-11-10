@@ -1,0 +1,96 @@
+{
+  "id": "prompt.assembler",
+  "label": "prompt.item.assembler",
+  "icon": "stars",
+  "standalone": true,
+  "permissions": [
+    "window:write",
+    "store:read"
+  ],
+  "properties": {
+    "slots": {
+      "label": "prompt.prop.slots",
+      "type": "list",
+      "each": {
+        "type": "prompt.slot"
+      },
+      "default": []
+    },
+    "separator": {
+      "label": "prompt.prop.separator",
+      "type": "string",
+      "default": ", ",
+      "placeholder": "prompt.placeholder.separator"
+    }
+  },
+  "derived": {
+    "output": {
+      "type": "string",
+      "label": "prompt.prop.output",
+      "from": {
+        "script": "assembled"
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "prompt.section.result"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "output",
+          "options": {
+            "value": {
+              "bind": "output"
+            },
+            "placeholder": "prompt.value.noResult"
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "slots",
+      "options": {
+        "label": "prompt.section.slots"
+      },
+      "layout": [
+        {
+          "control": "prompt.promptlist",
+          "key": "list",
+          "options": {
+            "value": {
+              "bind": "slots"
+            },
+            "itemId": {
+              "item": "id"
+            },
+            "load": true
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "own",
+      "options": {
+        "label": "prompt.section.settings"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "fields",
+          "options": {
+            "entries": [
+              "separator"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

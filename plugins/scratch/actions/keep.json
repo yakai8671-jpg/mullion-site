@@ -1,0 +1,10 @@
+{
+  "id": "scratch.keep",
+  "permissions": ["store:write"],
+  "params": {
+    "entries": { "type": "list", "each": { "type": "scratch.entry" } },
+    "id": { "type": "string" },
+    "type": { "type": "string" }
+  },
+  "results": {}
+}

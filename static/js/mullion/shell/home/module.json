@@ -1,0 +1,20 @@
+{
+  "name": "home",
+  "deps": [
+    "server",
+    "layout",
+    "i18n"
+  ],
+  "api": [
+    "HOME_KEY",
+    "DEFAULT_HOME",
+    "homeGroups",
+    "defaultHomeGroups",
+    "setHomeGroups"
+  ],
+  "events": [
+    "change"
+  ],
+  "slots": [],
+  "fills": []
+}

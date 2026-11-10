@@ -1,0 +1,10 @@
+{
+  "id": "panorama.card",
+  "label": "panorama.control.card",
+  "why": "A whole-sphere picture card that shows the picture and a badge indicating depth status",
+  "standalone": true,
+  "script": true,
+  "needs": [
+    "src"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "yue2.generate",
+  "permissions": [
+    "comfy:run"
+  ],
+  "params": {
+    "style": {
+      "type": "string"
+    },
+    "lyrics": {
+      "type": "string"
+    },
+    "abc": {
+      "type": "yue2.abc"
+    },
+    "abcAuto": {
+      "type": "boolean"
+    },
+    "planning": {
+      "type": "enum"
+    },
+    "maxDuration": {
+      "type": "number"
+    },
+    "seed": {
+      "type": "number"
+    },
+    "randomSeed": {
+      "type": "boolean"
+    },
+    "model": {
+      "type": "string"
+    },
+    "format": {
+      "type": "enum"
+    },
+    "abcTemperature": {
+      "type": "number"
+    },
+    "musicTemperature": {
+      "type": "number"
+    },
+    "steps": {
+      "type": "number"
+    },
+    "abcMade": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "audio": {
+      "type": "audio"
+    },
+    "abc": {
+      "type": "yue2.abc"
+    },
+    "abcMade": {
+      "type": "string"
+    }
+  },
+  "concurrency": "ignore",
+  "cancellable": true,
+  "requires": {
+    "services": [
+      "comfyui"
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "pose2img.app",
+  "extends": "workflow.run",
+  "label": "pose2img.item.app",
+  "icon": "person-arms-up",
+  "config": {
+    "promptText": true,
+    "attention": true,
+    "engines": [
+      {
+        "key": "anima",
+        "label": "pose2img.engine.anima",
+        "template": "assets/anima.json"
+      },
+      {
+        "key": "qwen",
+        "label": "pose2img.engine.qwen",
+        "template": "assets/qwen.json"
+      }
+    ]
+  },
+  "properties": {
+    "scene": {
+      "label": "pose2img.prop.scene",
+      "type": "ref",
+      "itemType": "pose2img.scene",
+      "link": true
+    }
+  },
+  "hooks": "pose2img.app"
+}

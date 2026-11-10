@@ -1,0 +1,13 @@
+{
+  "id": "apps.edit",
+  "permissions": [
+    "apps:read",
+    "layout:place"
+  ],
+  "params": {
+    "id": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

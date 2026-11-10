@@ -1,0 +1,40 @@
+{
+  "id": "character.replace",
+  "permissions": [
+    "store:read"
+  ],
+  "params": {
+    "uid": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "references": {
+      "type": "data"
+    },
+    "actions": {
+      "type": "list"
+    },
+    "value": {
+      "type": "character"
+    },
+    "title": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "uid": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "references": {
+      "type": "data"
+    },
+    "actions": {
+      "type": "list"
+    }
+  }
+}

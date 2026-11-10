@@ -1,0 +1,7 @@
+{
+  "id": "reddi2ch.style",
+  "base": "string",
+  "label": "reddi2ch.vtype.style",
+  "icon": "chat-quote",
+  "defaultControl": "textarea"
+}

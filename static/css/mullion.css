@@ -1,0 +1,5303 @@
+/* Mullion: the shell's own styles. Inherits the notepad
+ * look (notepad.css is loaded first) -- icon buttons, drag handles and the
+ * mono debug type all come from there.
+ *
+ * The layout is gapless on purpose: siblings under the same split share a
+ * single seam (.mu-resizer), which doubles as the drag target for resizing
+ * them. So windows never carry their own border -- an active window is
+ * marked with an inset ring instead, which takes up no space.
+ */
+
+.mu-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  /* Nothing on its way somewhere (a sliding bar, a sash) may reach past the
+     stage: the page would grow a scrollbar for a moment, the stage would
+     change size under the motion, and everything would be laid out again
+     mid-way. */
+  overflow: hidden;
+  background: var(--bg-inset);
+}
+
+.mu-stage[hidden] {
+  display: none;
+}
+
+/* .empty-state sets display:flex, which would beat the hidden attribute. */
+.empty-state[hidden] {
+  display: none;
+}
+
+/* -- split containers ------------------------------------------------ */
+.mu-split {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  gap: 0;
+}
+
+.mu-split.dir-row {
+  flex-direction: row;
+}
+
+.mu-split.dir-col {
+  flex-direction: column;
+}
+
+/* -- window ---------------------------------------------------------- */
+.mu-window {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  /* The frame a card has (see .mu-card): a line round it, and no shadow. */
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--window-radius);
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+
+/* The root is the stage itself: no frame. */
+.mu-window.is-root {
+  border: 0;
+}
+
+/* A group (a bay too) is framed by the windows in it, which each have the frame above: a line of its own
+   as well would make the edge twice as thick as any other window's. Its bar carries the top and the
+   sides of the frame where it has one (a group that shows one of its screens is a window: it keeps its
+   own, and so does a folded one). */
+.mu-window.is-group:not(.is-root):not(.has-screen):not(.is-collapsed) {
+  border: 0;
+}
+
+/* What shows between the windows in a group (not the stage's own gaps, which stay the stage's colour) is
+   the colour of a window's bar: the accent at 14% on the skin's bar colour, on the windows' ground. */
+.mu-window.is-group:not(.is-root):not(.has-screen):not(.is-collapsed) {
+  --group-ground: color-mix(in srgb, var(--accent) 14%, var(--titlebar-bg));
+  background: linear-gradient(var(--group-ground), var(--group-ground)), var(--bg-elevated);
+}
+
+.mu-window.is-group:not(.is-root):not(.has-screen):not(.is-collapsed) > .mu-titlebar {
+  border: var(--border-width) solid var(--border);
+  border-bottom: 0;
+  border-radius: var(--window-radius) var(--window-radius) 0 0;
+}
+
+.mu-window.is-drop-target {
+  box-shadow: inset 0 0 0 0.125rem var(--accent);
+}
+
+/* The active window, marked by the tint of its title bar rather than with a
+   ring or an edge, so it never competes with the split/drop rings above. */
+.mu-window.is-focused > .mu-titlebar {
+  --bar-tint: color-mix(in srgb, var(--accent) 22%, var(--titlebar-bg));
+}
+
+.mu-window.is-focused > .mu-titlebar .mu-window-id {
+  color: var(--accent);
+}
+
+/* A window that wears an app's colour wears it on its bar too, a little
+   more when it is the one being typed into -- the same two steps an
+   untinted bar takes, only from the app's colour rather than the theme's. */
+.mu-window.has-tint > .mu-titlebar {
+  --bar-tint: color-mix(in srgb, var(--accent) 14%, var(--titlebar-bg));
+}
+
+.mu-window.has-tint.is-focused > .mu-titlebar {
+  --bar-tint: color-mix(in srgb, var(--accent) 22%, var(--titlebar-bg));
+}
+
+.mu-window.has-tint > .mu-titlebar .mu-window-id,
+.mu-window.has-tint > .mu-titlebar .mu-group-icon {
+  color: var(--accent);
+}
+
+/* Brought forward from elsewhere -- an app dashboard's tile, say: a short
+   ring, so the eye finds which window it was. */
+.mu-window.is-revealed {
+  animation: mu-reveal 0.7s ease-out;
+}
+
+@keyframes mu-reveal {
+  0% {
+    box-shadow: 0 0 0 3px var(--accent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.mu-window:focus {
+  outline: none;
+}
+
+.mu-window:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 0.125rem var(--accent);
+}
+
+.mu-window.is-drag-source {
+  opacity: 0.45;
+}
+
+/* -- window top bar -------------------------------------------------- */
+.mu-titlebar {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: var(--bar-height);
+  min-height: var(--bar-height);
+  padding: 0 var(--space-1);
+  /* One step toward the accent from the skin's bar colour; the window being typed into takes one more.
+     Laid on the ground every window has (--bg-elevated), not on whatever is behind the window: a skin
+     whose bar is see-through would otherwise show a group's ground through its bar. */
+  --bar-tint: color-mix(in srgb, var(--accent) 14%, var(--titlebar-bg));
+  background: linear-gradient(var(--bar-tint), var(--bar-tint)), var(--bg-elevated);
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+/* The room around the controls in a window: --body-pad round the body, --prop-inset in from its edge to a
+   control, --body-gap between one and the next. A window too narrow to wear its own buttons (they
+   are folded into a menu) keeps less of it, so the controls get the width. Each window says its own,
+   so a window inside a group does not take its group's. */
+.mu-window {
+  --body-pad: var(--space-2);
+  --body-gap: var(--space-2);
+  --prop-inset: var(--space-2);
+}
+
+.mu-window.is-tools-folded:not(.is-collapsed) {
+  --body-pad: var(--space-1);
+  --body-gap: var(--space-1);
+  --prop-inset: var(--space-1);
+}
+
+.mu-drag-handle {
+  flex: 0 0 auto;
+  width: 1.125rem;
+  color: var(--fg-muted);
+  font-size: 1.1875rem;
+  line-height: 1.5rem;
+  text-align: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.mu-drag-handle:active {
+  cursor: grabbing;
+}
+
+.mu-window-id {
+  min-width: 0;
+  cursor: pointer;
+  overflow: hidden;
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* What the window is showing: its item's icon and the path to it, as one
+   group centred regardless of how wide the id or the action buttons are.
+   The group ignores clicks; the icon and the crumbs take them. */
+.mu-window-title {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  /* Centred, so it has to keep clear of both ends at once: the widest of
+     them is the three action buttons. Three at 1.75rem plus their gaps. */
+  max-width: calc(100% - 12rem);
+  overflow: hidden;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.mu-window-path {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.mu-crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1875rem;
+  max-width: 10rem;
+  overflow: hidden;
+  padding: 0.125rem 0.25rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  /* An ancestor is drawn as quietly as the bar's buttons: in the accent it
+     would read as the thing selected, which is the current crumb's job. */
+  color: var(--fg-muted);
+  cursor: default;
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+  pointer-events: auto;
+}
+
+.mu-crumb-icon {
+  flex: 0 0 auto;
+}
+
+.mu-crumb-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* An ancestor is its icon alone: the path is a mark of where the window is,
+   recognised rather than read. */
+.mu-crumb:not(.is-current) .mu-crumb-label {
+  display: none;
+}
+
+.mu-crumb.is-current {
+  color: var(--fg);
+  cursor: default;
+  pointer-events: none;
+}
+
+.mu-crumb-sep {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.mu-title-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+}
+
+/* Icon buttons: quiet until hovered, so a title bar reads as one strip. */
+/* A button told to hide hides, whatever display its kind is given. */
+.mu-icon-button[hidden] {
+  display: none;
+}
+
+.mu-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+
+.mu-titlebar .mu-icon-button {
+  height: 1.5rem;
+}
+
+.mu-icon-button:hover {
+  background: var(--bg-hover);
+  color: var(--fg);
+}
+
+.mu-icon-button.is-active {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+/* The one button on a bar worth finding without reading: run, upload, the
+   way into what is being edited. One per bar -- a second would make the
+   first mean nothing -- and first on it: a pill in the theme colour with
+   white writing, its icon and what it does in words. */
+.mu-icon-button.is-primary {
+  /* The size of the link/share badge (.mu-port-link): the two are the pills of a bar. */
+  gap: 0.25rem;
+  width: auto;
+  height: 1.25rem;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-fg, #fff);
+  font: inherit;
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.mu-icon-button.is-primary:hover {
+  background: var(--accent);
+  color: var(--accent-fg, #fff);
+  filter: brightness(1.1);
+}
+
+.mu-icon-button.is-primary:disabled {
+  opacity: 0.5;
+  filter: none;
+}
+
+.mu-icon-button.is-primary .mu-icon-badge {
+  display: none;
+}
+
+/* A mark in the corner of an icon, for two buttons that are the same thing
+   pointing opposite ways. Small enough to read as a modifier rather than as
+   an icon of its own. */
+.mu-icon-button {
+  position: relative;
+}
+
+.mu-icon-badge {
+  position: absolute;
+  right: 0.0625rem;
+  bottom: 0.0625rem;
+  font-size: 0.5625rem;
+  line-height: 1;
+  /* Cut out of the icon underneath by an outline the colour of whatever is
+     behind the button, so the mark does not sit on the strokes of the icon
+     it is marking. An outline, not a disc: a disc is a round shape of its
+     own, bigger than the mark, and read as a second icon.
+
+     `--badge-cut` is inherited, so a bar on another ground says so once
+     (see the workflow card header) rather than every badge guessing. */
+  text-shadow:
+    1px 0 var(--badge-cut, var(--bg)),
+    -1px 0 var(--badge-cut, var(--bg)),
+    0 1px var(--badge-cut, var(--bg)),
+    0 -1px var(--badge-cut, var(--bg)),
+    1px 1px var(--badge-cut, var(--bg)),
+    -1px -1px var(--badge-cut, var(--bg)),
+    1px -1px var(--badge-cut, var(--bg)),
+    -1px 1px var(--badge-cut, var(--bg));
+}
+
+.mu-icon-button:hover .mu-icon-badge {
+  --badge-cut: var(--bg-hover);
+}
+
+.mu-icon-button.action-delete:hover {
+  color: var(--danger);
+}
+
+/* -- a bar too narrow to wear everything ------------------------------ */
+/* The path folds to the current item's icon, exactly as a collapsed
+   window's does, and the four buttons fold into the one that opens them.
+   Nothing is taken away -- everything the bar did is still a click away. */
+.action-menu {
+  display: none;
+}
+
+/* In the order a card's header gives way: the buttons first (folded into
+   the one that opens them), the title only after (is-narrow, set on top). */
+.mu-window.is-tools-folded:not(.is-collapsed) > .mu-titlebar .action-menu {
+  display: inline-flex;
+}
+
+.mu-window.is-tools-folded:not(.is-collapsed) > .mu-titlebar .action-presets,
+.mu-window.is-tools-folded:not(.is-collapsed) > .mu-titlebar .action-prev-sash,
+.mu-window.is-tools-folded:not(.is-collapsed) > .mu-titlebar .action-next-sash,
+.mu-window.is-tools-folded:not(.is-collapsed) > .mu-titlebar .action-pin,
+.mu-window.is-tools-folded:not(.is-collapsed) > .mu-titlebar .action-collapse,
+.mu-window.is-tools-folded:not(.is-collapsed) > .mu-titlebar .action-delete {
+  display: none;
+}
+
+.mu-window.is-narrow:not(.is-collapsed) > .mu-titlebar .mu-crumb:not(.is-current),
+.mu-window.is-narrow:not(.is-collapsed) > .mu-titlebar .mu-crumb-label,
+.mu-window.is-narrow:not(.is-collapsed) > .mu-titlebar .mu-crumb-sep,
+.mu-window.is-narrow:not(.is-collapsed) > .mu-titlebar .mu-group-label {
+  display: none;
+}
+
+/* The buttons the bar folded away, as a list. Rows rather than icons: with
+   nothing else beside them there is room for the words, and the words are
+   what the icons were standing in for. */
+.mu-title-menu {
+  position: fixed;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 9rem;
+  max-width: calc(100vw - 8px);
+  padding: 0.1875rem;
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow);
+}
+
+.mu-title-menu > div {
+  display: contents;
+}
+
+.mu-title-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.25rem var(--space-2);
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-small);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.mu-title-menu-item:hover {
+  background: var(--bg-hover);
+}
+
+.mu-title-menu-item.action-delete-menu:hover {
+  color: var(--danger);
+}
+
+/* Bootstrap Icons are a font, so an icon is text: it takes the colour it
+   inherits and scales with the type around it. */
+.mu-icon-button .bi,
+.mu-crumb .bi,
+.mu-icon {
+  font-size: 0.9375rem;
+  line-height: 1;
+}
+
+/* -- collapsed: a window reduced to its own title bar ------------------ */
+/* It keeps its place in the tree and gives up its share of the space. The
+   bar lies along whichever axis its parent splits, so a window beside
+   another becomes a narrow column rather than a wide strip. */
+/* Collapsed, the title is the current item's icon and nothing else: the
+   ancestors and every label drop out, which leaves exactly what the path
+   already draws for the window you are in.
+
+   Every rule here reaches a frame's *own* bar through `>`. Frames nest --
+   every window is inside the root, and a group holds windows -- so a
+   descendant selector would read an ancestor's state as the window's own:
+   "not collapsed" matched through the root and hid the expand button of
+   every collapsed window there was. */
+.mu-window.is-collapsed > .mu-titlebar .mu-crumb:not(.is-current),
+.mu-window.is-collapsed > .mu-titlebar .mu-crumb-label,
+.mu-window.is-collapsed > .mu-titlebar .mu-crumb-sep,
+.mu-window.is-collapsed > .mu-body,
+.mu-window.is-collapsed > .mu-titlebar .mu-window-id,
+.mu-window.is-collapsed > .mu-titlebar .action-presets,
+.mu-window.is-collapsed > .mu-titlebar .action-prev-sash,
+.mu-window.is-collapsed > .mu-titlebar .action-next-sash,
+.mu-window.is-collapsed > .mu-titlebar .action-pin,
+.mu-window.is-collapsed > .mu-titlebar .action-collapse,
+.mu-window:not(.is-collapsed) > .mu-titlebar .action-expand,
+.mu-window:not(.is-collapsed) > .mu-titlebar .action-expand-toward {
+  display: none;
+}
+
+.mu-window.is-collapsed {
+  flex: 0 0 auto;
+}
+
+/* The only window there is, collapsed: there is no sibling to give the
+   space to, so it keeps the width and gives up only the height -- a bar
+   across the top rather than a sliver down the side. */
+.mu-stage > .mu-window.is-collapsed.is-horizontal,
+.mu-group-body > .mu-window.is-collapsed.is-horizontal {
+  flex: 1 1 0;
+  align-self: flex-start;
+}
+
+.mu-stage > .mu-window.is-collapsed.is-vertical,
+.mu-group-body > .mu-window.is-collapsed.is-vertical {
+  align-self: stretch;
+}
+
+/* Turned on its side, and nothing else: the handle at the near end, the
+   item's icon centred along the bar, the close button at the far end --
+   the same three places the horizontal bar puts them. */
+.mu-window.is-collapsed.is-vertical {
+  width: var(--bar-height);
+}
+
+/* A bar lying sideways over others in a column -- the stage with every window
+   minimised, one above two: the ones below stand side by side, and this one
+   is as wide as all of them together. */
+.mu-split.dir-col > .mu-window.is-collapsed.is-vertical {
+  width: auto;
+  align-self: stretch;
+}
+
+/* The block of those bars is as wide as they are, at the start of the stage, and as tall as it. */
+.mu-group-body > .mu-split.is-compact {
+  flex: 0 0 auto;
+}
+
+/* Wide way round: as tall as one title bar, however much width it is
+   given. Sharing a row with other bars is the case this is for. */
+.mu-window.is-collapsed.is-horizontal > .mu-titlebar {
+  height: var(--bar-height);
+}
+
+.mu-window.is-collapsed.is-vertical > .mu-titlebar {
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-1) 0;
+}
+
+.mu-window.is-collapsed.is-vertical > .mu-titlebar .mu-window-title {
+  top: 50%;
+  left: auto;
+  max-width: none;
+  transform: translateY(-50%);
+}
+
+/* The buttons sit straight under the handle rather than at the far end:
+   everything that acts on the bar is together at the top, and the item's
+   icon keeps the middle to itself. */
+.mu-window.is-collapsed.is-vertical > .mu-titlebar .mu-title-actions {
+  flex-direction: column;
+  margin-left: 0;
+  margin-top: 0;
+}
+
+/* -- groups: a frame with a layout inside it --------------------------- */
+/* A group is a window from the outside: the same frame, the same bar, the
+   same four buttons. What is inside is not an item but an ordinary tree of
+   windows, so everything below is about giving that tree a box to live in
+   and setting it apart from the stage around it. */
+.mu-group-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  /* The stage's own colour: the seams between the windows of the stage. A group inside it has a ground
+     of its own (below). */
+  background: var(--bg-inset);
+}
+
+.mu-window.is-group:not(.is-root) > .mu-group-body {
+  background: transparent;
+}
+
+/* What the bar says in the middle: the frame's icon and how much it
+   holds. It sits in .mu-window-title, so it is centred and click-through
+   exactly as a window's path is. */
+.mu-group-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.125rem 0.375rem;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+}
+
+/* The root is the stage itself, so it is not drawn: no bar and no edge.
+   What is inside it fills the page exactly as it did before there was a
+   root to be inside. */
+.mu-window.is-root > .mu-titlebar {
+  display: none;
+}
+
+.mu-window.is-group.is-root {
+  border-radius: 0;
+}
+
+
+.mu-group-icon {
+  flex: 0 0 auto;
+}
+
+.mu-group-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Collapsed, a group is its bar and its icon -- the same rule a window
+   follows, which keeps the current crumb's icon and drops every label. */
+.mu-window.is-collapsed > .mu-group-body,
+.mu-window.is-collapsed > .mu-titlebar .mu-group-label {
+  display: none;
+}
+
+/* A group showing one of its screens (its window settings): the screen's
+   body takes the frame, as a window's would. */
+.mu-window.is-group.has-screen.is-collapsed > .mu-body {
+  display: none;
+}
+
+/* -- notice: one item's own message, in its own window ---------------- */
+.mu-notice {
+  position: absolute;
+  z-index: 8;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: var(--space-1) var(--space-2);
+  border-top: var(--border-width) solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-elevated));
+  color: var(--fg);
+  font-size: var(--font-size-small);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-notice[hidden] {
+  display: none;
+}
+
+/* -- a card control filling its window (`expand`) ---------------------- */
+/* The frame is gone: no padding round the card, no border or corners, no
+   inset from the sides; the card takes the whole body. Its header stays,
+   with the tools. */
+.mu-window.is-card-expanded > .mu-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.mu-window.is-card-expanded > .mu-body > .mu-item {
+  flex: 1;
+  min-height: 0;
+  gap: 0;
+}
+
+.mu-window.is-card-expanded .mu-item > .mu-action-bar {
+  top: 0;
+  margin: 0;
+}
+
+.mu-window.is-card-expanded .mu-item-body {
+  flex: 1;
+  min-height: 0;
+  gap: 0;
+}
+
+.mu-window.is-card-expanded .mu-item-body > .mu-control,
+.mu-window.is-card-expanded .mu-item-body > .mu-widget {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.mu-window.is-card-expanded .mu-item-body > .mu-control > .mu-card,
+.mu-window.is-card-expanded .mu-item-body > .mu-widget > .mu-card,
+.mu-window.is-card-expanded .mu-item-body > .mu-widget.mu-card {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  overflow: auto;
+  border: 0;
+  border-radius: 0;
+}
+
+/* A body that is one card (NODES.card) fills the window the same way. */
+.mu-window.is-card-expanded .mu-item-body > .mu-nodecard {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  overflow: auto;
+  border: 0;
+  border-radius: 0;
+}
+
+/* What is marked `grow` takes the room that is left in the expanded card: the chain down to it
+   is a column that gives its height on. */
+.mu-window.is-card-expanded .mu-nodecard:has(.is-grow) > .mu-nodecard-body,
+.mu-window.is-card-expanded .mu-nodecard:has(.is-grow) > .mu-nodecard-body > .mu-nodecard-items {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.mu-window.is-card-expanded .is-grow {
+  flex: 1;
+  min-height: 0;
+}
+
+.mu-window.is-card-expanded .is-grow > * {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+}
+
+.mu-window.is-card-expanded .is-grow > .mu-textcard {
+  display: flex;
+  flex-direction: column;
+}
+
+.mu-window.is-card-expanded .is-grow .mu-textcard-input {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  resize: none;
+}
+
+/* A text with no card round it. */
+.mu-textcard.is-bare-text {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.mu-textcard.is-bare-text > .mu-textcard-head {
+  display: none;
+}
+
+.mu-window:not(.is-card-expanded) > .mu-titlebar .action-contract {
+  display: none;
+}
+
+/* The card's header is gone with its frame: the way back is the window's. */
+.mu-window.is-card-expanded .mu-item-body > .mu-control > .mu-card > .mu-card-bar,
+.mu-window.is-card-expanded .mu-item-body > .mu-widget > .mu-card > .mu-card-bar,
+.mu-window.is-card-expanded .mu-item-body > .mu-widget.mu-card > .mu-card-bar,
+.mu-window.is-card-expanded .mu-item-body > .mu-nodecard > .mu-card-bar {
+  display: none;
+}
+
+/* -- window body: whatever item the window is showing ----------------- */
+.mu-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--body-pad, var(--space-2));
+  background: var(--bg-inset);
+}
+
+.mu-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--body-gap, var(--space-2));
+  min-width: 0;
+}
+
+/* The two ways out of a screen opened inside another one, at opposite ends
+   of one row: back where it came from, or out into a window of its own. */
+/* A bar: a row of small things held together on the inset ground. A card's
+   header is one (a plugin's own cards wear it too), and so is the item's, which
+   is held at the top while the body scrolls under it -- the way back, what the
+   item is linked to and what it pins are wanted most at the bottom of a long
+   screen. Pulled out over the body's padding so nothing scrolls by in the gap
+   above it, and given the body's ground so what does scroll under it is hidden.
+   The item's holds its rows one above the other (`is-stack`), each row one line. */
+.mu-action-bar {
+  position: sticky;
+  top: calc(-1 * var(--body-pad, var(--space-2)));
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: var(--action-bar-height);
+  margin: calc(-1 * var(--body-pad, var(--space-2))) calc(-1 * var(--body-pad, var(--space-2))) 0;
+  padding: 0 var(--body-pad, var(--space-2));
+  border-bottom: var(--border-width) solid var(--border);
+  background: var(--bg-inset);
+}
+
+/* The rows are as tall as a button already (a state row holds one): no space between them as well. */
+.mu-action-bar.is-stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* A question asked in the window it is about: a row of the item's bar, beside what it is
+   about. Nothing is covered, and the rest of the window goes on working. */
+.mu-action-bar-ask {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.mu-action-bar-ask.is-danger {
+  border-color: var(--danger);
+}
+
+.mu-ask-title {
+  font-weight: 600;
+}
+
+.mu-ask-message {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mu-ask-error {
+  color: var(--danger);
+  font-size: var(--font-size-small);
+}
+
+.mu-ask-error:empty {
+  display: none;
+}
+
+.mu-ask-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.mu-action-bar[hidden],
+.mu-action-bar-row[hidden],
+.mu-action-bar-row:empty {
+  display: none;
+}
+
+.mu-action-bar-row,
+.mu-nodecard-face {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.mu-action-bar-row {
+  min-height: calc(var(--action-bar-height) - var(--border-width));
+}
+
+/* A row that is the bar itself (a card's) is the bar's height; a row in a bar leaves room for its line. */
+.mu-action-bar.mu-action-bar-row {
+  min-height: var(--action-bar-height);
+}
+
+/* A bar answers to its own width (not the window's): it is a container, and
+   what does not fit gives way in this order -- labels next to an icon go, a
+   row of three parts (`is-thirds`) puts its middle on a line of its own, and
+   what is marked `mu-action-bar-extra` goes last. A bar inside a card follows
+   the card's head instead of hanging off the body's top. */
+.mu-action-bar {
+  container: itembar / inline-size;
+}
+
+.mu-card > .mu-action-bar {
+  position: static;
+  top: 0;
+  margin: 0;
+}
+
+/* A bar inside a card is the card's bar: the ground, the edge padding and the height of its header, so
+   whoever draws one (the shell, a plugin through fw.card.bar) gets the same. The item's own bar keeps
+   the inset ground. */
+.mu-card > .mu-action-bar {
+  padding-inline: var(--space-1);
+  background: var(--bg-elevated);
+  --badge-cut: var(--bg-elevated);
+}
+
+.mu-action-bar-row {
+  flex-wrap: wrap;
+}
+
+/* A card bar is one row, whatever its width: in thirds it does not break into two lines as the item's
+   bar does when it is narrow (it is the container's width that those rules read). */
+.mu-card > .mu-action-bar.is-thirds {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas: "start middle end";
+  align-items: center;
+}
+
+/* What stands in the start, middle or end of a row keeps its own size: a control's wrapper is as wide as
+   its parent everywhere else, which as a share of a size that comes from its content is nothing. */
+.mu-action-bar-start > .mu-control,
+.mu-action-bar-middle > .mu-control,
+.mu-action-bar-end > .mu-control {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+/* A card whose header runs down its side, in the middle of a row (the tag picked, between the page
+   buttons): its input has no width of its own to give, so the card is given one and gives way when
+   the bar is narrower. */
+.mu-action-bar-middle > .mu-nodecard.is-side {
+  flex: 0 1 auto;
+  width: 14rem;
+  min-width: 7rem;
+}
+
+/* Start, middle, end: the middle is centred on the row. */
+.mu-action-bar-row.is-thirds {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas: "start middle end";
+}
+
+.mu-action-bar-start,
+.mu-action-bar-middle,
+.mu-action-bar-end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.mu-action-bar-start { grid-area: start; justify-self: start; flex-wrap: wrap; }
+.mu-action-bar-middle { grid-area: middle; justify-content: center; }
+.mu-action-bar-end { grid-area: end; justify-self: end; white-space: nowrap; }
+
+@container itembar (max-width: 480px) {
+  .mu-action-bar .mu-segment:has(.bi:not([hidden])) > .mu-segment-label,
+  .mu-action-bar .mu-icon-button:not(.is-primary) > .mu-button-label {
+    display: none;
+  }
+
+  .mu-action-bar-row.is-thirds {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "start end" "middle middle";
+    row-gap: var(--space-1);
+  }
+}
+
+@container itembar (max-width: 260px) {
+  .mu-action-bar-extra {
+    display: none;
+  }
+
+  .mu-action-bar-row.is-thirds {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "start" "middle" "end";
+  }
+
+  .mu-action-bar-start,
+  .mu-action-bar-end {
+    justify-self: center;
+    justify-content: center;
+  }
+
+  .mu-action-bar .mu-icon-button.is-primary > .mu-button-label {
+    display: none;
+  }
+
+  .mu-action-bar .mu-segments,
+  .mu-action-bar-middle {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* What the body pins: its nodes in a bar's row, one above the other. */
+.mu-action-bar-pins,
+.mu-pinned {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-1);
+}
+
+/* In the bar they stack with no space (the bar's rows are as tall as a button already). */
+.mu-action-bar-pins {
+  gap: 0;
+}
+
+.mu-pinned {
+  display: flex;
+  min-width: 0;
+}
+
+/* The way back out of a screen opened inside another one. First thing in
+   the body, and it names where it goes. */
+.mu-item-back {
+  display: inline-flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-1);
+  max-width: 100%;
+  padding: 0.125rem var(--space-2) 0.125rem var(--space-1);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-small);
+}
+
+.mu-item-back:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.mu-item-back-icon {
+  flex: 0 0 auto;
+}
+
+.mu-item-back > span,
+.mu-list-primary,
+.mu-port-link-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-item-detach {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.mu-item-detach > span {
+  white-space: nowrap;
+}
+
+/* ---- the Preview app ------------------------------------------------------
+   What it shows fills its window, the way the image viewer's picture does:
+   the card takes the height left under the link line. */
+.mu-body:has(> .mu-item[data-item-type="preview"]) {
+  overflow: auto;
+}
+
+.mu-item[data-item-type="preview"] {
+  height: 100%;
+}
+
+.mu-item[data-item-type="preview"] > .mu-item-body,
+.mu-item[data-item-type="preview"] > .mu-item-body > .mu-control:last-child {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---- window settings: colour, launch layout ---------------------------- */
+/* The colours, as the colours. The default one is the theme's own accent,
+   marked with a slash so it reads as "none chosen" rather than as blue. */
+.mu-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.mu-swatch {
+  position: relative;
+  width: 1.375rem;
+  height: 1.375rem;
+  padding: 0;
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  background: var(--swatch);
+  cursor: pointer;
+}
+
+.mu-swatch.is-default {
+  background: linear-gradient(
+    135deg,
+    var(--bg-inset) calc(50% - 1px),
+    var(--fg-muted) calc(50% - 1px),
+    var(--fg-muted) calc(50% + 1px),
+    var(--bg-inset) calc(50% + 1px)
+  );
+}
+
+.mu-swatch:hover {
+  border-color: var(--fg-muted);
+}
+
+/* Chosen: a ring in the page's colour, then one in the swatch's, so it
+   shows on any ground. */
+.mu-swatch.is-active {
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 4px var(--fg);
+}
+
+/* The launch layout, as a picture of itself: the frame at a screen's
+   proportions, cut the way the app will be cut, each piece named for the
+   window that goes there. No piece is marked: lit in the accent, one
+   would read as a selection. */
+/* ---- the card: one box, one bar, one title -----------------------------
+   Every card the shell draws -- a list's, a text's, a picture's, a layout's,
+   and the ones plugins draw -- is a `mu-card`: the box, with the same ground
+   whatever it sits in. Its header is a `mu-card-bar` (the band and the line
+   under it), and its name a `mu-card-title`. A card says what is its own
+   (what it holds, how its header lays out) in rules of its own; the look all
+   of them share is written here once. */
+.mu-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+}
+
+/* A card is set in like a property's row (.mu-props), the same inset on both
+   sides, by where it stands -- directly in an item's body or a section's, or
+   as the control placed there -- not by anything its maker writes on it, so
+   a card nobody remembered to mention is set in like the rest. A card that is
+   itself a property (see below) is one wherever it stands. */
+:is(.mu-item-body, .mu-section-body) > .mu-card,
+:is(.mu-item-body, .mu-section-body) > .mu-control > .mu-card,
+.mu-nodecard.is-property,
+:is(.mu-item-body, .mu-section-body) > .mu-control > .mu-preset > .mu-card {
+  width: calc(100% - 2 * var(--prop-inset));
+  margin-right: var(--prop-inset);
+  margin-left: var(--prop-inset);
+}
+
+.mu-card-bar {
+  border-bottom: var(--border-width) solid var(--border);
+  background: var(--bg-elevated);
+  --badge-cut: var(--bg-elevated);
+}
+
+/* Whatever draws a card's header (a plugin's own class on it too) gets the one height; a card with its
+   header down its side is a strip, not a bar. */
+.mu-card:not(.is-side) > .mu-card-bar:not(.mu-sidecard-head) {
+  box-sizing: border-box;
+  min-height: var(--bar-height);
+  padding-block: 0;
+}
+
+.mu-card-title {
+  overflow: hidden;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The dashed button at the end of a list: where a new entry is made. */
+.mu-add {
+  width: 100%;
+  padding: var(--space-1);
+  border: var(--border-width) dashed var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-small);
+}
+
+.mu-add:hover {
+  border-color: var(--accent);
+  border-style: solid;
+  color: var(--accent);
+}
+
+.mu-layoutcard-note {
+  flex: 0 0 auto;
+  padding: 0 var(--space-1);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.mu-layoutcard-body {
+  padding: var(--space-2);
+}
+
+/* As wide as the card, but never taller than a few rows of fields: in a
+   wide window the picture keeps its proportions and stands centred. */
+.mu-layoutcard-body > * {
+  --layoutcard-max-height: 12rem;
+  aspect-ratio: 16 / 10;
+  width: min(100%, calc(var(--layoutcard-max-height) * 16 / 10));
+  margin-inline: auto;
+}
+
+.mu-layoutcard-split {
+  display: flex;
+  gap: 0.1875rem;
+  min-width: 0;
+  min-height: 0;
+}
+
+.mu-layoutcard-split.is-col {
+  flex-direction: column;
+}
+
+.mu-layoutcard-pane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0.125rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: calc(var(--radius) * 0.75);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+/* The pane is a container: a bay's list asks how tall it is. Its icon and
+   name are always one line, side by side. */
+.mu-layoutcard-pane {
+  container-type: size;
+}
+
+.mu-layoutcard-face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.mu-layoutcard-face > span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+
+.mu-layoutcard-pane.is-missing {
+  border-style: dashed;
+}
+
+/* Minimised at launch: a bar, as the shell draws one. Upright in a row --
+   icon only, the name is in the tooltip -- and flat in a column. */
+.mu-layoutcard-pane.is-collapsed {
+  justify-content: flex-start;
+  background: var(--bg-inset);
+}
+
+.mu-layoutcard-pane.is-bar-v {
+  width: 1.5rem;
+  padding: 0.25rem 0;
+}
+
+.mu-layoutcard-pane.is-bar-v .mu-layoutcard-face > span {
+  display: none;
+}
+
+.mu-layoutcard-pane.is-bar-h {
+  flex-direction: row;
+  height: 1.5rem;
+  padding: 0 0.375rem;
+}
+
+
+.mu-item-missing {
+  color: var(--danger);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+}
+
+/* An item's property dictionary. Every item type renders through this, so
+   the body needs no per-type layout code.
+
+   A row is the label at the left edge and the value at the right, each at
+   most half the width. When either does not fit its half -- a long label,
+   a control that needs more room -- the row breaks in two: the label on a
+   line of its own, the value under it at the right. */
+.mu-props {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0;
+  /* In line with the heading band's text above it (see .mu-view-title), and
+     the same at the right, where the values end. */
+  padding: 0 var(--prop-inset);
+  font-family: var(--prop-font);
+  font-size: var(--font-size-small);
+  line-height: 1.5;
+}
+
+.mu-props dt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  /* Half the row at most, like the value. A label that wants more than
+     that is found by the measuring pass in fitPropRows() and given a line
+     of its own; what is left here is the squeeze that keeps a row from
+     overflowing between two of those passes. */
+  flex: 0 1 auto;
+  max-width: calc(50% - var(--space-1));
+  min-width: 0;
+  color: var(--fg-muted);
+  font-weight: var(--prop-label-weight);
+}
+
+.mu-prop-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* What sits beside a label -- the preset button -- is quieter than a
+   button in the value, and smaller. */
+.mu-props dt .mu-icon-button {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.mu-props dd {
+  margin: 0;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+/* -- log: an append-only transcript ----------------------------------- */
+.mu-log {
+  flex: 1;
+  min-height: 4rem;
+  overflow: auto;
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  line-height: 1.55;
+}
+
+.mu-log-row {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--fg);
+}
+
+.mu-log-row[data-kind="command"] {
+  margin-top: var(--space-1);
+  color: var(--accent);
+}
+
+.mu-log-row[data-kind="command"]::before {
+  content: "¾f ";
+  opacity: 0.7;
+}
+
+.mu-log-row[data-kind="stderr"] {
+  color: var(--danger);
+}
+
+/* -- command line ------------------------------------------------------ */
+.mu-commandline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-width: 0;
+}
+
+.mu-commandline-prompt {
+  flex: 0 0 auto;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.mu-commandline-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.1875rem 0.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+}
+
+/* -- list-style item views (catalog / inventory) ---------------------- */
+.mu-item-body,
+.mu-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--body-gap, var(--space-2));
+  min-width: 0;
+}
+
+/* What a section, a card or a list says while it has nothing in it: a guide, so it
+   stands in the middle. A list always says so (core: "mu.value.emptyList") unless it has
+   a guide of its own. */
+.mu-empty {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+/* One row: label and value at the two ends, each in half the width.
+
+   Whether the two halves can hold what they are given is a question CSS
+   cannot ask -- a control that needs more room than it has squeezes
+   silently rather than reporting it -- so fitPropRows() measures it and
+   marks the rows that have to break in two. */
+.mu-prop-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--prop-label-gap) var(--space-2);
+  min-width: 0;
+}
+
+/* Broken in two: the label on the first line, the value on the second.
+   A value put on a line of its own is there because half a row was not
+   enough for it, so it takes the whole width rather than half of it -- the
+   two lines were spent on exactly that. */
+.mu-prop-row.is-stacked {
+  flex-wrap: wrap;
+}
+
+.mu-prop-row.is-stacked > dt {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
+.mu-prop-row.is-stacked > dd {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* A card in a row is always stacked: its name above it, the
+   card the whole width. Less specific than the measuring rules below, so a
+   measuring pass still sees the row as it would lie flat. */
+.mu-prop-row:has(> dd > .mu-card) {
+  flex-wrap: wrap;
+}
+
+.mu-prop-row:has(> dd > .mu-card) > dt {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
+/* Its name is in the card's own header: no label beside it. */
+.mu-prop-row.is-captioned > dt {
+  display: none;
+}
+
+.mu-prop-row:has(> dd > .mu-card) > dd {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* A value is on one line (`.mu-props dd`); what a card holds is not. */
+.mu-prop-row > dd > .mu-card {
+  white-space: normal;
+}
+
+/* The measuring pass: for one layout, every cap comes off and every row is
+   laid out flat, so a `dd` reports the width it actually wants and a `dt`
+   its whole label. Written to beat .is-stacked, because a stacked row has
+   to be measured as though it were not -- otherwise its full-width value
+   would answer "wider than half" forever and no row would ever come back
+   together. */
+.mu-props.is-measuring > .mu-prop-row {
+  flex-wrap: nowrap;
+}
+
+.mu-props.is-measuring > .mu-prop-row > dt {
+  flex: 0 0 auto;
+  max-width: none;
+}
+
+.mu-props.is-measuring > .mu-prop-row > dd {
+  width: max-content;
+  min-width: 0;
+  max-width: none;
+}
+
+/* -- widgets: value types that own their own DOM ------------------- */
+.mu-widget,
+.mu-control {
+  display: flex;
+  min-width: 0;
+  width: 100%;
+}
+
+/* A control told to fill takes the height its section was given. */
+.mu-control > .is-filling {
+  flex: 1;
+  min-height: 0;
+  resize: none;
+}
+
+.mu-sketch {
+  height: 7rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--accent);
+  cursor: crosshair;
+  touch-action: none;
+  overflow: hidden;
+}
+
+.mu-sketch canvas {
+  display: block;
+}
+
+.mu-view-section,
+.mu-rows-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--prop-label-gap);
+  min-width: 0;
+}
+
+/* A heading, and whatever buttons belong to the section rather than to
+   anything in it -- they sit next to the words, which is where a heading's
+   own controls are looked for. */
+.mu-view-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  /* A heading is told from a property's label by the theme colour of its
+     words: the one names a part of the window, the other a value in it. Its
+     band of the same colour is off for now (it was too like the window's title
+     bar): restore `background` to bring it back. A section with no title has
+     no heading, only its buttons' row. */
+  padding: 0.125rem var(--space-2);
+  border-radius: var(--radius);
+  /* background: color-mix(in srgb, var(--accent) 14%, transparent); */
+  color: color-mix(in srgb, var(--accent) 55%, var(--fg));
+  font-size: var(--font-size-small);
+  font-weight: 700;
+}
+
+/* One height for every heading, the one a hint button gives it: sections with
+   and without a hint stand level. */
+.mu-view-title {
+  min-height: 1.625rem;
+  box-sizing: border-box;
+}
+
+/* A section with no title has no heading at all: the shell hides it, and the
+   `display` above must not bring an empty band back. */
+.mu-view-title[hidden] {
+  display: none;
+}
+
+.mu-view-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* What a hint has to say, beside the "?" that was pressed. Fixed rather
+   than absolute, so nothing it happens to be inside can clip it. */
+.mu-hint-popup {
+  position: fixed;
+  z-index: 60;
+  max-width: min(22rem, calc(100vw - 8px));
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow);
+  color: var(--fg);
+  font-size: var(--font-size-small);
+  font-weight: 400;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.mu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+  padding: 0.125rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+/* In its card the card is the frame (a card made by body() holds it in a control). */
+.mu-listcard-body > .mu-list,
+.mu-nodecard-items > .mu-control > .mu-list:only-child {
+  flex: 1 1 auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.mu-list-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: 0.25rem 0.375rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  text-align: left;
+}
+
+.mu-list-row:hover {
+  background: var(--bg-hover);
+}
+
+.mu-list-row.is-selected {
+  background: var(--bg-selected);
+}
+
+.mu-list-secondary {
+  margin-left: auto;
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+}
+
+/* -- property editors ------------------------------------------------- */
+/* Every value type renders into a .mu-props row, so editors and
+   read-only values line up the same way: half the width at most, at the
+   right edge -- on the label's line, or under it when they do not fit. */
+.mu-props dd {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 1 auto;
+  width: calc(50% - var(--space-1));
+  /* Half, and never more. A control that wants more than half used to take
+     it -- a select as wide as its longest option pushed its way to three
+     quarters of the row and the label kept the rest -- because the half was
+     a starting width rather than a limit. The half is the limit now, and a
+     control that cannot live inside it says so through fitPropRows(), which
+     stacks the row and hands it the whole width. */
+  min-width: 0;
+  max-width: calc(50% - var(--space-1));
+  margin-left: auto;
+}
+
+.mu-props dd > .mu-prop-static {
+  text-align: right;
+}
+
+.mu-prop-static {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-prop-input,
+.mu-prop-select,
+.mu-prop-note {
+  width: 100%;
+  min-width: 0;
+  padding: 0.1875rem 0.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+}
+
+.mu-prop-note {
+  resize: vertical;
+  line-height: 1.4;
+}
+
+/* -- segments: a choice laid out as buttons in a tray ------------------ */
+/* The buttons carry no frame of their own -- the tray is the frame -- so the
+   filled one reads as a position rather than as a pressed button. */
+.mu-segments {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: stretch;
+  gap: 0.0625rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.125rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+}
+
+.mu-segment {
+  display: inline-flex;
+  flex: 0 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: 1.5rem;
+  min-height: 1.375rem;
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: calc(var(--radius) - 0.125rem);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-small);
+  line-height: 1;
+}
+
+.mu-segment:hover {
+  background: var(--bg-hover);
+  color: var(--fg);
+}
+
+.mu-segment.is-active {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+.mu-segment .bi {
+  position: relative;
+  flex: 0 0 auto;
+  line-height: 1;
+  /* the icon font's glyph sits about a pixel above a label's centre */
+  top: 0.08em;
+}
+
+.mu-segment-label,
+.mu-checklist-said {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-segment .bi[hidden],
+.mu-segment-label[hidden] {
+  display: none;
+}
+
+/* -- gallery: a set of actions as icon tiles, or as rows --------------- */
+/* Same markup either way: a tile is an icon over a label, a row is an icon
+   beside one. The grid wraps on its own, so a launcher fits whatever width
+   the window happens to be. */
+.mu-gallery {
+  display: grid;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.mu-gallery.is-grid {
+  grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+}
+
+.mu-gallery.is-list {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.mu-tile {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.mu-gallery.is-grid .mu-tile {
+  flex-direction: column;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.mu-gallery.is-list .mu-tile {
+  flex-direction: row;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+}
+
+.mu-tile:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+.mu-tile .bi {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  line-height: 1;
+}
+
+.mu-gallery.is-grid .mu-tile .bi {
+  font-size: 1.25rem;
+}
+
+.mu-tile:hover .bi {
+  color: var(--accent);
+}
+
+/* A tile with a colour of its own (an app's theme colour on Home): the
+   icon wears it; the tile's ground and edge only once it is lit -- the
+   app being open. */
+.mu-tile.has-tint .bi {
+  color: var(--tile-tint);
+}
+
+.mu-tile.has-tint.is-lit {
+  border-color: color-mix(in srgb, var(--tile-tint) 45%, var(--border));
+  background: color-mix(in srgb, var(--tile-tint) 16%, var(--bg-elevated));
+}
+
+.mu-tile.has-tint:hover {
+  border-color: var(--tile-tint);
+  color: var(--fg);
+}
+
+.mu-tile.has-tint.is-lit:hover {
+  background: color-mix(in srgb, var(--tile-tint) 26%, var(--bg-elevated));
+}
+
+/* The one in effect: lit in the accent, the way a picked chip is. */
+.mu-tile.is-active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-elevated));
+  color: var(--accent);
+}
+
+.mu-tile.is-active .bi {
+  color: var(--accent);
+}
+
+.mu-tile-label {
+  min-width: 0;
+  /* The tiles are centred, which in a column means every child is as wide
+     as its own text -- so a long name grew past the tile it is in instead
+     of being clipped by it. */
+  max-width: 100%;
+  overflow: hidden;
+  font-size: var(--font-size-small);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* -- rows: a list edited one element at a time ------------------------ */
+.mu-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.mu-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.mu-row-slot {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mu-row-slot > * {
+  width: 100%;
+}
+
+/* -- badges: a list as a card of small pills (the badges control) -- */
+.mu-badges {
+  display: flex;
+  flex-wrap: wrap;
+  /* Not stretched: a list taller than its badges (a place to drop, a card that fills) would otherwise
+     make a single row of pills as tall as itself, with the text at the top and empty space below it. */
+  align-content: flex-start;
+  align-items: flex-start;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.mu-badges[hidden] {
+  display: none;
+}
+
+.mu-badge {
+  flex: 0 1 auto;
+  max-width: 9rem;
+  overflow: hidden;
+  padding: 0.0625rem var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  color: var(--fg);
+  font-size: var(--font-size-small);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Badges that can be moved to another list: a place to drop even when there are none, and the card it is in
+   lights up where they would land. */
+.mu-badges.is-movable {
+  min-height: 1.75rem;
+}
+
+.mu-badge[draggable="true"] {
+  cursor: grab;
+}
+
+.mu-badge.is-dragging {
+  opacity: 0.45;
+}
+
+.mu-badge-drop.is-over {
+  outline: 2px dashed var(--accent);
+  outline-offset: -2px;
+}
+
+/* A badge that has something to say: it can be pressed. */
+.mu-badge.is-explained {
+  cursor: pointer;
+}
+
+.mu-badge.is-explained:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* What a badge says: its name and the language choice on one line, then the text. */
+.mu-explain-popup {
+  max-width: min(28rem, calc(100vw - 1rem));
+}
+
+.mu-explain-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.mu-explain-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mu-badgecard .mu-empty[hidden] {
+  display: none;
+}
+
+.mu-description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.mu-description-text {
+  resize: vertical;
+}
+
+.mu-rows > .mu-empty[hidden],
+.mu-cardgrid > .mu-empty[hidden] {
+  display: none;
+}
+
+.mu-row-tools {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.0625rem;
+}
+
+.mu-row-btn {
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  line-height: 1;
+}
+
+.mu-row-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* -- cardgrid: a list as header-less cards, two to a line ------------- */
+.mu-cardgrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.mu-cardgrid-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* `position: relative` is for the drop guides. */
+.mu-cardgrid-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: 0.125rem var(--space-1);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.mu-cardgrid-card.is-dragging {
+  opacity: 0.45;
+}
+
+.mu-cardgrid-handle {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  cursor: grab;
+  line-height: 1;
+}
+
+.mu-cardgrid-handle:active {
+  cursor: grabbing;
+}
+
+.mu-cardgrid-slot {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mu-cardgrid-slot > * {
+  width: 100%;
+}
+
+.mu-cardgrid-remove {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.mu-cardgrid-remove:hover {
+  color: var(--accent);
+}
+
+/* The window guides in miniature, as the prompt's slot cards have them:
+   shown on every other card for the whole drag, left half before, right
+   half after, the one under the pointer filled in. */
+.mu-cardgrid-guides {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: none;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.mu-cardgrid.is-dragging .mu-cardgrid-card:not(.is-dragging) .mu-cardgrid-guides {
+  display: block;
+}
+
+.mu-cardgrid-guide {
+  position: absolute;
+  top: 0.125rem;
+  bottom: 0.125rem;
+  width: calc(50% - 0.1875rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: var(--border-width) dashed var(--accent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+}
+
+.mu-cardgrid-guide.guide-before {
+  left: 0.125rem;
+}
+
+.mu-cardgrid-guide.guide-after {
+  right: 0.125rem;
+}
+
+.mu-cardgrid-guide:hover,
+.mu-cardgrid-guide.is-over {
+  border-style: solid;
+  background: color-mix(in srgb, var(--accent) 45%, var(--bg-elevated));
+  color: var(--fg);
+}
+
+/* -- preset: a control with a list of saved values beside it ---------- */
+.mu-preset {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.mu-preset > :first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ...except a vector, which keeps the width its numbers need. */
+.mu-preset > .mu-vector:first-child {
+  min-width: min-content;
+}
+
+/* One button, and it opens a screen. When something is saved for this
+   property it carries the count, so whether there is anything to apply can
+   be read without opening it. */
+.mu-preset-open {
+  flex: 0 0 auto;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* In a card's header it is one of the tools: their size. */
+.mu-card-head > .mu-preset-open,
+.mu-textcard-head > .mu-preset-open {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.mu-preset[data-inner="grouppick"] {
+  align-items: flex-start;
+}
+
+/* The group filter: one chip per group, and a button that folds them away.
+
+   Chips rather than the gallery's columns: a group is a word, so a row each
+   spent a screenful on the filter and pushed the values it filters below
+   the fold. Lit means "being looked at" -- there is no box to read as well,
+   because a chip is either lit or it is not. */
+.mu-grouppick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+/* The chips and the fold button are one wrapping row, so the button
+   trails the last chip rather than being pushed onto a line of its own.
+   The container stays -- it is what the chips are diffed into -- but it is
+   not a box: `contents` lets its children take part in the row directly. */
+.mu-group-chips {
+  display: contents;
+}
+
+.mu-group-chip,
+.mu-group-more {
+  flex: 0 1 auto;
+  max-width: 100%;
+  padding: 0.0625rem var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-small);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-group-chip:hover,
+.mu-group-more:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Being looked at, said in colour. Only while the filter is narrowed: with
+   nothing picked every group is showing, and lighting all of them says
+   nothing while looking like an alarm. */
+.mu-grouppick.is-narrowed .mu-group-chip.is-on {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* The fold, as an icon the width of one chip. It is only there while the
+   filter is narrowed -- with nothing picked every group is already showing
+   and there is nothing to unfold. */
+.mu-group-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.0625rem var(--space-1);
+  line-height: 1;
+}
+
+.mu-group-more[hidden] {
+  display: none;
+}
+
+.mu-group-more .bi {
+  font-size: var(--font-size-small);
+}
+
+/* A field whose label is a magnifier inside it. The icon sits in the
+   field's own padding, so the text starts clear of it. */
+.mu-searchbox {
+  position: relative;
+  display: flex;
+  flex: 1 1 8rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.mu-searchbox .bi {
+  position: absolute;
+  left: var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  pointer-events: none;
+}
+
+.mu-searchbox input {
+  width: 100%;
+  min-width: 0;
+}
+
+/* The room for the magnifier. Said with the field's own class, so that a skin's
+   padding for every text field (which is said with its class too) does not take
+   it away and put the placeholder under the icon. */
+.mu-searchbox > input.mu-prop-input {
+  padding-left: 1.75rem;
+}
+
+/* Typed in: the icon has said what it had to say. */
+.mu-searchbox.is-filled .bi {
+  opacity: 0;
+}
+
+.mu-searchbox.is-filled > input.mu-prop-input {
+  padding-left: var(--space-2);
+}
+
+/* Chrome draws its own clear button on a search field; the shell's fields
+   are all the same shape, so it is left out. */
+.mu-searchbox input::-webkit-search-decoration,
+.mu-searchbox input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/* A reference whose entry has been deleted. The id is kept -- it is the
+   only record of what was meant -- so it is marked rather than dropped. */
+.mu-prop-select.is-missing {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* -- vector: several numbers on one line ------------------------------ */
+/* Every axis holds both a readout and a stepper, and one of the two is
+   hidden -- which is what keeps the row exactly as tall whichever axis is
+   open, and keeps the caret still while a value is typed. */
+.mu-vector {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  /* Wide enough that every axis shows its label and four digits (an image size: 1024 x 1024) whole:
+     the sum of the axes' own minimum (below). */
+  min-width: min-content;
+  /* One axis: its one-letter label and four digits at the small mono size (0.6 of an em a character), the
+     gap between them, and the axis's padding either side and its line. */
+  --vector-axis-min: calc(5 * 0.6 * var(--font-size-small) + var(--space-1) + 2 * var(--space-2) + var(--border-width));
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  /* The frame of a field of numbers is the field. */
+  background: var(--input-bg);
+}
+
+.mu-vector-axis {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+  min-width: var(--vector-axis-min);
+  padding: 0.1875rem var(--space-2);
+  cursor: text;
+  line-height: 1.5;
+}
+
+.mu-vector-axis + .mu-vector-axis {
+  border-left: var(--border-width) solid var(--border);
+}
+
+/* One axis open: it takes the room, the others keep their label only. */
+.mu-vector.has-active .mu-vector-axis {
+  flex: 0 0 auto;
+  justify-content: center;
+}
+
+/* With an axis open, no readouts at all: the open one is showing its value
+   in the field, and the others are down to their label. */
+.mu-vector.has-active .mu-vector-value {
+  display: none;
+}
+
+/* As specific as the rule above, or that one wins and the open axis sizes
+   to its field's natural width -- which in a narrow vector pushed the − and
+   + buttons out past both edges. */
+.mu-vector.has-active .mu-vector-axis.is-active {
+  flex: 1 1 100%;
+  justify-content: flex-start;
+}
+
+.mu-vector-label {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+}
+
+.mu-vector-axis.is-active .mu-vector-label {
+  color: var(--accent);
+}
+
+.mu-vector-value {
+  flex: 1 1 auto;
+  min-width: 4ch;
+  overflow: hidden;
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Inside an axis the stepper carries no frame of its own: the vector's is
+   the frame. */
+.mu-vector .mu-stepper {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+}
+
+.mu-vector .mu-stepper-input {
+  padding: 0;
+}
+
+.mu-vector .mu-stepper-btn {
+  border: 0;
+  background: transparent;
+}
+
+/* -- fieldform: choices, text and readouts in one frame ------------------ */
+/* The vector's frame and dividers for cells of other kinds. A cell carries
+   no label beside it: a drop-down says it in the list it opens, a text field
+   as its placeholder, a readout as its title. */
+.mu-fieldform {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+}
+
+.mu-fieldform:focus-within {
+  border-color: var(--accent);
+}
+
+.mu-fieldform-cell {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  min-width: 0;
+  padding: 0.1875rem var(--space-2);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  line-height: 1.5;
+}
+
+.mu-fieldform-cell + .mu-fieldform-cell {
+  border-left: var(--border-width) solid var(--border);
+}
+
+/* Stacked: the cells one above the next, divided by a line across. */
+.mu-fieldform.is-stack {
+  flex-direction: column;
+}
+
+.mu-fieldform.is-stack > .mu-fieldform-cell {
+  flex: 1 1 auto;
+}
+
+.mu-fieldform.is-stack > .mu-fieldform-cell + .mu-fieldform-cell {
+  border-top: var(--border-width) solid var(--border);
+  border-left: 0;
+}
+
+.mu-fieldform.is-stack .mu-fieldform-select {
+  width: 100%;
+}
+
+.mu-fieldform-cell.is-text {
+  flex: 1 1 auto;
+}
+
+.mu-fieldform-cell.is-readout {
+  flex: 0 1 auto;
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+
+.mu-fieldform-select,
+.mu-fieldform-input {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.mu-fieldform-select {
+  cursor: pointer;
+}
+
+.mu-fieldform-select option,
+.mu-fieldform-select optgroup {
+  background: var(--bg-elevated);
+  color: var(--fg);
+}
+
+.mu-fieldform-input {
+  flex: 1 1 auto;
+  width: 6rem;
+}
+
+.mu-fieldform-input::placeholder {
+  color: var(--fg-muted);
+}
+
+.mu-fieldform.is-readonly .mu-fieldform-select,
+.mu-fieldform.is-readonly .mu-fieldform-input {
+  cursor: default;
+}
+
+/* -- checklist: boxes to tick in a popup behind one button ---------------- */
+.mu-popcheck {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 1.75rem;
+  padding: 0 var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  color: var(--fg);
+  font: inherit;
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.mu-popcheck:hover {
+  background: var(--bg-hover);
+}
+
+.mu-popcheck[hidden] {
+  display: none;
+}
+
+.mu-popcheck.is-open {
+  border-color: var(--accent);
+}
+
+.mu-popcheck [hidden] {
+  display: none;
+}
+
+.mu-popcheck-count {
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.mu-popcheck-caret {
+  color: var(--fg-muted);
+  font-size: 0.625rem;
+}
+
+/* Fixed rather than absolute, so nothing the button is inside can clip it. */
+.mu-popcheck-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.mu-popcheck-all {
+  padding: 0.25rem 0.5rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: left;
+  cursor: pointer;
+}
+
+.mu-popcheck-all:hover {
+  background: var(--bg-hover);
+  color: var(--fg);
+}
+
+.mu-popcheck-popup {
+  position: fixed;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  min-width: 8rem;
+  max-width: min(22rem, calc(100vw - 8px));
+  max-height: calc(100vh - 8px);
+  overflow: auto;
+  padding: 0.125rem;
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow);
+  color: var(--fg);
+  font-size: var(--font-size-small);
+}
+
+.mu-popcheck-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.25rem var(--space-2);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.mu-popcheck-row:hover {
+  background: var(--bg-hover);
+}
+
+.mu-popcheck-swatch {
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--swatch, var(--fg-muted));
+}
+
+.mu-popcheck-swatch[hidden] {
+  display: none;
+}
+
+.mu-popcheck-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* -- percent: a figure and its % between -/+, no label ------------------- */
+.mu-percent {
+  display: inline-flex;
+  align-items: stretch;
+  min-width: 0;
+  overflow: hidden;
+  /* The vector's frame: the frame of a field of numbers is the field. */
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+}
+
+.mu-percent:focus-within {
+  border-color: var(--accent);
+}
+
+.mu-percent-input {
+  flex: 1;
+  width: 4.5rem;
+  min-width: 0;
+  padding: 0.1875rem var(--space-1);
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.mu-percent .mu-stepper-btn {
+  border: 0;
+  background: transparent;
+}
+
+/* Typing replaces the buttons (they keep their room, so the field stays put). */
+.mu-percent.is-editing .mu-stepper-btn {
+  visibility: hidden;
+}
+
+.mu-percent.is-readonly {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* -- side card: a card with its header down the left, made from a plugin's DOM -- */
+.mu-sidecard {
+  flex: 0 1 auto;
+  flex-direction: row;
+  align-items: stretch;
+  width: auto;
+  min-width: 0;
+}
+
+.mu-sidecard > .mu-sidecard-head {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.125rem;
+  padding: 2px;
+  border-right: var(--border-width) solid var(--border);
+  border-bottom: 0;
+}
+
+.mu-sidecard > .mu-sidecard-body {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-1) var(--space-2);
+}
+
+/* -- stepper: a number field with -/+ either side --------------------- */
+.mu-stepper {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Hidden while its axis is closed -- .mu-stepper sets display, which would
+   otherwise beat the hidden attribute. */
+.mu-stepper[hidden] {
+  display: none;
+}
+
+.mu-stepper-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.1875rem 0.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* The browser's own up/down arrows, taken off. There are already two
+   buttons either side doing the same job, and the native pair appears only
+   while the field is focused -- which took space from the right and pushed
+   the digits off centre exactly when someone was reading them to type. */
+.mu-stepper-input {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.mu-stepper-input::-webkit-outer-spin-button,
+.mu-stepper-input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.mu-stepper-btn {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  line-height: 1;
+}
+
+.mu-stepper-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* -- images: a picture from a file, and a path field with a thumbnail -- */
+.mu-imageview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.mu-imageview-img {
+  display: block;
+  max-width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  align-self: flex-start;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: repeating-conic-gradient(color-mix(in srgb, var(--fg) 8%, transparent) 0 25%, transparent 0 50%) 0 0 / 16px 16px;
+}
+
+.mu-imageview-note {
+  font-size: var(--font-size-small);
+  opacity: 0.7;
+}
+
+/* Filling its section: the picture gets the room, the size note keeps one
+   line under it. Contained, it scales down to fit; actual, it keeps its own
+   pixels and the frame scrolls. */
+.mu-imageview.is-filling {
+  min-height: 0;
+}
+
+.mu-imageview.is-filling .mu-imageview-img {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  width: 100%;
+  align-self: stretch;
+}
+
+.mu-imageview.is-filling[data-fit="actual"] {
+  overflow: auto;
+}
+
+.mu-imageview.is-filling[data-fit="actual"] .mu-imageview-img {
+  flex: 0 0 auto;
+  width: auto;
+  max-width: none;
+  align-self: flex-start;
+}
+
+.mu-imageview.is-broken .mu-imageview-img {
+  display: none;
+}
+
+/* -- imagebox: promptmanager's image input -------------------------------
+   Empty, one dashed button across the width that says what it does. With a
+   picture, the picture, and a round button to take it away that shows
+   when the pointer is over it. */
+.mu-imagebox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.mu-imagebox-drop {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.625rem var(--space-3);
+  border: var(--border-width) dashed var(--border-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.mu-imagebox-drop:hover,
+.mu-imagebox.is-dragover .mu-imagebox-drop {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  color: var(--accent);
+}
+
+.mu-imagebox.has-image .mu-imagebox-drop,
+.mu-imagebox:not(.has-image) .mu-imagebox-preview {
+  display: none;
+}
+
+.mu-imagebox-preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  max-height: 16rem;
+  padding: var(--space-2);
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+}
+
+.mu-imagebox.is-dragover .mu-imagebox-preview {
+  border-color: var(--accent);
+}
+
+.mu-imagebox-img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(16rem - var(--space-2) * 2);
+  object-fit: contain;
+}
+
+/* Out of the way until wanted, the way promptmanager's preview controls are. */
+.mu-imagebox-clear {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.mu-imagebox-preview:hover .mu-imagebox-clear,
+.mu-imagebox-clear:focus-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.mu-imagebox-note {
+  font-size: var(--font-size-small);
+  opacity: 0.7;
+}
+
+.mu-imagebox-note:empty {
+  display: none;
+}
+
+/* One line, for a property table: the button stays whatever is in it, the
+   picture is a thumbnail, and taking it away is always showing. */
+.mu-imagebox.is-compact {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.mu-imagebox.is-compact .mu-imagebox-drop {
+  display: inline-flex;
+  width: auto;
+  min-height: 0;
+  padding: 0.25rem var(--space-2);
+  font-weight: normal;
+}
+
+.mu-imagebox.is-compact .mu-imagebox-preview {
+  min-height: 0;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  gap: var(--space-1);
+}
+
+.mu-imagebox.is-compact .mu-imagebox-img {
+  max-height: 2.5rem;
+  border-radius: var(--radius);
+}
+
+.mu-imagebox.is-compact .mu-imagebox-clear {
+  position: static;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* -- round buttons that float over a picture -------------------------- */
+.mu-round-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: var(--border-width) solid color-mix(in srgb, var(--fg) 18%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bg-elevated) 75%, transparent);
+  backdrop-filter: blur(0.25rem);
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-size: 0.8125rem;
+}
+
+.mu-round-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+.mu-round-btn.is-danger:hover {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: #fff;
+}
+
+/* -- imagestage: promptmanager's output preview ---------------------------
+   A dark stage; on it a canvas the shape of the output over a
+   checkerboard, so transparency reads as missing rather than as white. */
+.mu-imagestage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 12rem;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg) 55%, black);
+}
+
+/* Filling its window: the stage takes whatever height is left. */
+.mu-imagestage.is-filling {
+  flex: 1 1 auto;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+.mu-imagestage.has-results {
+  border-color: transparent;
+}
+
+.mu-imagestage-canvas {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  background-color: var(--bg-elevated);
+  background-image:
+    linear-gradient(45deg, var(--border) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--border) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--border) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--border) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  box-sizing: border-box;
+}
+
+.mu-imagestage.has-results .mu-imagestage-canvas {
+  border: 0;
+}
+
+.mu-imagestage-results {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+}
+
+.mu-imagestage-results.is-grid {
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--border-width);
+}
+
+.mu-imagestage-result {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.mu-imagestage-results.is-grid .mu-imagestage-result {
+  cursor: zoom-in;
+}
+
+.mu-imagestage-result img,
+.mu-imagestage-result video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* A second picture of the same shape over the one shown (the depth over a
+   panorama), toggled by the round layers button. */
+.mu-imagestage-result.has-overlay {
+  position: relative;
+}
+
+.mu-imagestage-result .mu-imagestage-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.mu-imagestage-overlay[hidden] {
+  display: none;
+}
+
+.mu-imagestage-actions .mu-round-btn.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg, #fff);
+}
+
+.mu-imagestage-actions {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  z-index: 3;
+  display: flex;
+  gap: var(--space-1);
+}
+
+.mu-imagestage-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  height: 100%;
+  padding: var(--space-3);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.mu-imagestage-icon {
+  font-size: 2.125rem;
+  line-height: 1;
+}
+
+.mu-imagestage-size {
+  font-family: var(--font-mono);
+}
+
+/* What makes something to show, in the middle of where it will appear. */
+.mu-imagestage-run {
+  min-width: 7rem;
+  padding: 0.5rem var(--space-3);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-fg);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.mu-imagestage-run:hover {
+  filter: brightness(1.08);
+}
+
+.mu-imagestage-run:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Something is on its way: the empty canvas breathes. */
+.mu-imagestage.is-busy .mu-imagestage-empty {
+  animation: mu-stage-busy 1.6s ease-in-out infinite;
+}
+
+@keyframes mu-stage-busy {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* A picture on its way (see loadingWhile): a veil over its box that
+   says so, breathing like an empty stage waiting for a run. */
+.mu-is-loading {
+  position: relative;
+}
+
+.mu-is-loading::after {
+  content: attr(data-loading);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 0.45);
+  color: #fff;
+  font-size: var(--font-size-small);
+  pointer-events: none;
+  animation: mu-stage-busy 1.6s ease-in-out infinite;
+}
+
+/* -- pathbox: what a file holds, then where it is --------------------- */
+.mu-pathbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.mu-pathbox-type {
+  flex: 0 0 auto;
+  max-width: 40%;
+}
+
+.mu-pathbox-path {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mu-prop-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-width: 0;
+}
+
+.mu-prop-range {
+  flex: 1;
+  min-width: 0;
+  height: 1rem;
+  accent-color: var(--accent);
+}
+
+.mu-prop-check {
+  width: 0.875rem;
+  height: 0.875rem;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.mu-prop-color {
+  width: 1.75rem;
+  height: 1.25rem;
+  padding: 0;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  cursor: pointer;
+}
+
+.mu-prop-readout {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+}
+
+.mu-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.mu-item-button {
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 0.8125rem;
+  line-height: 1;
+}
+
+.mu-item-button:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+/* What a button that asks first says, and the two ways to answer. */
+.mu-confirm-popup {
+  max-width: min(24rem, calc(100vw - 8px));
+  white-space: normal;
+}
+
+.mu-confirm-title {
+  margin-bottom: var(--space-1);
+  font-weight: 600;
+}
+
+.mu-confirm-message {
+  white-space: pre-line;
+}
+
+.mu-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.mu-item-button.is-danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.mu-item-button.is-danger:hover {
+  background: var(--danger);
+  color: var(--bg);
+}
+
+.mu-item-button:active {
+  transform: translateY(1px);
+}
+
+/* A boolean drawn as one icon. Square, because there is no word in it, and
+   filled when it is on so that "pressed" reads at a glance rather than
+   having to be compared with something else. */
+.mu-icontoggle {
+  flex: 0 0 auto;
+  width: 1.75rem;
+  padding: 0;
+}
+
+.mu-icontoggle.is-active {
+  border-color: var(--accent);
+  background: var(--bg-selected);
+  color: var(--accent);
+}
+
+/* -- resizer: the shared seam between two siblings -------------------- */
+.mu-resizer {
+  position: relative;
+  z-index: 5;
+  flex: 0 0 auto;
+  touch-action: none;
+  /* The pieces take hold of the pointer, not the gap around them: a piece
+     that is not drawn (see is-quiet) leaves nothing to grab there. */
+  pointer-events: none;
+}
+
+.mu-resizer > .mu-seg {
+  pointer-events: auto;
+}
+
+/* Nothing to divide while one side is collapsed. */
+.mu-resizer.is-inert,
+.mu-resizer.is-inert > .mu-seg {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* A piece with a bar on each side divides nothing: not drawn, not lit, not
+   grabbed. The space it occupied stays, so the bars keep their places. */
+.mu-resizer > .mu-seg.is-quiet {
+  background: none;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.mu-resizer > .mu-seg.is-quiet::before {
+  display: none;
+}
+
+/* Beside a bar, between two open windows: it still moves an edge, by
+   dragging the seam beyond the bar (seamRelay in core). Nothing in the look
+   changes -- it is a seam that works like one. */
+
+.mu-split.dir-row > .mu-resizer {
+  width: var(--seam);
+  cursor: col-resize;
+}
+
+.mu-split.dir-col > .mu-resizer {
+  height: var(--seam);
+  cursor: row-resize;
+}
+
+/* The seam is drawn in bands, one per pair of windows that can be resized
+ * on their own. Usually there is exactly one and it looks like a plain line;
+ * the position along the seam is set inline, in percent. */
+.mu-seg {
+  position: absolute;
+  background: var(--border);
+  border-radius: var(--radius);
+}
+
+.mu-split.dir-row > .mu-resizer > .mu-seg {
+  left: 0;
+  right: 0;
+}
+
+.mu-split.dir-col > .mu-resizer > .mu-seg {
+  top: 0;
+  bottom: 0;
+}
+
+/* Hit area is wider than the 1px seam, without taking up any layout. */
+.mu-seg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.mu-split.dir-row > .mu-resizer > .mu-seg::before {
+  left: -0.25rem;
+  right: -0.25rem;
+}
+
+.mu-split.dir-col > .mu-resizer > .mu-seg::before {
+  top: -0.25rem;
+  bottom: -0.25rem;
+}
+
+/* Hovering lights up only the band you would actually move, which is how
+ * you can see that a seam is in several pieces before you drag it. */
+.mu-seg:hover,
+.mu-seg.is-resizing {
+  background: var(--accent);
+  box-shadow: 0 0 0 0.0625rem var(--accent);
+}
+
+/* The whole line a seam is part of, while that is what the pointer has:
+   one solid divider across every seam on it, drawn over them (see
+   lightLine in core) -- the band under the pointer is not lit apart. */
+.mu-seam-line {
+  position: fixed;
+  z-index: 40;
+  border-radius: var(--radius);
+  background: var(--accent);
+  pointer-events: none;
+}
+
+.mu-resizer.is-whole > .mu-seg:hover {
+  box-shadow: none;
+}
+
+/* -- resize overlay: same visual language as split mode --------------- */
+/* Inset by half a seam along the split's axis, so that a guide placed at
+   "50%" of this box lands where a ratio of 0.5 actually puts the seam --
+   the children divide what is left after the seam, not the whole width. */
+.mu-resize-overlay {
+  position: absolute;
+  /* Over the bars of the windows (an item's bar sticks at 20), so the badge in the middle of the seam
+     is not hidden by one; under the seam's own line (40) and the popups. */
+  z-index: 30;
+  inset: 0;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  pointer-events: none;
+}
+
+.mu-split.dir-row > .mu-resize-overlay {
+  left: calc(var(--seam) / 2);
+  right: calc(var(--seam) / 2);
+}
+
+.mu-split.dir-col > .mu-resize-overlay {
+  top: calc(var(--seam) / 2);
+  bottom: calc(var(--seam) / 2);
+}
+
+.mu-resize-overlay[hidden] {
+  display: none;
+}
+
+/* Hidden while a seam is sitting on top of this guide -- see beginResize. */
+.mu-rguide[hidden] {
+  display: none;
+}
+
+.mu-rguide {
+  position: absolute;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Zero-width/height lines: the % label just overflows past them, so a guide
+   never covers the window content behind it. */
+.mu-split.dir-row > .mu-resize-overlay > .mu-rguide {
+  top: 0;
+  bottom: 0;
+  width: 0;
+  padding: 2.5rem 0 0 var(--space-1);
+  border-left: var(--border-width) dashed var(--accent);
+}
+
+.mu-split.dir-col > .mu-resize-overlay > .mu-rguide {
+  left: 0;
+  right: 0;
+  height: 0;
+  padding: var(--space-1) 0 0 3rem;
+  border-top: var(--border-width) dashed var(--accent);
+}
+
+/* A seam elsewhere in the layout that this one can line up with is drawn
+ * like the percentage guides (is-align carries no look of its own).
+ *
+ * Snapped: the label says so; the line goes -- the seam itself is lying
+ * on it, and a second thin line beside the seam only doubled it. */
+.mu-split > .mu-resize-overlay > .mu-rguide.is-snapped {
+  color: var(--fg);
+  font-weight: 700;
+  border-color: transparent;
+}
+
+/* The seam is drawn where it is while dragging; no second line for it. */
+.mu-rlive {
+  display: none;
+}
+
+.mu-split.dir-row > .mu-resize-overlay > .mu-rlive {
+  top: 0;
+  bottom: 0;
+  width: 0.125rem;
+  margin-left: -0.0625rem;
+}
+
+.mu-split.dir-col > .mu-resize-overlay > .mu-rlive {
+  left: 0;
+  right: 0;
+  height: 0.125rem;
+  margin-top: -0.0625rem;
+}
+
+.mu-rlabel {
+  position: absolute;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+
+/* -- bar: nodes on one line ------------------------------------------- */
+.mu-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.mu-bar > * {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+/* The first one grows -- usually a field -- and the rest keep their size.
+   A control wrapper is width: 100% everywhere else, which as a flex basis
+   would make a trailing one claim the whole bar and squeeze the first. */
+.mu-bar > :first-child {
+  flex: 1 1 auto;
+}
+
+.mu-bar > :not(:first-child) {
+  width: auto;
+}
+
+/* -- split / move guides --------------------------------------------- */
+/* Above whatever a window's body stacks -- its sticky bar (20), its
+   own popups -- or a guide on show would let clicks through to them. */
+.mu-guides {
+  position: absolute;
+  z-index: 100;
+  inset: 0;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.mu-guides[hidden] {
+  display: none;
+}
+
+.mu-guide {
+  position: absolute;
+  padding: 0;
+  border: var(--border-width) dashed var(--accent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+/* The middle guide: trade places rather than move next to. Only offered
+   while a window is being dragged -- there is nothing to trade with when
+   the guides are open to pick a direction to split in. */
+.mu-guide.guide-swap {
+  top: 50%;
+  left: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mu-window.is-place-mode > .mu-guides > .guide-swap {
+  display: none;
+}
+
+/* The middle of the frame answers a different question from the four sides:
+   in with this window rather than beside it. It is offered whenever
+   something is on its way in -- placed, split off or dragged -- and a drag
+   offers trading places next to it, so the two share the middle. */
+.mu-guide.guide-group {
+  top: 50%;
+  left: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Both in the middle at once, so they step aside for each other. Split and
+   place mode drop the swap, and the group guide takes the middle back. */
+.mu-window:not(.is-collapsed):not(.is-place-mode):not(.has-bar-guides) > .mu-guides > .guide-group {
+  transform: translate(calc(-50% - 1.5rem), -50%);
+}
+
+.mu-window:not(.is-collapsed):not(.is-place-mode):not(.has-bar-guides) > .mu-guides > .guide-swap {
+  transform: translate(calc(-50% + 1.5rem), -50%);
+}
+
+/* A collapsed bar has no quadrants to point at, so its guides queue up
+   along it instead -- in the order up, right, left, down, and the swap
+   last. Each one still says which way it goes. */
+/* The hidden attribute has to win over the display below it, the way it
+   does for the absolutely-positioned guides of an open window. */
+.mu-window.is-collapsed > .mu-guides[hidden],
+.mu-window.has-bar-guides > .mu-guides[hidden] {
+  display: none;
+}
+
+.mu-window.is-collapsed > .mu-guides,
+.mu-window.has-bar-guides > .mu-guides {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--border-width);
+  padding: var(--border-width);
+}
+
+/* An expanded group offering its guides on its bar: a strip exactly over
+   the title bar, and the rest of the group left to the windows inside. */
+.mu-window.has-bar-guides > .mu-guides {
+  bottom: auto;
+  height: var(--bar-height);
+}
+
+.mu-window.is-collapsed.is-vertical > .mu-guides {
+  flex-direction: column;
+}
+
+.mu-window.is-collapsed > .mu-guides > .mu-guide,
+.mu-window.has-bar-guides > .mu-guides > .mu-guide {
+  position: static;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  width: auto;
+  height: auto;
+  inset: auto;
+  border-radius: var(--radius);
+  transform: none;
+}
+
+.mu-window.is-collapsed > .mu-guides > .guide-up,
+.mu-window.has-bar-guides > .mu-guides > .guide-up {
+  order: 1;
+}
+
+.mu-window.is-collapsed > .mu-guides > .guide-right,
+.mu-window.has-bar-guides > .mu-guides > .guide-right {
+  order: 2;
+}
+
+.mu-window.is-collapsed > .mu-guides > .guide-left,
+.mu-window.has-bar-guides > .mu-guides > .guide-left {
+  order: 3;
+}
+
+.mu-window.is-collapsed > .mu-guides > .guide-down,
+.mu-window.has-bar-guides > .mu-guides > .guide-down {
+  order: 4;
+}
+
+.mu-window.is-collapsed > .mu-guides > .guide-group,
+.mu-window.has-bar-guides > .mu-guides > .guide-group {
+  order: 5;
+}
+
+.mu-window.is-collapsed > .mu-guides > .guide-swap,
+.mu-window.has-bar-guides > .mu-guides > .guide-swap {
+  order: 6;
+}
+
+.mu-guide:hover,
+.mu-guide.is-over {
+  border-style: solid;
+  background: color-mix(in srgb, var(--accent) 45%, var(--bg-elevated));
+  color: var(--fg);
+}
+
+.mu-guide.guide-up {
+  top: 0.25rem;
+  left: 28%;
+  right: 28%;
+  height: 28%;
+}
+
+.mu-guide.guide-down {
+  bottom: 0.25rem;
+  left: 28%;
+  right: 28%;
+  height: 28%;
+}
+
+.mu-guide.guide-left {
+  top: 28%;
+  bottom: 28%;
+  left: 0.25rem;
+  width: 28%;
+}
+
+.mu-guide.guide-right {
+  top: 28%;
+  bottom: 28%;
+  right: 0.25rem;
+  width: 28%;
+}
+
+/* Keep the cursor consistent everywhere while a resize is in flight. */
+body.mu-resizing-row,
+body.mu-resizing-row * {
+  cursor: col-resize !important;
+}
+
+body.mu-resizing-col,
+body.mu-resizing-col * {
+  cursor: row-resize !important;
+}
+
+body.mu-resizing-row,
+body.mu-resizing-col {
+  user-select: none;
+}
+
+/* -- a list, in a card (listCard in core.js) --------------------------- */
+.mu-listcard-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  box-sizing: border-box;
+  min-height: var(--bar-height);
+  padding: 0 var(--space-1);
+}
+
+/* A folded list is its bar alone: no line under it. */
+.mu-listcard.is-folded > .mu-listcard-head {
+  border-bottom: 0;
+}
+
+/* A folded card is its header alone: it rounds at the bottom too, and a property card (which
+   does not clip its header) has no square corners left sticking out of its border. */
+.mu-nodecard.is-folded > .mu-nodecard-head {
+  border-bottom: 0;
+  border-radius: calc(var(--radius) - var(--border-width));
+}
+
+.mu-nodecard.is-property.is-folded > .mu-nodecard-head {
+  border-radius: var(--radius);
+}
+
+.mu-listcard-body {
+  min-width: 0;
+  padding: var(--space-2);
+}
+
+.mu-listcard-body[hidden] {
+  display: none;
+}
+
+/* A card made by body() (NODES.card): its children stacked with the room
+   a section gives them, so cards inside it read as separate things. Its
+   header is as tall as every other card's (a text card's, an image
+   card's), not the slimmer bar a list card wears. */
+.mu-nodecard > .mu-nodecard-head {
+  min-height: var(--bar-height);
+  padding: 0 var(--space-1);
+}
+
+.mu-nodecard-body,
+.mu-nodecard-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mu-nodecard-items:empty {
+  display: none;
+}
+
+.mu-nodecard-addzone {
+  position: relative;
+}
+
+.mu-nodecard-addzone[hidden] {
+  display: none;
+}
+
+/* A list's own add button, inside it under the entries (the prompt list's). */
+.mu-nodecard-lead,
+.mu-nodecard-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.mu-nodecard-lead:empty {
+  display: none;
+}
+
+/* A card whose header runs down its left side (NODES.card `side`): the
+   grip at the top, the close button under it, and its icon and title as
+   its face. One entry of a list, held -- nothing in it folds. */
+.mu-nodecard.is-side {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.mu-nodecard.is-side > .mu-nodecard-head {
+  flex: 0 0 auto;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.125rem;
+  min-height: 0;
+  padding: 2px;
+  border-right: var(--border-width) solid var(--border);
+  border-bottom: 0;
+}
+
+.mu-nodecard.is-side > .mu-nodecard-head > :not(.mu-port-grip):not(.mu-card-discard) {
+  display: none;
+}
+
+/* The grip is the left strip; the close button, with anything else the header holds, is a strip
+   of its own at the right edge of the card. */
+.mu-nodecard.is-side {
+  position: relative;
+}
+
+.mu-nodecard.is-side > .mu-nodecard-head > .mu-card-discard {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+.mu-nodecard.is-side:has(> .mu-nodecard-head > .mu-card-discard:not([hidden])) > .mu-nodecard-body {
+  margin-right: calc(var(--space-2) + 1.75rem);
+}
+
+.mu-nodecard.is-side:has(> .mu-nodecard-head > .mu-card-discard:not([hidden]))::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(var(--space-2) + 1.75rem - var(--space-1));
+  border-left: var(--border-width) solid var(--border);
+  pointer-events: none;
+}
+
+.mu-nodecard.is-side.is-property > .mu-nodecard-head > .mu-nodecard-label:not([hidden]) {
+  display: block;
+}
+
+.mu-nodecard.is-side > .mu-nodecard-body {
+  flex: 1 1 auto;
+  justify-content: center;
+  padding: var(--space-1) var(--space-2);
+}
+
+/* A bar (an item's, a card's) with a card in it whose header runs down its side is as tall as that card
+   needs, with a little room above and below it: the bar is not held to the height of a window's or a
+   card's header, which is a different thing. */
+.mu-action-bar-row:has(.mu-nodecard.is-side) {
+  padding-block: var(--space-1);
+}
+
+.mu-action-bar-row > .mu-nodecard.is-side,
+.mu-action-bar-middle > .mu-nodecard.is-side {
+  align-self: center;
+}
+
+/* A side card that holds one input (a place, a name): the card is the box, and the input stands
+   in it with none of its own -- no second frame, no padding round it -- so the whole is as tall as
+   an input on its own. The card shows the focus the input would have shown. */
+.mu-nodecard.is-side > .mu-nodecard-body:has(> .mu-nodecard-items > .mu-control > .mu-prop-input:only-child) {
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+}
+
+/* A side card that is a property (a field, a value) is named outside, above it, as a row is: its
+   face would say the name a second time. */
+.mu-nodecard.is-side.is-property > .mu-nodecard-body > .mu-nodecard-face {
+  display: none;
+}
+
+.mu-nodecard.is-side > .mu-nodecard-body:has(> .mu-nodecard-items > .mu-control > .mu-prop-input:only-child) > .mu-nodecard-items {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mu-nodecard.is-side > .mu-nodecard-body > .mu-nodecard-items > .mu-control > .mu-prop-input:only-child {
+  border: 0;
+  /* The card's own corner on the right (a property card does not clip: see .is-property). */
+  border-radius: 0 calc(var(--radius) - var(--border-width)) calc(var(--radius) - var(--border-width)) 0;
+  background: var(--input-bg);
+  color: var(--fg);
+}
+
+/* As in the other cards (.mu-textcard.is-fixed): what cannot be typed into is the card's own ground and
+   the muted colour. */
+.mu-nodecard.is-side > .mu-nodecard-body > .mu-nodecard-items > .mu-control > .mu-prop-input:only-child:read-only {
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: default;
+}
+
+.mu-nodecard.is-side:has(> .mu-nodecard-body > .mu-nodecard-items > .mu-control > .mu-prop-input:only-child):focus-within {
+  border-color: var(--accent);
+}
+
+/* Its grip is the height of the input, not a button with room round it. */
+.mu-nodecard.is-side:has(> .mu-nodecard-body > .mu-nodecard-items > .mu-control > .mu-prop-input:only-child) > .mu-nodecard-head {
+  padding: 0;
+}
+
+.mu-nodecard.is-side:has(> .mu-nodecard-body > .mu-nodecard-items > .mu-control > .mu-prop-input:only-child) > .mu-nodecard-head > .mu-port-grip {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+}
+
+.mu-nodecard-face[hidden] {
+  display: none;
+}
+
+.mu-nodecard-face > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A card that is a property -- a list as a whole, a form -- has its name
+   outside the box, above it, and is set like the card of a row (.mu-props):
+   the same inset, the same label. */
+.mu-nodecard.is-property {
+  overflow: visible;
+}
+
+/* Room above for the name, only when it has one: a card with none (the
+   section's own title names it) sits where the rest of the section does. */
+.mu-nodecard.is-property:has(> .mu-nodecard-head > .mu-nodecard-label:not([hidden])) {
+  margin-top: calc(var(--prop-label-height) + var(--prop-label-gap));
+}
+
+/* An item of one property: the property's label is not drawn, and no room is kept for it (after the rule
+   above, which has the same weight). */
+.mu-item-body.is-single > .mu-nodecard.is-property > .mu-nodecard-head > .mu-nodecard-label {
+  display: none;
+}
+
+.mu-item-body.is-single > .mu-nodecard.is-property:has(> .mu-nodecard-head > .mu-nodecard-label) {
+  margin-top: 0;
+}
+
+.mu-nodecard.is-property > .mu-nodecard-head {
+  overflow: visible;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* A property card can also have a vertical header. Keep the corners on
+   the left; the horizontal-property rule above must not round its inner edge. */
+.mu-nodecard.is-side.is-property > .mu-nodecard-head {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.mu-nodecard.is-property > .mu-nodecard-head > .mu-nodecard-label {
+  position: absolute;
+  /* From the head, which sits inside the card's border. */
+  top: calc(-1 * (var(--prop-label-height) + var(--prop-label-gap) + var(--border-width)));
+  left: 0;
+  max-width: 100%;
+  color: var(--fg-muted);
+  font-family: var(--prop-font);
+  font-size: var(--font-size-small);
+  font-weight: var(--prop-label-weight);
+  height: var(--prop-label-height);
+  line-height: var(--prop-label-height);
+}
+
+/* A card with no title, buttons or grip (NODES.card) is only the nesting of
+   what it holds: no box, no header, no ground -- its children and its add
+   button stand in the card around it. Every card that is drawn has the
+   same ground whatever it sits in; the border is what shows the nesting. */
+.mu-nodecard.is-plain {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.mu-nodecard.is-plain > .mu-nodecard-head {
+  display: none;
+}
+
+.mu-nodecard.is-plain > .mu-nodecard-body {
+  padding: 0;
+}
+
+/* ---- a piece of text, in a card ---------------------------------------
+   The texteditor control: grip on the left, copy and the one-line toggle on
+   the right, the text underneath. Drawn like the workflow plugin's cards,
+   so a prompt held here and a picture held there read as the same kind of
+   thing. */
+.mu-textcard-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: var(--bar-height);
+  padding: 0 var(--space-1);
+}
+
+.mu-textcard-label[hidden] {
+  display: none;
+}
+
+.mu-textcard-gap {
+  flex: 1 1 auto;
+}
+
+.mu-textcard-input {
+  display: block;
+  width: 100%;
+  min-height: 4lh;
+  max-height: 24lh;
+  border: 0;
+  border-radius: 0;
+  background: var(--input-bg);
+  resize: vertical;
+  field-sizing: content;
+}
+
+.mu-textcard-input[hidden],
+.mu-textcard-line[hidden] {
+  display: none;
+}
+
+/* One line: the text ends in an ellipsis where it stops fitting. */
+.mu-textcard-line {
+  padding: var(--space-1) var(--space-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.mu-textcard-line.is-empty,
+.mu-textcard.is-fixed .mu-textcard-line {
+  color: var(--fg-muted);
+}
+
+.mu-textcard.is-fixed .mu-textcard-input {
+  color: var(--fg-muted);
+  background: transparent;
+  cursor: default;
+}
+
+/* The one-line view of a text that can be typed into is the field too. */
+.mu-textcard:not(.is-fixed) .mu-textcard-line {
+  background: var(--input-bg);
+}
+
+/* ---- ports: the grip, the link, and the guides ------------------------ */
+.mu-port,
+.mu-control.mu-port-sink,
+.mu-widget.mu-port-sink {
+  position: relative;
+}
+
+.mu-port-grip {
+  cursor: grab;
+}
+
+/* A card's handle is the window's (.mu-drag-handle): the same width, glyph and line, and the same
+   place from the frame's edge (both frames have a line, then 4px of padding). A
+   card with its header down its side keeps a button's size: its strip is the handle. */
+.mu-icon-button.mu-port-grip {
+  width: 1.125rem;
+  height: 1.5rem;
+  font-size: 1.1875rem;
+  line-height: 1.5rem;
+}
+
+.mu-icon-button.mu-port-grip .bi {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.mu-nodecard.is-side .mu-icon-button.mu-port-grip .bi,
+.mu-sidecard-head .mu-icon-button.mu-port-grip .bi {
+  font-size: 0.9375rem;
+  line-height: 1;
+}
+
+.mu-nodecard.is-side .mu-icon-button.mu-port-grip,
+.mu-sidecard-head .mu-icon-button.mu-port-grip {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: inherit;
+  line-height: normal;
+}
+
+.mu-port-grip:active {
+  cursor: grabbing;
+}
+
+/* Nothing to carry: greyed, and held it says so on the card. */
+.mu-port-grip.is-inert {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.mu-port-guides.is-nodrag {
+  pointer-events: none;
+}
+
+.mu-port-grip[hidden] {
+  display: none;
+}
+
+/* The badge on a card or a row that follows (a link) or shares: one for both, whoever draws it
+   (makePortBadge). It says only "linked" or "shared"; pressed, it opens what it follows and the way to
+   stop (.mu-port-popup). */
+.mu-port-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  height: 1.25rem;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+}
+
+.mu-port-link:hover {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.mu-port-link:focus-visible {
+  outline: var(--border-width) solid var(--accent);
+  outline-offset: 1px;
+}
+
+.mu-port-link[hidden] {
+  display: none;
+}
+
+.mu-port-popup {
+  white-space: normal;
+}
+
+.mu-port-detail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mu-port-release {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem var(--space-2);
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+}
+
+.mu-port-release:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* The one being carried, dimmed like a window being dragged. */
+.mu-port.is-port-source {
+  opacity: 0.5;
+}
+
+/* ...and deaf while it is: its own fields take no drop and show no caret. */
+.mu-port.is-port-source textarea,
+.mu-port.is-port-source input,
+.mu-port.is-port-source .mu-textcard-line {
+  pointer-events: none;
+}
+
+/* A whole item taking dropped values -- run settings taking a run back --
+   is the frame its guides cover, down to the bottom of its window. */
+.mu-item.mu-port-sink {
+  position: relative;
+  min-height: 100%;
+}
+
+/* Move mode: every other port offers its two guides over itself. */
+/* What a grip is holding while it is dragged: shown with the pointer. It is
+   only ever the browser's snapshot, so it sits out of sight. */
+.mu-drag-chip {
+  position: fixed;
+  top: -1000px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 14rem;
+  padding: 0.375rem 0.5rem;
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  font-size: var(--font-size-small);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.4);
+}
+
+.mu-drag-chip-head {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 600;
+}
+
+.mu-drag-chip-thumb {
+  display: block;
+  width: 7rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border-radius: calc(var(--radius) / 2);
+}
+
+.mu-drag-chip-text {
+  overflow: hidden;
+  color: var(--fg-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-port-guides {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-1);
+  border: var(--border-width) dashed var(--accent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 10%, color-mix(in srgb, var(--bg) 70%, transparent));
+}
+
+.mu-port-guides.is-refused {
+  border-color: var(--border);
+  background: color-mix(in srgb, var(--bg) 75%, transparent);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.mu-port-guide {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 1.75rem;
+  padding: 0.25rem 0.75rem;
+  border: var(--border-width) dashed var(--accent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+  color: var(--accent);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  cursor: copy;
+}
+
+.mu-port-guide.guide-link,
+.mu-port-guide.guide-share {
+  cursor: alias;
+}
+
+/* Picking a property: the whole cover is the answer. */
+.mu-port-guides.is-pick {
+  cursor: pointer;
+}
+
+.mu-port-guides.is-pick.is-single .mu-port-guide.guide-pick {
+  pointer-events: none;
+}
+
+.mu-propertypick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+}
+
+.mu-port-guide.is-over {
+  border-style: solid;
+  background: color-mix(in srgb, var(--accent) 45%, var(--bg-elevated));
+  color: var(--fg);
+}
+
+.mu-port-guide:disabled {
+  border-color: var(--border);
+  color: var(--fg-muted);
+  cursor: not-allowed;
+}
+
+/* The checklist control: whether a server is there, one row per question. No box
+   around it -- the section it is in has a heading now, and a border inside
+   a titled section is a card inside a card. */
+.mu-checklist {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-2);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mu-checklist > li {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.mu-checklist > li > .bi {
+  color: var(--fg-muted);
+}
+
+.mu-checklist > li[data-state="ok"] > .bi {
+  color: var(--success);
+}
+
+.mu-checklist > li[data-state="warn"] > .bi {
+  color: var(--accent);
+}
+
+.mu-checklist > li[data-state="error"] > .bi {
+  color: var(--danger);
+}
+
+.mu-checklist-name {
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+
+/* The hint is a line of small type's worth of button, like a section's. */
+.mu-checklist .mu-hint {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+
+/* ---- imagecard: the image stage, in a card with a header -------------- */
+.mu-imagecard.is-filling {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.mu-imagecard-head {
+  flex: 0 0 auto;
+}
+
+.mu-imagecard-gap {
+  flex: 1 1 auto;
+}
+
+/* The card is the frame now. */
+.mu-imagecard > .mu-imagestage {
+  border: 0;
+  border-radius: 0;
+}
+
+/* Shrunk: the picture 4rem tall under the header -- enough to tell which
+   one it is. */
+.mu-imagecard.is-shrunk > .mu-imagestage {
+  flex: 0 0 4rem;
+  height: 4rem;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+/* Shrunk and empty: the ground and the picture mark, nothing to read --
+   the size, the words and the run button are for the card opened up. */
+.mu-imagecard.is-shrunk .mu-imagestage-empty {
+  gap: 0;
+  padding: 0;
+}
+
+.mu-imagecard.is-shrunk .mu-imagestage-empty > :not(.mu-imagestage-icon) {
+  display: none;
+}
+
+.mu-imagecard.is-shrunk .mu-imagestage-icon {
+  font-size: 1.5rem;
+}
+
+/* ---- every card's header ------------------------------------------------
+   Grip and primary button on the left, the rest on the right; narrow, the
+   primary loses its words, then the rest fold into the menu button. */
+.mu-card-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: var(--bar-height);
+  padding: 0 var(--space-1);
+  overflow: hidden;
+}
+
+.mu-card-gap {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mu-card-head > .mu-card-more {
+  display: none;
+}
+
+.mu-card-head.is-folded > .mu-card-more {
+  display: inline-flex;
+}
+
+.mu-card-head.is-folded > button:not(.mu-port-grip):not(.is-primary):not(.mu-card-more),
+.mu-card-head.is-folded > .mu-nodecard-tools {
+  display: none;
+}
+
+.mu-card-head.is-tight > .is-primary,
+.mu-card-head.is-tight > .mu-nodecard-lead > .is-primary {
+  width: 1.25rem;
+  padding: 0;
+  justify-content: center;
+}
+
+.mu-card-head.is-tight > .is-primary .mu-button-label,
+.mu-card-head.is-tight > .mu-nodecard-lead > .is-primary .mu-button-label {
+  display: none;
+}
+
+/* While fitHead measures: every label in the header (a card's title, a
+   caption, a link's source) at its own width, so one that does not fit
+   shows as overflow. What gives way is, in order: the primary's words, the
+   tools (into the menu), and only then the labels, cut to an ellipsis. */
+.mu-card-head.is-measuring > :not(.mu-card-gap):not(.workflow-card-gap) {
+  flex-shrink: 0;
+}
+
+/* Buttons keep their size: a header with too little room folds them away
+   (fitHead) rather than squeezing them. */
+.mu-card-head > button,
+.mu-card-head > .mu-nodecard-lead,
+.mu-card-head > .mu-nodecard-tools {
+  flex-shrink: 0;
+}
+
+/* ---- a group's way inside ------------------------------------------------
+   An expanded group offers its guides over the whole of itself; the middle
+   gets one more: open the group, and offer its windows' guides instead. */
+.mu-guide.guide-inside {
+  display: none;
+  top: 50%;
+  left: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mu-window.has-inside > .mu-guides > .guide-inside {
+  display: flex;
+}
+
+/* Dragging: in with it, inside, trade places -- three in a row. */
+.mu-window.is-group.has-inside:not(.is-collapsed):not(.is-place-mode) > .mu-guides > .guide-group {
+  transform: translate(calc(-50% - 3rem), -50%);
+}
+
+.mu-window.is-group.has-inside:not(.is-collapsed):not(.is-place-mode) > .mu-guides > .guide-swap {
+  transform: translate(calc(-50% + 3rem), -50%);
+}
+
+/* Placing: no trading, so in with it and inside share the middle. */
+.mu-window.is-group.has-inside.is-place-mode > .mu-guides > .guide-group {
+  transform: translate(calc(-50% - 1.5rem), -50%);
+}
+
+.mu-window.is-group.has-inside.is-place-mode > .mu-guides > .guide-inside {
+  transform: translate(calc(-50% + 1.5rem), -50%);
+}
+
+/* The image card as an input: its block's name on the header, and under the
+   picture where it came from and what it is. A file dragged over it is
+   taken, and it says so. */
+.mu-imagecard-label[hidden],
+.mu-imagecard-facts[hidden] {
+  display: none;
+}
+
+.mu-imagecard-facts {
+  padding: 0.25rem var(--space-2);
+  border-top: var(--border-width) solid var(--border);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-imagecard.is-dragover {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 0.125rem var(--accent);
+}
+
+/* An input's picture is not a window's worth: a fixed stage. */
+.mu-imagecard.is-input:not(.is-shrunk) > .mu-imagestage {
+  min-height: 10rem;
+}
+
+/* The audio and video cards are the image card's frame with a player in it;
+   shrunk, the header and nothing else. */
+.mu-mediacard-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 3rem;
+  padding: var(--space-2);
+}
+
+.mu-mediacard-stage > audio,
+.mu-mediacard-stage > video {
+  width: 100%;
+}
+
+.mu-mediacard-stage > video {
+  max-height: 24rem;
+  background: #000;
+}
+
+.mu-mediacard-stage > audio[hidden],
+.mu-mediacard-stage > video[hidden],
+.mu-mediacard-note[hidden] {
+  display: none;
+}
+
+.mu-mediacard-note {
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.mu-mediacard.is-input .mu-mediacard-note {
+  cursor: pointer;
+}
+
+.mu-mediacard.is-busy .mu-mediacard-stage {
+  opacity: 0.6;
+}
+
+.mu-mediacard.is-shrunk > .mu-mediacard-stage {
+  display: none;
+}
+
+/* A launch layout's links, listed under its panes. */
+.mu-layoutcard-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-1) var(--space-2) var(--space-2);
+  font-size: var(--font-size-small);
+  color: var(--fg-muted);
+}
+.mu-layoutcard-links[hidden] {
+  display: none;
+}
+.mu-layoutcard-links-title {
+  font-weight: 600;
+}
+.mu-layoutcard-link {
+  display: flex;
+  gap: var(--space-1);
+  align-items: baseline;
+  overflow-wrap: anywhere;
+}
+.mu-layoutcard-link.is-missing {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+/* -- hotkey target pick ------------------------------------------------- */
+/* Over everything, the windows' own guides included: while it is open the
+   only thing to do is choose one of its guides, or nothing. */
+.mu-hotkey-pick {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.mu-hotkey-pick-banner {
+  position: fixed;
+  top: 0.5rem;
+  left: 50%;
+  max-width: calc(100vw - 2rem);
+  padding: 0.375rem 0.75rem;
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  font-size: 0.8125rem;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.mu-guide.mu-hotkey-guide {
+  border-style: solid;
+  border-width: 2px;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.mu-guide.mu-hotkey-guide:hover {
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.mu-hotkey-guide-tag {
+  position: absolute;
+  top: calc(100% + 3px);
+  right: 0;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-size: 0.6875rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* -- bays ---------------------------------------------------------------- */
+/* A bay's frame has no bar: its windows are what is seen, and the next
+   sash button on their bars is the way it is worked. Its edge is theirs
+   (the frame every window has): it has none of its own. */
+.mu-window.is-bay > .mu-titlebar {
+  display: none;
+}
+
+/* The placeholder an empty sash shows: made and removed by the shell, so
+   it has nothing to split or fold. Its handle moves the bay, and closing
+   it removes the bay. */
+.mu-window.is-bay-slot > .mu-titlebar .action-pin,
+.mu-window.is-bay-slot > .mu-titlebar .action-collapse {
+  display: none;
+}
+
+.mu-window.is-bay-slot > .mu-body {
+  background: color-mix(in srgb, var(--accent) 5%, var(--bg-inset));
+}
+
+/* The placeholder takes a window one way only -- into the sash, in its
+   place -- so it offers that one guide, over most of itself, and none of
+   the usual ones. Hidden everywhere else. */
+.mu-guide.guide-register {
+  display: none;
+}
+
+/* The placeholder offers the arrows any window does (beside the bay), and
+   in the middle, instead of the frame and swap guides, "in the sash".
+   !important: the middle guides' own rules are long chains of :not(). */
+.mu-window.is-bay-slot > .mu-guides > .guide-group,
+.mu-window.is-bay-slot > .mu-guides > .guide-swap,
+.mu-window.is-bay-slot > .mu-guides > .guide-inside {
+  display: none !important;
+}
+
+.mu-window.is-bay-slot > .mu-guides > .mu-guide.guide-register {
+  top: 50%;
+  left: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mu-guide.guide-register .mu-guide-label {
+  display: none;
+}
+
+.mu-guide.guide-register.is-over {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* A card's icon, before its title: what the card is about. */
+.mu-nodecard-icon {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+}
+
+.mu-nodecard-icon[hidden] {
+  display: none;
+}
+
+/* A pane of a layout preview that can be taken out: its button in the
+   corner. */
+/* A layout preview inside a card: only its panes. */
+.mu-layoutcard.is-bare {
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.mu-layoutcard.is-bare > .mu-layoutcard-head {
+  display: none;
+}
+
+.mu-layoutcard.is-bare > .mu-layoutcard-body {
+  padding: 0;
+}
+
+/* -- motion -------------------------------------------------------------- */
+/* While title bars slide to where a fold or an open put them, nothing clips
+   them at their windows' edges, and a moving bar passes over its
+   neighbours. */
+.mu-stage.is-bar-motion .mu-window {
+  overflow: visible;
+}
+
+.mu-stage.is-bar-motion .mu-titlebar {
+  z-index: 30;
+}
+
+/* A frame on its way: its colour painted past its box, for the clip that
+   starts at the rectangle it had to show where it was bigger. A group's is
+   the ground its windows sit on. */
+.mu-stage.is-bar-motion .mu-window.is-moving-frame {
+  box-shadow: 0 0 0 100vmax var(--bg-elevated);
+}
+
+.mu-stage.is-bar-motion .mu-window.is-group.is-moving-frame {
+  box-shadow: 0 0 0 100vmax var(--bg-inset);
+}
+
+/* ...and its bar's colour stretched along the frame's sides, so the bar
+   spans the frame whatever width it will have. */
+.mu-stage.is-bar-motion .mu-window.is-moving-frame > .mu-titlebar::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: calc(-1 * var(--border-width));
+  left: -100vmax;
+  right: -100vmax;
+  border-bottom: var(--border-width) solid var(--border);
+  background: inherit;
+  pointer-events: none;
+}
+
+.mu-stage.is-bar-motion .mu-window.is-moving-frame.is-collapsed.is-vertical > .mu-titlebar::after {
+  top: -100vmax;
+  bottom: -100vmax;
+  left: 0;
+  right: 0;
+  border-bottom: 0;
+}
+
+/* A sash sliding out: a still copy of what the bay showed, over the bay,
+   leaving as the next sash comes in. */
+.mu-window.is-bay.is-sliding {
+  overflow: hidden;
+}
+
+.mu-bay-ghost {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* A bay's tab in the window pick sits on its lower edge: its name above it. */
+.mu-hotkey-guide-tag.is-above {
+  top: auto;
+  bottom: calc(100% + 3px);
+}
+
+/* A bay in a layout preview: a pane like the others -- its icon and name in
+   the middle -- with the windows its sashes hold under them, framed, one
+   to a line. */
+.mu-layoutcard-pane.mu-layoutcard-bay {
+  gap: 0.25rem;
+}
+
+.mu-layoutcard-bay-items {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: 0.125rem;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.125rem 0.375rem;
+  border: var(--border-width) solid var(--border);
+  border-radius: calc(var(--radius) * 0.5);
+  background: var(--bg-inset);
+}
+
+.mu-layoutcard-bay-items[hidden] {
+  display: none;
+}
+
+.mu-layoutcard-bay-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.mu-layoutcard-bay-item > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-layoutcard-bay-item.is-missing {
+  color: var(--danger);
+}
+
+/* Too low for the list under the name: the name alone, beside its icon. */
+@container (max-height: 4rem) {
+  .mu-layoutcard-bay-items {
+    display: none;
+  }
+}
+
+/* -- an icon as a card -------------------------------------------------- */
+.mu-iconcard {
+  display: flex;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+/* The header down the left: the grip at the top, "choose" below it. */
+.mu-iconcard-head {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 2px;
+  border-right: var(--border-width) solid var(--border);
+}
+
+.mu-iconcard-body {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+}
+
+.mu-iconcard-body > .bi {
+  color: var(--fg);
+  font-size: 1.75rem;
+}
+
+.mu-iconcard-name {
+  overflow: hidden;
+  font-family: var(--font-mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* -- a list of pictures as an input ------------------------------------- */
+.mu-imagelist {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: var(--space-1);
+}
+
+.mu-imagelist-tile {
+  position: relative;
+  overflow: hidden;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: repeating-conic-gradient(var(--bg-inset) 0 25%, var(--bg-elevated) 0 50%) 50% / 12px 12px;
+}
+
+.mu-imagelist-tile > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+}
+
+.mu-imagelist-grip,
+.mu-imagelist-remove {
+  position: absolute;
+  top: 2px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+}
+
+.mu-imagelist-grip {
+  left: 2px;
+}
+
+.mu-imagelist-remove {
+  right: 2px;
+}
+
+.mu-imagelist-empty {
+  grid-column: 1 / -1;
+  padding: var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.mu-imagelist-empty[hidden] {
+  display: none;
+}
+
+/* A state as one row: a lamp, a name, a line, and the detail button at the
+   right end. */
+.mu-statusrow {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  width: 100%;
+  min-width: 0;
+  /* The height of the detail button: a row that has none (while it is still asking) is as tall
+     as one that has, so the bar does not shrink and grow. */
+  min-height: 1.75rem;
+}
+
+.mu-statusrow-dot {
+  flex: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--fg-muted);
+}
+
+.mu-statusrow-dot[data-state="ok"] {
+  background: var(--success);
+}
+
+.mu-statusrow-dot[data-state="warn"] {
+  background: var(--accent);
+}
+
+.mu-statusrow-dot[data-state="checking"] {
+  background: var(--accent);
+  animation: mu-statusrow-pulse 1s ease-in-out infinite;
+}
+
+.mu-statusrow-dot[data-state="failed"] {
+  background: var(--danger);
+}
+
+.mu-statusrow-name {
+  flex: none;
+  font-weight: 600;
+}
+
+.mu-statusrow-text {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--fg-muted);
+  font-size: var(--font-size-small);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-statusrow-text.is-error {
+  color: var(--danger);
+}
+
+.mu-statusrow-more {
+  flex: none;
+  margin-left: auto;
+}
+
+.mu-statusrow-more[hidden] {
+  display: none;
+}
+
+@keyframes mu-statusrow-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ...and while a window is dragged, the guides for linking it here. A strip
+   exactly over the title bar, above the guides overlay (and a group's, which
+   covers the windows inside it), with the window's other guides moved below
+   it. */
+.mu-link-strip {
+  display: none;
+}
+
+.mu-window.has-link-guide > .mu-link-strip {
+  display: flex;
+  gap: var(--border-width);
+  position: absolute;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--bar-height);
+  padding: var(--border-width);
+}
+
+.mu-window.has-link-guide:not(.is-collapsed):not(.has-bar-guides) > .mu-guides {
+  top: var(--bar-height);
+}
+
+.mu-link-strip > .mu-guide {
+  position: static;
+  /* Over the title it covers, which would otherwise read through. */
+  background: color-mix(in srgb, var(--accent) 18%, var(--bg-elevated));
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mu-link-strip > .mu-guide:hover,
+.mu-link-strip > .mu-guide.is-over {
+  border-style: solid;
+  background: color-mix(in srgb, var(--accent) 45%, var(--bg-elevated));
+  color: var(--fg);
+}
+
+.mu-window.is-vertical > .mu-link-strip .mu-guide-label {
+  display: none;
+}
+
+/* ---- tools a window's settings switched off ---------------------------- */
+.mu-window.no-tool-presets > .mu-titlebar .action-presets,
+.mu-window.no-tool-prevSash > .mu-titlebar .action-prev-sash,
+.mu-window.no-tool-nextSash > .mu-titlebar .action-next-sash,
+.mu-window.no-tool-collapse > .mu-titlebar .action-collapse,
+.mu-window.no-tool-pin > .mu-titlebar .action-pin,
+.mu-window.no-tool-close > .mu-titlebar .action-delete {
+  display: none !important;
+}
+
+/* The buttons that move along a bay's sashes point the way the sashes
+   slide: the glyphs point sideways, so in a column they are turned. */
+.action-next-sash.is-vertical .bi,
+.action-prev-sash.is-vertical .bi {
+  display: inline-block;
+  transform: rotate(90deg);
+}
+
+/* Reversed: forward comes in from the other side, so the glyphs turn round. */
+.action-next-sash.is-reversed .bi,
+.action-prev-sash.is-reversed .bi {
+  display: inline-block;
+  transform: rotate(180deg);
+}
+
+.action-next-sash.is-vertical.is-reversed .bi,
+.action-prev-sash.is-vertical.is-reversed .bi {
+  transform: rotate(-90deg);
+}
+
+/* ---- the switches of a window's title bar buttons ----------------------- */
+/* A card each -- the button's icon, its name, and the switch -- laid out in a
+   grid that wraps to whatever width the window has. */
+.mu-toolcards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.mu-toolcard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg);
+}
+
+.mu-toolcard > .bi {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.mu-toolcard.is-on > .bi {
+  color: var(--accent);
+}
+
+.mu-toolcard-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--font-size-small);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mu-toolcard:not(.is-on) .mu-toolcard-label {
+  color: var(--fg-muted);
+}
+
+/* The switch: a pill, the knob on the right when it is on. */
+.mu-toolcard-switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 1.125rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--border);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.mu-toolcard-switch::after {
+  content: "";
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 50%;
+  background: var(--bg);
+  transition: transform 0.12s;
+}
+
+.mu-toolcard.is-on .mu-toolcard-switch {
+  background: var(--accent);
+}
+
+.mu-toolcard.is-on .mu-toolcard-switch::after {
+  transform: translateX(0.875rem);
+}
+
+/* A card with nothing in it is its top bar alone: no body, and so no line
+   between the two to thicken the card's own edge. */
+.mu-nodecard.is-bare > .mu-listcard-body {
+  display: none;
+}
+
+.mu-nodecard.is-bare > .mu-listcard-head {
+  border-bottom: 0;
+}
+
+/* The controls in a node card's action bar share one row. */
+.mu-nodecard > .mu-action-bar {
+  flex-wrap: nowrap;
+}
+.mu-nodecard > .mu-action-bar > :first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.mu-nodecard > .mu-action-bar > :not(:first-child) {
+  flex: 0 0 auto;
+  width: auto;
+}
+.mu-nodecard > .mu-action-bar > .mu-nodecard.is-property {
+  width: auto;
+  margin: 0;
+}
+
+/* ---- overlay: items, controls and values drawn over the screen ----------- */
+/* The look of the move and drop guides -- a dashed frame, a tint, a name in a
+   small dashed tag -- on a layer that takes no pointer, so every click goes
+   through to what is underneath. Below the guides (100) and above a window's
+   own bars (20). */
+.mu-overlay-layer {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  --ov-items: var(--accent);
+  --ov-controls: var(--success);
+  --ov-values: color-mix(in srgb, var(--accent) 55%, var(--danger));
+}
+
+.mu-overlay-box {
+  position: absolute;
+  box-sizing: border-box;
+  border: var(--border-width) dashed var(--ov);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--ov) 8%, transparent);
+}
+
+.mu-overlay-box.kind-items {
+  --ov: var(--ov-items);
+}
+
+.mu-overlay-box.kind-controls {
+  --ov: var(--ov-controls);
+}
+
+.mu-overlay-box.kind-values {
+  --ov: var(--ov-values);
+}
+
+.mu-overlay-tag {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: calc(100% - 4px);
+  height: 1rem;
+  padding: 0 0.375rem;
+  border: var(--border-width) dashed var(--ov);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+  color: var(--ov);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.mu-overlay-tag[hidden] {
+  display: none;
+}
+
+.mu-overlay-tag > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Where each kind's tag sits, so the names of a box that is several things
+   at once do not lie on top of each other. */
+.kind-items > .mu-overlay-tag {
+  top: 2px;
+  left: 2px;
+}
+
+.kind-controls > .mu-overlay-tag {
+  top: 2px;
+  right: 2px;
+}
+
+.kind-values > .mu-overlay-tag {
+  bottom: 2px;
+  left: 2px;
+}

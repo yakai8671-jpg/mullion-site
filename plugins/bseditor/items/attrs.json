@@ -1,0 +1,37 @@
+{
+  "id": "bseditor.attrs",
+  "label": "bseditor.item.attrs",
+  "standalone": true,
+  "icon": "tag",
+  "permissions": [],
+  "properties": {
+    "find": {
+      "label": "bseditor.prop.find",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "screen": "bseditor.attrs",
+  "derived": {
+    "attributes": {
+      "label": "bseditor.prop.attrs",
+      "type": "list",
+      "each": {
+        "type": "bseditor.attrentry"
+      },
+      "from": {
+        "script": "catalogAttributes"
+      }
+    }
+  },
+  "actions": {
+    "say": {
+      "use": "bseditor.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "bseditor.clear",
+  "permissions": [],
+  "params": {
+    "doc": {
+      "type": "bseditor.doc"
+    }
+  },
+  "results": {
+    "doc": {
+      "type": "bseditor.doc"
+    }
+  }
+}

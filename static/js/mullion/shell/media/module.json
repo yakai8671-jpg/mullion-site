@@ -1,0 +1,15 @@
+{
+  "name": "media",
+  "deps": [
+    "server"
+  ],
+  "api": [
+    "extensionOf",
+    "mediaOfName",
+    "locate",
+    "diskAddress"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

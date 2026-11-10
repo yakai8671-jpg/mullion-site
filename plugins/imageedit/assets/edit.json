@@ -1,0 +1,312 @@
+{
+  "name": "Qwen Image Edit 画像編集",
+  "tool": "image_edit",
+  "workflow": {
+    "name": "qwen_image_edit",
+    "platform": "comfyui",
+    "graph": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "Qwen-Rapid-AIO-NSFW-v23.safetensors"
+        },
+        "_meta": {
+          "title": "Load Checkpoint"
+        }
+      },
+      "2": {
+        "class_type": "KSampler",
+        "inputs": {
+          "seed": 1,
+          "steps": 4,
+          "cfg": 1,
+          "sampler_name": "euler_ancestral",
+          "scheduler": "beta",
+          "denoise": 1,
+          "model": [
+            "43",
+            0
+          ],
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "latent_image": [
+            "31",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "KSampler"
+        }
+      },
+      "3": {
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "inputs": {
+          "prompt": "",
+          "clip": [
+            "1",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "image1": [
+            "30",
+            0
+          ],
+          "image2": [
+            "21",
+            0
+          ],
+          "image3": [
+            "22",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Prompt (with the pictures)"
+        }
+      },
+      "4": {
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "inputs": {
+          "prompt": "",
+          "clip": [
+            "1",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        },
+        "_meta": {
+          "title": "Negative Prompt"
+        }
+      },
+      "5": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "2",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        },
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "16": {
+        "class_type": "PreviewImage",
+        "inputs": {
+          "images": [
+            "5",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Preview Image"
+        }
+      },
+      "20": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": ""
+        },
+        "_meta": {
+          "title": "Picture to change"
+        }
+      },
+      "21": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": ""
+        },
+        "_meta": {
+          "title": "Reference 1"
+        }
+      },
+      "22": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": ""
+        },
+        "_meta": {
+          "title": "Reference 2"
+        }
+      },
+      "30": {
+        "class_type": "ImageScaleToTotalPixels",
+        "inputs": {
+          "image": [
+            "20",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "megapixels": 1,
+          "resolution_steps": 16
+        },
+        "_meta": {
+          "title": "Scale to total pixels"
+        }
+      },
+      "31": {
+        "class_type": "VAEEncode",
+        "inputs": {
+          "pixels": [
+            "30",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        },
+        "_meta": {
+          "title": "VAE Encode"
+        }
+      },
+      "43": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "lora_name": "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+          "strength_model": 0,
+          "model": [
+            "1",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Load LoRA"
+        }
+      }
+    },
+    "fields": []
+  },
+  "blocks": {
+    "prompts": {
+      "value": {
+        "node_id": "3",
+        "input_key": "prompt"
+      }
+    },
+    "negative_prompts": {
+      "value": {
+        "node_id": "4",
+        "input_key": "prompt"
+      }
+    },
+    "source_image": {
+      "value": {
+        "node_id": "20",
+        "input_key": "image"
+      }
+    },
+    "ref_image_1": {
+      "value": {
+        "node_id": "21",
+        "input_key": "image"
+      }
+    },
+    "ref_image_2": {
+      "value": {
+        "node_id": "22",
+        "input_key": "image"
+      }
+    },
+    "image": {
+      "value": {
+        "node_id": "16",
+        "input_key": "images"
+      }
+    }
+  },
+  "settings": [
+    {
+      "node_id": "1",
+      "input_key": "ckpt_name",
+      "label": "チェックポイント",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "CheckpointLoaderSimple",
+        "input_key": "ckpt_name"
+      }
+    },
+    {
+      "node_id": "43",
+      "input_key": "lora_name",
+      "label": "LoRA",
+      "group": "LoRA",
+      "options_source": {
+        "class_type": "LoraLoaderModelOnly",
+        "input_key": "lora_name"
+      }
+    },
+    {
+      "node_id": "43",
+      "input_key": "strength_model",
+      "label": "LoRA の強さ（0 で使わない）",
+      "group": "LoRA",
+      "value_type": "number"
+    },
+    {
+      "node_id": "30",
+      "input_key": "megapixels",
+      "label": "出力サイズ（メガピクセル）",
+      "group": "出力",
+      "value_type": "number"
+    },
+    {
+      "node_id": "2",
+      "input_key": "steps",
+      "label": "ステップ数",
+      "group": "サンプラー",
+      "value_type": "integer"
+    },
+    {
+      "node_id": "2",
+      "input_key": "cfg",
+      "label": "CFG",
+      "group": "サンプラー",
+      "value_type": "number"
+    },
+    {
+      "node_id": "2",
+      "input_key": "sampler_name",
+      "label": "サンプラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "sampler_name"
+      }
+    },
+    {
+      "node_id": "2",
+      "input_key": "scheduler",
+      "label": "スケジューラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "scheduler"
+      }
+    },
+    {
+      "node_id": "2",
+      "input_key": "denoise",
+      "label": "デノイズ",
+      "group": "サンプラー",
+      "value_type": "number"
+    }
+  ],
+  "fixed": []
+}

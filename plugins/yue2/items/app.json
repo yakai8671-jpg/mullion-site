@@ -1,0 +1,286 @@
+{
+  "id": "yue2.app",
+  "label": "yue2.item.app",
+  "icon": "music-note-beamed",
+  "standalone": true,
+  "permissions": [
+    "comfy:run",
+    "store:read",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "properties": {
+    "style": {
+      "label": "yue2.prop.style",
+      "type": "string",
+      "control": "texteditor",
+      "default": "",
+      "port": "text"
+    },
+    "lyrics": {
+      "label": "yue2.prop.lyrics",
+      "type": "string",
+      "control": "texteditor",
+      "default": "",
+      "port": "text"
+    },
+    "abcAuto": {
+      "label": "yue2.prop.abcAuto",
+      "type": "boolean",
+      "default": true
+    },
+    "abcMade": {
+      "label": "yue2.prop.abcMade",
+      "type": "string",
+      "default": "",
+      "port": false
+    },
+    "planning": {
+      "label": "yue2.prop.planning",
+      "type": "enum",
+      "default": "full",
+      "options": [
+        "full",
+        "melody",
+        "off"
+      ]
+    },
+    "maxDuration": {
+      "label": "yue2.prop.maxDuration",
+      "type": "number",
+      "default": 120,
+      "min": 5,
+      "max": 900,
+      "step": 1
+    },
+    "seed": {
+      "label": "yue2.prop.seed",
+      "type": "number",
+      "default": 0,
+      "min": 0
+    },
+    "randomSeed": {
+      "label": "yue2.prop.randomSeed",
+      "type": "boolean",
+      "default": true
+    },
+    "model": {
+      "label": "yue2.prop.model",
+      "type": "string",
+      "default": "yue2_3b_int8_convrot.safetensors"
+    },
+    "format": {
+      "label": "yue2.prop.format",
+      "type": "enum",
+      "default": "mp3",
+      "options": [
+        "mp3",
+        "flac",
+        "opus"
+      ]
+    },
+    "abcTemperature": {
+      "label": "yue2.prop.abcTemperature",
+      "type": "number",
+      "default": 0.7,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    "musicTemperature": {
+      "label": "yue2.prop.musicTemperature",
+      "type": "number",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    "steps": {
+      "label": "yue2.prop.steps",
+      "type": "number",
+      "default": 32,
+      "min": 1,
+      "max": 100
+    },
+    "abc": {
+      "label": "yue2.prop.abc",
+      "type": "yue2.abc",
+      "default": {
+        "header": "",
+        "sections": []
+      }
+    },
+    "audio": {
+      "label": "yue2.prop.audio",
+      "type": "audio",
+      "default": ""
+    },
+    "audioName": {
+      "label": "yue2.prop.audioName",
+      "type": "string",
+      "default": "",
+      "port": false
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "style-section",
+      "options": {
+        "label": "yue2.prop.style"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "style",
+          "options": {
+            "value": {
+              "bind": "style"
+            },
+            "lines": 3
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "lyrics-section",
+      "options": {
+        "label": "yue2.prop.lyrics"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "lyrics",
+          "options": {
+            "value": {
+              "bind": "lyrics"
+            },
+            "lines": 5
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "abc-settings-section",
+      "options": {
+        "label": "yue2.prop.abcAuto"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "abc-settings",
+          "options": {
+            "entries": [
+              "abcAuto",
+              "abcTemperature"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "abc-section",
+      "options": {
+        "label": "yue2.section.abcValue"
+      },
+      "layout": [
+        {
+          "control": "yue2.abccard",
+          "key": "abc",
+          "options": {
+            "value": {
+              "bind": "abc"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "settings",
+      "options": {
+        "label": "yue2.section.settings"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "settings-fields",
+          "options": {
+            "entries": [
+              "planning",
+              "format",
+              "maxDuration",
+              "seed",
+              "randomSeed",
+              "steps"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "yue2.section.result"
+      },
+      "layout": [
+        {
+          "control": "audiocard",
+          "key": "audio",
+          "options": {
+            "value": {
+              "bind": "audio"
+            },
+            "filename": {
+              "bind": "audioName"
+            },
+            "emptyAction": {
+              "action": "generate",
+              "label": "yue2.action.song",
+              "title": "yue2.action.songTitle",
+              "cancelLabel": "yue2.action.cancel"
+            },
+            "onClear": "clear"
+          }
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "generate": {
+      "use": "yue2.generate",
+      "inputs": [
+        "style",
+        "lyrics",
+        "abc",
+        "abcAuto",
+        "planning",
+        "maxDuration",
+        "seed",
+        "randomSeed",
+        "model",
+        "format",
+        "abcTemperature",
+        "musicTemperature",
+        "steps",
+        "abcMade"
+      ],
+      "outputs": {
+        "audio": "audio",
+        "abc": "abc",
+        "abcMade": "abcMade"
+      }
+    },
+    "clear": {
+      "use": "set",
+      "with": {
+        "audio": ""
+      }
+    }
+  }
+}

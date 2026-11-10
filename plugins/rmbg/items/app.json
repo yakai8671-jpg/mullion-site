@@ -1,0 +1,189 @@
+{
+  "id": "rmbg.app",
+  "label": "rmbg.item.app",
+  "icon": "eraser",
+  "standalone": true,
+  "permissions": [
+    "comfy:run",
+    "store:write",
+    "services:read",
+    "services:write"
+  ],
+  "properties": {
+    "source": {
+      "label": "rmbg.prop.source",
+      "type": "image",
+      "maxBytes": 8388608,
+      "default": ""
+    },
+    "sourceName": {
+      "label": "rmbg.prop.source",
+      "type": "string",
+      "default": ""
+    },
+    "model": {
+      "label": "rmbg.prop.model",
+      "type": "enum",
+      "default": "BiRefNet-general",
+      "options": [
+        { "value": "BiRefNet-general", "label": "rmbg.model.BiRefNet-general" },
+        { "value": "BiRefNet-HR", "label": "rmbg.model.BiRefNet-HR" },
+        { "value": "BiRefNet_toonout", "label": "rmbg.model.BiRefNet_toonout" },
+        { "value": "BiRefNet-portrait", "label": "rmbg.model.BiRefNet-portrait" },
+        { "value": "BiRefNet-matting", "label": "rmbg.model.BiRefNet-matting" },
+        { "value": "BiRefNet-HR-matting", "label": "rmbg.model.BiRefNet-HR-matting" },
+        { "value": "BiRefNet_lite", "label": "rmbg.model.BiRefNet_lite" },
+        { "value": "RMBG-2.0", "label": "rmbg.model.RMBG-2.0" },
+        { "value": "BEN2", "label": "rmbg.model.BEN2" },
+        { "value": "INSPYRENET", "label": "rmbg.model.INSPYRENET" }
+      ]
+    },
+    "sensitivity": {
+      "label": "rmbg.prop.sensitivity",
+      "type": "percent",
+      "default": 1
+    },
+    "offset": {
+      "label": "rmbg.prop.offset",
+      "type": "number",
+      "default": 0,
+      "min": -20,
+      "max": 20
+    },
+    "blur": {
+      "label": "rmbg.prop.blur",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 64
+    },
+    "refine": {
+      "label": "rmbg.prop.refine",
+      "type": "boolean",
+      "default": false
+    },
+    "resolution": {
+      "label": "rmbg.prop.resolution",
+      "type": "number",
+      "default": 1024,
+      "min": 256,
+      "max": 2048
+    },
+    "result": {
+      "label": "rmbg.section.result",
+      "type": "image",
+      "default": ""
+    }
+  },
+  "actions": {
+    "run": {
+      "use": "rmbg.run",
+      "inputs": [
+        "source",
+        "model",
+        "sensitivity",
+        "offset",
+        "blur",
+        "refine",
+        "resolution"
+      ],
+      "outputs": {
+        "result": "result"
+      }
+    },
+    "keep": {
+      "use": "rmbg.keep",
+      "inputs": {
+        "src": { "payload": "value" },
+        "sourceName": "sourceName"
+      }
+    },
+    "clear": {
+      "use": "set",
+      "with": {
+        "result": ""
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "pinned",
+      "key": "software",
+      "layout": [
+        {
+          "control": "services.state",
+          "key": "comfyui",
+          "options": {
+            "service": "comfyui"
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "source",
+      "options": {
+        "label": "rmbg.section.source"
+      },
+      "layout": [
+        {
+          "control": "imagecard",
+          "key": "source",
+          "options": {
+            "value": { "bind": "source" },
+            "name": { "bind": "sourceName" }
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "settings",
+      "options": {
+        "label": "rmbg.section.settings"
+      },
+      "layout": [
+        {
+          "control": "props",
+          "key": "settings",
+          "options": {
+            "entries": [
+              "model",
+              "sensitivity",
+              "offset",
+              "blur",
+              "refine",
+              "resolution"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "rmbg.section.result"
+      },
+      "layout": [
+        {
+          "control": "imagecard",
+          "key": "stage",
+          "options": {
+            "value": { "bind": "result" },
+            "showSize": false,
+            "empty": "rmbg.value.waiting",
+            "emptyAction": {
+              "action": "run",
+              "label": "rmbg.action.run",
+              "title": "rmbg.action.runTitle",
+              "cancelLabel": "rmbg.action.cancel"
+            },
+            "onClear": "clear",
+            "onKeep": "keep"
+          }
+        }
+      ]
+    }
+  ]
+}

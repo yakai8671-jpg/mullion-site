@@ -1,0 +1,16 @@
+{
+  "id": "prompt.tagcard",
+  "label": "prompt.control.tagcard",
+  "script": true,
+  "why": "card grid over the tags of a part",
+  "needs": [
+    "items",
+    "set",
+    "blank"
+  ],
+  "params": {
+    "each": {
+      "type": "data"
+    }
+  }
+}

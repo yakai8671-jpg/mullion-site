@@ -1,0 +1,32 @@
+{
+  "id": "prompt.slot",
+  "label": "prompt.vtype.slot",
+  "icon": "chat-left-text",
+  "port": "prompt",
+  "identity": "id",
+  "sample": {
+    "default": {
+      "kind": "taglist",
+      "tags": [
+        {
+          "id": "t0",
+          "text": "blue eyes"
+        }
+      ],
+      "weight": 1
+    }
+  },
+  "defaultControl": "prompt.promptline",
+  "list": {
+    "port": "promptlist",
+    "label": "prompt.vtype.template",
+    "icon": "list-columns-reverse",
+    "defaultControl": "prompt.promptlist",
+    "preview": {
+      "control": "prompt.promptlist"
+    }
+  },
+  "preview": {
+    "control": "prompt.promptline"
+  }
+}

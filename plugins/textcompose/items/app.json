@@ -1,0 +1,471 @@
+{
+  "id": "compose.app",
+  "label": "compose.item.app",
+  "icon": "braces-asterisk",
+  "standalone": true,
+  "permissions": [
+    "window:write"
+  ],
+  "properties": {
+    "text": {
+      "label": "compose.prop.text",
+      "type": "string",
+      "control": "compose.input",
+      "placeholder": "compose.placeholder.text",
+      "default": ""
+    },
+    "embeds": {
+      "label": "compose.prop.embeds",
+      "type": "list",
+      "each": {
+        "type": "compose.embed"
+      },
+      "default": []
+    },
+    "targets": {
+      "label": "compose.prop.targets",
+      "type": "list",
+      "default": [],
+      "link": true,
+      "itemType": {
+        "kind": "standalone",
+        "exclude": [
+          "compose.app",
+          "compose.catalog"
+        ]
+      }
+    },
+    "catalog": {
+      "label": "compose.prop.catalog",
+      "type": "ref",
+      "itemType": "compose.catalog",
+      "link": true
+    },
+    "wrap": {
+      "label": "compose.prop.wrap",
+      "type": "boolean",
+      "default": true
+    },
+    "mono": {
+      "label": "compose.prop.mono",
+      "type": "boolean",
+      "default": false
+    },
+    "zoom": {
+      "label": "compose.prop.zoom",
+      "type": "number",
+      "default": 100
+    },
+    "tab": {
+      "label": "compose.prop.tab",
+      "type": "boolean",
+      "default": false
+    },
+    "spellcheck": {
+      "label": "compose.prop.spellcheck",
+      "type": "boolean",
+      "default": false
+    },
+    "stats": {
+      "label": "compose.prop.stats",
+      "type": "boolean",
+      "default": true
+    },
+    "numbers": {
+      "label": "compose.prop.numbers",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "derived": {
+    "sources": {
+      "label": "compose.prop.sources",
+      "type": "data",
+      "from": {
+        "script": "sources"
+      }
+    },
+    "result": {
+      "label": "compose.prop.result",
+      "type": "string",
+      "from": {
+        "script": "result"
+      }
+    },
+    "embedViews": {
+      "label": "compose.section.embeds",
+      "type": "list",
+      "each": {
+        "type": "compose.embedview"
+      },
+      "from": {
+        "script": "embedViews"
+      }
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "result",
+      "options": {
+        "label": "compose.prop.result"
+      },
+      "layout": [
+        {
+          "control": "texteditor",
+          "key": "result",
+          "options": {
+            "value": {
+              "bind": "result"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "control": "compose.input",
+      "key": "buffer",
+      "options": {
+        "value": {
+          "bind": "text"
+        },
+        "lines": 6,
+        "scrollKey": {
+          "item": "id"
+        },
+        "embeds": {
+          "bind": "embeds"
+        },
+        "sources": {
+          "bind": "sources"
+        },
+        "options": {
+          "wrap": {
+            "bind": "wrap"
+          },
+          "mono": {
+            "bind": "mono"
+          },
+          "zoom": {
+            "bind": "zoom"
+          },
+          "tab": {
+            "bind": "tab"
+          },
+          "spellcheck": {
+            "bind": "spellcheck"
+          },
+          "stats": {
+            "bind": "stats"
+          },
+          "numbers": {
+            "bind": "numbers"
+          }
+        }
+      }
+    },
+    {
+      "control": "list",
+      "key": "embeds",
+      "options": {
+        "label": "compose.section.embeds",
+        "icon": "braces",
+        "add": {
+          "action": "open",
+          "label": "compose.action.addVariable"
+        }
+      },
+      "layout": [
+        {
+          "control": "card",
+          "key": "embed",
+          "each": {
+            "bind": "embedViews"
+          },
+          "as": "embed",
+          "options": {
+            "label": {
+              "bind": "embed.name"
+            },
+            "icon": "braces",
+            "discard": "remove"
+          },
+          "layout": [
+            {
+              "control": "textbox",
+              "key": "typeLabel",
+              "options": {
+                "value": {
+                  "bind": "embed.typeLabel"
+                }
+              },
+              "row": true
+            },
+            {
+              "control": "textbox",
+              "key": "value",
+              "options": {
+                "value": {
+                  "bind": "embed.value"
+                }
+              },
+              "row": true
+            },
+            {
+              "key": "embed-options",
+              "switch": {
+                "bind": "embed.kind"
+              },
+              "cases": {
+                "datetime": [
+                  {
+                    "control": "compose.formatbox",
+                    "key": "format",
+                    "options": {
+                      "value": {
+                        "bind": "embed.format"
+                      },
+                      "change": "setformat"
+                    },
+                    "row": true
+                  }
+                ],
+                "number": [
+                  {
+                    "control": "select",
+                    "key": "pad",
+                    "options": {
+                      "value": {
+                        "bind": "embed.pad"
+                      },
+                      "change": "setpad"
+                    },
+                    "row": true
+                  },
+                  {
+                    "control": "numberbox",
+                    "key": "width",
+                    "options": {
+                      "value": {
+                        "bind": "embed.width"
+                      },
+                      "change": "setwidth"
+                    },
+                    "row": true
+                  },
+                  {
+                    "control": "numberbox",
+                    "key": "decimals",
+                    "options": {
+                      "value": {
+                        "bind": "embed.decimals"
+                      },
+                      "change": "setdecimals"
+                    },
+                    "row": true
+                  }
+                ],
+                "bytes": [
+                  {
+                    "control": "select",
+                    "key": "unit",
+                    "options": {
+                      "value": {
+                        "bind": "embed.unit"
+                      },
+                      "change": "setunit"
+                    },
+                    "row": true
+                  },
+                  {
+                    "control": "numberbox",
+                    "key": "decimals",
+                    "options": {
+                      "value": {
+                        "bind": "embed.decimals"
+                      },
+                      "change": "setdecimals"
+                    },
+                    "row": true
+                  }
+                ],
+                "text": [
+                  {
+                    "control": "select",
+                    "key": "transform",
+                    "options": {
+                      "value": {
+                        "bind": "embed.transform"
+                      },
+                      "change": "settransform"
+                    },
+                    "row": true
+                  },
+                  {
+                    "control": "numberbox",
+                    "key": "max",
+                    "options": {
+                      "value": {
+                        "bind": "embed.max"
+                      },
+                      "change": "setmax"
+                    },
+                    "row": true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "remove": {
+      "use": "textcompose.embed.remove",
+      "inputs": {
+        "text": "text",
+        "embeds": "embeds",
+        "id": {
+          "payload": "id"
+        }
+      },
+      "outputs": {
+        "text": "text",
+        "embeds": "embeds"
+      }
+    },
+    "open": {
+      "use": "textcompose.catalog.open",
+      "inputs": {
+        "catalog": "catalog"
+      }
+    },
+    "setformat": {
+      "use": "textcompose.embed.opt",
+      "inputs": {
+        "embeds": "embeds",
+        "id": {
+          "payload": "id"
+        },
+        "value": {
+          "payload": "value"
+        }
+      },
+      "with": {
+        "key": "format"
+      },
+      "outputs": {
+        "embeds": "embeds"
+      }
+    },
+    "setpad": {
+      "use": "textcompose.embed.opt",
+      "inputs": {
+        "embeds": "embeds",
+        "id": {
+          "payload": "id"
+        },
+        "value": {
+          "payload": "value"
+        }
+      },
+      "with": {
+        "key": "pad"
+      },
+      "outputs": {
+        "embeds": "embeds"
+      }
+    },
+    "setwidth": {
+      "use": "textcompose.embed.opt",
+      "inputs": {
+        "embeds": "embeds",
+        "id": {
+          "payload": "id"
+        },
+        "value": {
+          "payload": "value"
+        }
+      },
+      "with": {
+        "key": "width"
+      },
+      "outputs": {
+        "embeds": "embeds"
+      }
+    },
+    "setdecimals": {
+      "use": "textcompose.embed.opt",
+      "inputs": {
+        "embeds": "embeds",
+        "id": {
+          "payload": "id"
+        },
+        "value": {
+          "payload": "value"
+        }
+      },
+      "with": {
+        "key": "decimals"
+      },
+      "outputs": {
+        "embeds": "embeds"
+      }
+    },
+    "setunit": {
+      "use": "textcompose.embed.opt",
+      "inputs": {
+        "embeds": "embeds",
+        "id": {
+          "payload": "id"
+        },
+        "value": {
+          "payload": "value"
+        }
+      },
+      "with": {
+        "key": "unit"
+      },
+      "outputs": {
+        "embeds": "embeds"
+      }
+    },
+    "settransform": {
+      "use": "textcompose.embed.opt",
+      "inputs": {
+        "embeds": "embeds",
+        "id": {
+          "payload": "id"
+        },
+        "value": {
+          "payload": "value"
+        }
+      },
+      "with": {
+        "key": "transform"
+      },
+      "outputs": {
+        "embeds": "embeds"
+      }
+    },
+    "setmax": {
+      "use": "textcompose.embed.opt",
+      "inputs": {
+        "embeds": "embeds",
+        "id": {
+          "payload": "id"
+        },
+        "value": {
+          "payload": "value"
+        }
+      },
+      "with": {
+        "key": "max"
+      },
+      "outputs": {
+        "embeds": "embeds"
+      }
+    }
+  }
+}

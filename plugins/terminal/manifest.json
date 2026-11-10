@@ -1,0 +1,25 @@
+{
+  "id": "terminal",
+  "name": "Terminal",
+  "version": "2.0.0",
+  "description": "A shell whose working directory and scrollback are part of the layout.",
+  "api": 1,
+  "translations": "i18n.json",
+  "items": ["items/shell.json"],
+  "actions": ["actions/run.json"],
+  "scripts": ["actions.js"],
+  "styles": [
+    "terminal.css"
+  ],
+  "permissions": [
+    "shell:exec"
+  ],
+  "provides": {
+    "itemTypes": [
+      "terminal.shell"
+    ],
+    "actions": ["terminal.run"]
+  },
+  "apps": ["apps/shell.json"],
+  "requires": []
+}

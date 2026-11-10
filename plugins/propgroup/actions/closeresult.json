@@ -1,0 +1,10 @@
+{
+  "id": "propgroup.closeresult",
+  "permissions": [],
+  "params": {},
+  "results": {
+    "result": {
+      "type": "portvalue"
+    }
+  }
+}

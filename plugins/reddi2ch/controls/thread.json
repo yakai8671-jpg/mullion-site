@@ -1,0 +1,17 @@
+{
+  "id": "reddi2ch.thread",
+  "label": "reddi2ch.control.thread",
+  "why": "a thread read as one flat run of numbered posts: a document view no shell card draws",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "thread": { "type": "any" },
+    "loading": { "type": "string" },
+    "error": { "type": "string" },
+    "empty": { "type": "string" },
+    "onOpen": { "type": "function" }
+  },
+  "sampleParams": {
+    "empty": "スレッドを選んでください"
+  }
+}

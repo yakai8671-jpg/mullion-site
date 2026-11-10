@@ -1,0 +1,70 @@
+{
+  "id": "character",
+  "name": "Character Editor",
+  "version": "1.0.0",
+  "description": "Edit a character with named references and actions, alongside a live preview.",
+  "api": 1,
+  "translations": "i18n.json",
+  "styles": [
+    "character.css"
+  ],
+  "actions": [
+    "actions/save.json",
+    "actions/replace.json"
+  ],
+  "types": [
+    "types/reference.json",
+    "types/action.json",
+    "types/character.json",
+    "types/media.json"
+  ],
+  "controls": [
+    "controls/summary.json",
+    "controls/card.json",
+    "controls/mediainput.json",
+    "controls/referencepreview.json",
+    "controls/actionpreview.json"
+  ],
+  "items": [
+    "items/editor.json",
+    "items/preview.json"
+  ],
+  "apps": [
+    "apps/editor.json"
+  ],
+  "scripts": [
+    "scripts.js"
+  ],
+  "permissions": [
+    "store:read",
+    "store:write"
+  ],
+  "provides": {
+    "itemTypes": [
+      "character.editor",
+      "character.preview"
+    ],
+    "valueTypes": [
+      "character",
+      "character.action",
+      "character.media",
+      "character.reference"
+    ],
+    "controls": [
+      "character.summary",
+      "character.card",
+      "character.mediainput",
+      "character.referencepreview",
+      "character.actionpreview"
+    ],
+    "actions": [
+      "character.save",
+      "character.replace"
+    ],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "prompt"
+  ]
+}

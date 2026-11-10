@@ -1,0 +1,7 @@
+{
+  "id": "jsoneditor.card",
+  "extends": "texteditor",
+  "label": "jsoneditor.control.card",
+  "script": true,
+  "why": "Edits a JSON document as a typed, reorderable tree while preserving the text editor's undo and invalid-document recovery."
+}

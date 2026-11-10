@@ -1,0 +1,12 @@
+{
+  "id": "textcompose.catalog.open",
+  "permissions": [
+    "window:write"
+  ],
+  "params": {
+    "catalog": {
+      "type": "ref"
+    }
+  },
+  "results": {}
+}

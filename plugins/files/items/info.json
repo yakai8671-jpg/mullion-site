@@ -1,0 +1,105 @@
+{
+  "id": "files.info",
+  "label": "files.item.info",
+  "standalone": true,
+  "icon": "info-circle",
+  "permissions": [
+    "fs:write"
+  ],
+  "properties": {
+    "path": {
+      "label": "files.prop.filePath",
+      "type": "filepath",
+      "default": ""
+    },
+    "name": {
+      "label": "files.prop.newName",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "layout": [
+    {
+      "control": "section",
+      "key": "where",
+      "options": {
+        "label": "files.prop.filePath"
+      },
+      "layout": [
+        {
+          "control": "textbox",
+          "key": "path",
+          "options": {
+            "value": {
+              "bind": "path"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "control": "section",
+      "key": "named",
+      "options": {
+        "label": "files.prop.newName"
+      },
+      "layout": [
+        {
+          "control": "textbox",
+          "key": "name",
+          "options": {
+            "value": {
+              "bind": "name"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "control": "card",
+      "key": "go",
+      "options": {
+        "label": "files.item.info"
+      },
+      "slots": {
+        "lead": [
+          {
+            "key": "rename",
+            "icon": "pencil",
+            "label": "files.action.rename",
+            "action": "rename"
+          }
+        ],
+        "tools": [
+          {
+            "key": "delete",
+            "icon": "trash",
+            "label": "files.action.delete",
+            "action": "delete"
+          }
+        ]
+      }
+    }
+  ],
+  "actions": {
+    "rename": {
+      "use": "files.rename",
+      "inputs": {
+        "path": "path",
+        "name": "name"
+      },
+      "outputs": {
+        "path": "path"
+      }
+    },
+    "delete": {
+      "use": "files.delete",
+      "inputs": {
+        "path": "path"
+      },
+      "outputs": {
+        "path": "path"
+      }
+    }
+  }
+}

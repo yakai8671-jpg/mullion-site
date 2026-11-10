@@ -1,0 +1,16 @@
+{
+  "id": "yue2.lyrics.remove",
+  "params": {
+    "lyrics": {
+      "type": "list", "each": { "type": "yue2.lyric" }
+    },
+    "id": {
+      "type": "string"
+    }
+  },
+  "results": {
+    "lyrics": {
+      "type": "list", "each": { "type": "yue2.lyric" }
+    }
+  }
+}

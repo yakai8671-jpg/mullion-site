@@ -1,0 +1,15 @@
+{
+  "id": "t2i.app",
+  "extends": "workflow.run",
+  "label": "t2i.item.app",
+  "icon": "image",
+  "config": {
+    "promptText": true,
+    "attention": true,
+    "engines": [
+      { "key": "anima", "label": "t2i.engine.anima", "template": "assets/anima.json" },
+      { "key": "qwen", "label": "t2i.engine.qwen", "template": "assets/qwen.json" },
+      { "key": "qwen21", "label": "t2i.engine.qwen21", "template": "assets/qwen21.json" }
+    ]
+  }
+}

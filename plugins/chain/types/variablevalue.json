@@ -1,0 +1,23 @@
+{
+  "id": "chain.variablevalue",
+  "label": "chain.vtype.variables",
+  "icon": "braces",
+  "identity": "name",
+  "port": false,
+  "storable": false,
+  "presetNew": false,
+  "sample": {
+    "default": {
+      "name": "value",
+      "type": "string",
+      "value": ""
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "port": "chainvars",
+    "storable": false,
+    "label": "chain.vtype.variables",
+    "icon": "braces"
+  }
+}

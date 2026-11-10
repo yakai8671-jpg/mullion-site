@@ -1,0 +1,41 @@
+{
+  "name": "operations",
+  "deps": [
+    "server",
+    "layout",
+    "items",
+    "apps",
+    "history",
+    "registry",
+    "i18n",
+    "view"
+  ],
+  "api": [
+    "operationsHooks",
+    "registerOperationsHook",
+    "operationsReady",
+    "startOperations",
+    "noteControl",
+    "currentFileName",
+    "forgetFile",
+    "scheduleSave",
+    "historyExclusions",
+    "operationSnapshot",
+    "syncHistoryExclusions",
+    "operationTargets",
+    "refreshHistorySoon",
+    "captureOperation",
+    "historyState",
+    "restoreOperation",
+    "undoOperation",
+    "redoOperation",
+    "loadLayoutText",
+    "rememberFile",
+    "operationsHalted"
+  ],
+  "events": [
+    "change"
+  ],
+  "slots": [],
+  "fills": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "prompt.promptline",
+  "label": "prompt.control.promptline",
+  "script": true,
+  "why": "one prompt row in a prompt list with weight and content",
+  "needs": [
+    "weight",
+    "setWeight"
+  ],
+  "params": {
+    "port": {
+      "type": "data"
+    },
+    "onDiscard": {
+      "type": "data"
+    },
+    "onKeep": {
+      "type": "data"
+    }
+  }
+}

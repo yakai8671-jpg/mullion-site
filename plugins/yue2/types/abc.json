@@ -1,0 +1,11 @@
+{
+  "id": "yue2.abc",
+  "label": "yue2.prop.abc",
+  "icon": "music-note-list",
+  "port": "text",
+  "defaultControl": "summary",
+  "fields": {
+    "header": { "type": "string" },
+    "sections": { "type": "list", "each": { "type": "yue2.part" } }
+  }
+}

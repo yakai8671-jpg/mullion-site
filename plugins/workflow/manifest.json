@@ -1,0 +1,100 @@
+{
+  "id": "workflow",
+  "name": "Workflows",
+  "version": "1.0.0",
+  "description": "The run kit the baked apps are built on: templates that join a ComfyUI or Ollama workflow's fields to the blocks a tool needs, the run settings that send one to ComfyUI or Ollama, and the run history.",
+  "api": 1,
+  "items": [
+    "items/keeper.json",
+    "items/history.json"
+  ],
+  "apps": [
+    "apps/history.json"
+  ],
+  "actions": [
+    "actions/remove.json",
+    "actions/clear.json",
+    "actions/enable.json",
+    "actions/keep.json",
+    "actions/cancelkeep.json"
+  ],
+  "types": [
+    "types/template.json",
+    "types/historyapp.json",
+    "types/image_size.json",
+    "types/runpreset.json",
+    "types/historyentry.json",
+    "types/historyrun.json"
+  ],
+  "controls": [
+    "controls/templatesummary.json",
+    "controls/promptpreview.json",
+    "controls/textout.json",
+    "controls/fieldlabel.json",
+    "controls/summaryline.json",
+    "controls/historylist.json",
+    "controls/runinfo.json"
+  ],
+  "scripts": [
+    "scripts.js",
+    "history.js",
+    "keeper.js"
+  ],
+  "translations": "i18n.json",
+  "styles": [
+    "workflow.css"
+  ],
+  "permissions": [
+    "store:read",
+    "store:write",
+    "comfy:run",
+    "ollama:run",
+    "layout:place",
+    "window:write",
+    "app:read",
+    "app:write",
+    "services:read",
+    "services:write"
+  ],
+  "provides": {
+    "itemFactories": [
+      "workflow.run"
+    ],
+    "itemTypes": [
+      "workflow.keeper",
+      "workflow.history"
+    ],
+    "valueTypes": [
+      "workflow.template",
+      "workflow.image_size",
+      "workflow.runpreset",
+      "workflow.historyentry",
+      "workflow.historyrun",
+      "workflow.historyapp"
+    ],
+    "controls": [
+      "workflow.templatesummary",
+      "workflow.promptpreview",
+      "workflow.textout",
+      "workflow.fieldlabel",
+      "workflow.summaryline",
+      "workflow.historylist",
+      "workflow.runinfo"
+    ],
+    "actions": [
+      "workflow.history.remove",
+      "workflow.history.clear",
+      "workflow.history.enable",
+      "workflow.keeper.save",
+      "workflow.keeper.cancel"
+    ],
+    "permissions": [],
+    "skins": []
+  },
+  "requires": [
+    "prompt",
+    "character",
+    "services"
+  ],
+  "presets": "presets.json"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "bseditor.classes",
+  "label": "bseditor.item.classes",
+  "standalone": true,
+  "icon": "tags",
+  "permissions": [],
+  "properties": {
+    "find": {
+      "label": "bseditor.prop.find",
+      "type": "string",
+      "default": ""
+    },
+    "off": {
+      "label": "bseditor.prop.off",
+      "type": "data",
+      "default": []
+    },
+    "shown": {
+      "label": "bseditor.prop.shown",
+      "type": "number",
+      "default": 50
+    }
+  },
+  "screen": "bseditor.classes",
+  "derived": {
+    "classes": {
+      "label": "bseditor.prop.classes",
+      "type": "list",
+      "each": {
+        "type": "bseditor.classentry"
+      },
+      "from": {
+        "script": "catalogClasses"
+      }
+    }
+  },
+  "actions": {
+    "say": {
+      "use": "bseditor.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    }
+  }
+}

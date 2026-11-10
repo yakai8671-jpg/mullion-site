@@ -1,0 +1,13 @@
+{
+  "id": "bays.unplace",
+  "permissions": [
+    "bays:read",
+    "bays:write"
+  ],
+  "params": {
+    "id": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

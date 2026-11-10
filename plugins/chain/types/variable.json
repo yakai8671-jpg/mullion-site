@@ -1,0 +1,25 @@
+{
+  "id": "chain.variable",
+  "label": "chain.vtype.variable",
+  "icon": "braces",
+  "storable": false,
+  "presetNew": false,
+  "port": "chainref",
+  "portReceive": false,
+  "identity": "id",
+  "sample": {
+    "default": {
+      "id": "v0",
+      "name": "count",
+      "type": "number",
+      "keep": false,
+      "value": null
+    }
+  },
+  "defaultControl": "summary",
+  "list": {
+    "storable": false,
+    "label": "chain.vtype.variablelist",
+    "icon": "braces"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "propgroup.rename",
+  "permissions": [
+    "store:read",
+    "store:write"
+  ],
+  "params": {
+    "id": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "results": {}
+}

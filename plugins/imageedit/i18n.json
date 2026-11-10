@@ -1,0 +1,12 @@
+{
+  "en": {
+    "imageedit.item.app": "Image Edit",
+    "imageedit.engine.qwen21": "Qwen-Image 2.1 Turbo",
+    "imageedit.engine.edit": "Qwen-Image-Edit"
+  },
+  "ja": {
+    "imageedit.item.app": "画像編集",
+    "imageedit.engine.qwen21": "Qwen-Image 2.1 Turbo",
+    "imageedit.engine.edit": "Qwen-Image-Edit"
+  }
+}

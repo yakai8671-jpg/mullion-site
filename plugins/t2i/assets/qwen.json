@@ -1,0 +1,321 @@
+{
+  "name": "Qwen-Image 2512 画像生成",
+  "tool": "t2i",
+  "workflow": {
+    "name": "qwen_image_t2i",
+    "platform": "comfyui",
+    "graph": {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "qwen_image_2512_fp8_e4m3fn.safetensors",
+          "weight_dtype": "default"
+        },
+        "_meta": {
+          "title": "Load Diffusion Model"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+          "type": "qwen_image",
+          "device": "default"
+        },
+        "_meta": {
+          "title": "Load Text Encoder"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "qwen_image_vae.safetensors"
+        },
+        "_meta": {
+          "title": "Load VAE"
+        }
+      },
+      "5": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "",
+          "clip": [
+            "2",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Prompt"
+        }
+      },
+      "7": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "",
+          "clip": [
+            "2",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Negative Prompt"
+        }
+      },
+      "8": {
+        "class_type": "EmptyImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1,
+          "color": 0
+        },
+        "_meta": {
+          "title": "Size"
+        }
+      },
+      "9": {
+        "class_type": "GetImageSize",
+        "inputs": {
+          "image": [
+            "8",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Get Image Size"
+        }
+      },
+      "10": {
+        "class_type": "EmptySD3LatentImage",
+        "inputs": {
+          "width": [
+            "9",
+            0
+          ],
+          "height": [
+            "9",
+            1
+          ],
+          "batch_size": 1
+        },
+        "_meta": {
+          "title": "Empty Latent"
+        }
+      },
+      "11": {
+        "class_type": "KSampler",
+        "inputs": {
+          "seed": 1,
+          "steps": 8,
+          "cfg": 1,
+          "sampler_name": "euler",
+          "scheduler": "simple",
+          "denoise": 1,
+          "model": [
+            "41",
+            0
+          ],
+          "positive": [
+            "5",
+            0
+          ],
+          "negative": [
+            "7",
+            0
+          ],
+          "latent_image": [
+            "10",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "KSampler"
+        }
+      },
+      "12": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "40": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "lora_name": "Qwen-Image-2512-Lightning-4steps-V1.0-fp32.safetensors",
+          "strength_model": 1,
+          "model": [
+            "1",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Load LoRA (Lightning)"
+        }
+      },
+      "41": {
+        "class_type": "ModelSamplingAuraFlow",
+        "inputs": {
+          "shift": 3.1,
+          "model": [
+            "40",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Model Sampling"
+        }
+      },
+      "42": {
+        "class_type": "PreviewImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ]
+        },
+        "_meta": {
+          "title": "Preview Image"
+        }
+      }
+    },
+    "fields": []
+  },
+  "blocks": {
+    "prompts": {
+      "value": {
+        "node_id": "5",
+        "input_key": "text"
+      }
+    },
+    "negative_prompts": {
+      "value": {
+        "node_id": "7",
+        "input_key": "text"
+      }
+    },
+    "image_size": {
+      "width": {
+        "node_id": "8",
+        "input_key": "width"
+      },
+      "height": {
+        "node_id": "8",
+        "input_key": "height"
+      }
+    },
+    "image": {
+      "value": {
+        "node_id": "42",
+        "input_key": "images"
+      }
+    }
+  },
+  "settings": [
+    {
+      "node_id": "1",
+      "input_key": "unet_name",
+      "label": "モデル",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "UNETLoader",
+        "input_key": "unet_name"
+      }
+    },
+    {
+      "node_id": "2",
+      "input_key": "clip_name",
+      "label": "テキストエンコーダー",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "CLIPLoader",
+        "input_key": "clip_name"
+      }
+    },
+    {
+      "node_id": "3",
+      "input_key": "vae_name",
+      "label": "VAE",
+      "group": "モデル",
+      "options_source": {
+        "class_type": "VAELoader",
+        "input_key": "vae_name"
+      }
+    },
+    {
+      "node_id": "40",
+      "input_key": "lora_name",
+      "label": "高速化 LoRA (Lightning)",
+      "group": "LoRA",
+      "options_source": {
+        "class_type": "LoraLoaderModelOnly",
+        "input_key": "lora_name"
+      }
+    },
+    {
+      "node_id": "40",
+      "input_key": "strength_model",
+      "label": "高速化 LoRA の強さ",
+      "group": "LoRA",
+      "value_type": "number"
+    },
+    {
+      "node_id": "41",
+      "input_key": "shift",
+      "label": "シフト",
+      "group": "サンプラー",
+      "value_type": "number"
+    },
+    {
+      "node_id": "11",
+      "input_key": "steps",
+      "label": "ステップ数",
+      "group": "サンプラー",
+      "value_type": "integer"
+    },
+    {
+      "node_id": "11",
+      "input_key": "cfg",
+      "label": "CFG",
+      "group": "サンプラー",
+      "value_type": "number"
+    },
+    {
+      "node_id": "11",
+      "input_key": "sampler_name",
+      "label": "サンプラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "sampler_name"
+      }
+    },
+    {
+      "node_id": "11",
+      "input_key": "scheduler",
+      "label": "スケジューラー",
+      "group": "サンプラー",
+      "options_source": {
+        "class_type": "KSampler",
+        "input_key": "scheduler"
+      }
+    },
+    {
+      "node_id": "10",
+      "input_key": "batch_size",
+      "label": "生成枚数",
+      "group": "出力",
+      "value_type": "integer"
+    }
+  ],
+  "fixed": []
+}

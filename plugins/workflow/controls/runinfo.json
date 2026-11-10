@@ -1,0 +1,13 @@
+{
+  "id": "workflow.runinfo",
+  "label": "workflow.control.runinfo",
+  "why": "one run of the history: its picture (or the first frame of its video), when and how long, what went in and what came out, made from the run entry the library keeps",
+  "standalone": true,
+  "script": true,
+  "params": {
+    "entry": { "type": "data", "bind": "read" }
+  },
+  "sampleParams": {
+    "entry": { "id": "h0", "name": "run", "value": { "at": "", "summary": "1girl, smile", "output": "" } }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "bseditor.decorcatalog",
+  "label": "bseditor.item.decorcatalog",
+  "icon": "fonts",
+  "standalone": true,
+  "permissions": [],
+  "properties": {
+    "app": {
+      "label": "bseditor.prop.decor",
+      "type": "ref",
+      "itemType": "bseditor.decor",
+      "link": true,
+      "default": null
+    }
+  },
+  "screen": "bseditor.decorcatalog",
+  "actions": {
+    "say": {
+      "use": "bseditor.say",
+      "inputs": {
+        "text": {
+          "payload": "text"
+        }
+      }
+    }
+  }
+}
