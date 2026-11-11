@@ -21,8 +21,9 @@ import { registryProblems } from "./deps.js";
 export function startupProblems(plugins) {
   const out = [];
   for (const one of plugins) {
-    // Off in this profile is a choice, not a failure.
-    if (one.status !== "loaded" && one.status !== "disabled") out.push({ source: one.id, kind: one.status, message: one.error || one.status });
+    // Off in this profile is a choice, not a failure; one that needs the
+    // server where there is none is said once at start (boot.js), not a stop.
+    if (one.status !== "loaded" && one.status !== "disabled" && one.status !== "unavailable") out.push({ source: one.id, kind: one.status, message: one.error || one.status });
   }
   for (const one of registryProblems()) out.push({ source: one.source, kind: "spec", message: one.message });
   // Only once the registry holds together: a body is built from what it holds.

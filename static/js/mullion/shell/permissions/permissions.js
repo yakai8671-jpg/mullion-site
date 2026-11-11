@@ -62,6 +62,27 @@ function writeProperty(holderId, itemId, key, value) {
 
 const BUILT_IN = {};
 
+// The backend services each permission's functions reach (server.hasService
+// answers for them; docs/backend-contract.md). Every permission is listed,
+// those that need nothing too, so a new one cannot be left out by mistake.
+// What the page answers itself (settings, store, blob, plugins) is no service.
+const NEEDS = {
+  "window:read": [], "window:write": [], "items:read": [], "items:write": [],
+  "history:read": [], "history:write": [], "layout:read": [], "layout:write": [], "layout:place": [],
+  "grant:write": [], "props:read": [], "app:read": [], "app:write": [],
+  "store:read": [], "store:write": [], "hotkeys:read": [], "hotkeys:write": [],
+  "apps:read": [], "apps:write": [], "bays:read": [], "bays:write": [],
+  "plugins:read": [], "plugins:write": [],
+  "fs:read": ["fs"], "fs:write": ["fs"],
+  "shell:exec": ["shell"],
+  "comfy:run": ["comfy"],
+  "ollama:run": ["ollama"],
+  "speech:run": ["speech"],
+  "services:read": ["services"], "services:write": ["services"],
+  "reddit:read": ["reddit"],
+  "app:control": ["control"],
+};
+
 function actionTarget(ctx, itemId, name) {
   const item = getItem(itemId);
   const actions = item && ITEM_TYPES[item.type]?.actions;
@@ -908,5 +929,8 @@ export function install() {
     }),
   });
   for (const [namespace, factory] of Object.entries(BASE)) registerBaseApi(namespace, factory);
-  for (const [name, factory] of Object.entries(BUILT_IN)) registerPermission(name, factory);
+  for (const [name, factory] of Object.entries(BUILT_IN)) {
+    if (!(name in NEEDS)) throw new Error(`permission "${name}" says nothing of the services it needs (NEEDS in permissions.js)`);
+    registerPermission(name, factory, { needs: NEEDS[name] });
+  }
 }

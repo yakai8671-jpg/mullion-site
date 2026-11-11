@@ -57,7 +57,7 @@ export function install() {
               row(
                 "status",
                 t("mu.field.status"),
-                plugin.status === "loaded" ? t("mu.value.pluginLoaded") : plugin.status === "disabled" ? t("mu.value.pluginDisabled") : plugin.status
+                plugin.status === "loaded" ? t("mu.value.pluginLoaded") : plugin.status === "disabled" ? t("mu.value.pluginDisabled") : plugin.status === "unavailable" ? t("mu.value.pluginUnavailable") : plugin.status
               ),
               ...(plugin.error ? [row("error", t("mu.field.error"), plugin.error)] : []),
               row("requires", t("mu.field.requires"), plugin.requires.join(", ") || dash),

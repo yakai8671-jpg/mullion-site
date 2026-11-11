@@ -38,10 +38,12 @@ export let addStylesheet;
 export let fetchJSON;
 export let grantApi;
 export let qs;
+export let hasService;
+export let permissionNeeds;
 
 export function connect(apis) {
-  ({ fetchJSON, qs } = apis.server);
-  ({ grantApi } = apis.registry);
+  ({ fetchJSON, qs, hasService } = apis.server);
+  ({ grantApi, permissionNeeds } = apis.registry);
   ({ addStylesheet } = apis.view);
   ({ registerTranslations } = apis.i18n);
   // What a plugin's `core` is made of: every module's surface (plugins.js keeps

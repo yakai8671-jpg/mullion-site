@@ -95,4 +95,9 @@ if (problems.length) {
   });
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();
+  // What needs the server where there is none (plugins.loadPlugins): once, on screen.
+  const unavailable = loadedPlugins.filter((one) => one.status === "unavailable");
+  if (unavailable.length) {
+    core.toast(core.t("mu.startup.unavailable", { n: unavailable.length, names: unavailable.map((one) => (one.manifest && one.manifest.name) || one.id).join(", ") }), { ms: 12000 });
+  }
 }

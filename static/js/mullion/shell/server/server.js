@@ -28,6 +28,10 @@ export function connect(emitter, problemSlot, preload) {
 /** "standalone" when /api/ is answered in the page (server/standalone.js), else "server". */
 export const backend = () => (standalone ? "standalone" : "server");
 
+/** Whether the backend service `name` is here (a permission's `needs`). The
+ * server has every one; the page alone has none of them yet. */
+export const hasService = (name) => typeof name === "string" && !standalone;
+
 // ---- requests --------------------------------------------------------
 // Read when called, so a test may put its fake in after the shell started.
 // Without a server, /api/ is answered in the page; files still come over the network.

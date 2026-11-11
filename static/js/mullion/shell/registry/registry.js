@@ -630,14 +630,23 @@ export function registerSkin(name, def = {}) {
   return SKINS[name];
 }
 
-export function registerPermission(name, factory) {
+// `needs`: the backend services the permission's functions reach (the names
+// server.hasService answers for: "comfy", "fs", ...). A plugin that asks for
+// a permission whose service is not there is not loaded (plugins.loadPlugins).
+const PERMISSION_NEEDS = new Map();
+export function registerPermission(name, factory, { needs = [] } = {}) {
   if (!/^[a-z]+:[a-z]+$/.test(name)) {
     throw new Error(`permission "${name}" must look like "namespace:verb"`);
   }
   if (PERMISSIONS[name]) throw new Error(`permission "${name}" is already registered`);
+  if (!Array.isArray(needs) || needs.some((one) => typeof one !== "string")) throw new Error(`permission "${name}": needs must be a list of service names`);
   PERMISSIONS[name] = factory;
+  PERMISSION_NEEDS.set(name, Object.freeze([...needs]));
   return factory;
 }
+
+/** The services a registered permission needs, or null for one not registered (yet). */
+export const permissionNeeds = (name) => PERMISSION_NEEDS.get(name) ?? null;
 
 // Whether a type can be opened on its own: as a window of its own, with
 // nothing else around it to hand it what it needs. Nothing can be worked out

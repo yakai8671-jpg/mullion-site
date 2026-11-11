@@ -21,7 +21,7 @@
  *   half-broken types in the registry.
  */
 
-import { ACTIONS, CONTROLS, ITEM_TYPES, ITEM_FACTORIES, PERMISSIONS, SKINS, VALUE_TYPES, bindSpec, describe, describeProperty, registerAction, registerControl, registerItemType, registerItemFactory, registerApp, registerSkin, registerPermission, registerValueType, registerTranslations, setRegistrationSource, unexplainedControls, paramNames, addStylesheet, fetchJSON, grantApi, qs } from "./deps.js";
+import { ACTIONS, CONTROLS, ITEM_TYPES, ITEM_FACTORIES, PERMISSIONS, SKINS, VALUE_TYPES, bindSpec, describe, describeProperty, registerAction, registerControl, registerItemType, registerItemFactory, registerApp, registerSkin, registerPermission, registerValueType, registerTranslations, setRegistrationSource, unexplainedControls, paramNames, addStylesheet, fetchJSON, grantApi, qs, hasService, permissionNeeds } from "./deps.js";
 import { core } from "./deps.js";
 import { controlCardHead as buildCardHead, buildSideCard, cardBar, cardBarRow, cardPortOf, syncCardHead } from "./deps.js";
 import { propertyGroupOf as groupOf, groupingOf, groupsIn } from "./deps.js";
@@ -217,6 +217,20 @@ function surfaceFor(manifest) {
   };
 }
 
+// The services a plugin cannot do without, from the permissions its manifest
+// asks for: the shell's own say what they need (registry.permissionNeeds); one
+// another plugin provides reaches that plugin's own routes, so it needs that
+// plugin's backend ("backend:<id>"). Those not here (server.hasService).
+function missingServices(manifest, providers) {
+  const missing = new Set();
+  for (const permission of manifest.permissions || []) {
+    const provider = providers.get(permission);
+    const needs = provider ? [`backend:${provider}`] : permissionNeeds(permission) || [];
+    for (const one of needs) if (!hasService(one)) missing.add(one);
+  }
+  return [...missing].sort();
+}
+
 // `onProgress(done, total)` is told how many of the plugins that are to load have been
 // tried: once the list is known (none yet), and after each one.
 export async function loadPlugins(onProgress = () => {}) {
@@ -248,8 +262,33 @@ export async function loadPlugins(onProgress = () => {}) {
         manifest,
       });
     });
+  // What asks for a service that is not here (Mullion without its server) is
+  // not loaded, and neither is what needs it: an error on the console and in
+  // the plugin list, but not a reason to stop the shell (boot says it once).
+  const providers = new Map();
+  for (const manifest of listing.plugins) for (const name of manifest.provides?.permissions || []) providers.set(name, manifest.id);
+  const unavailable = new Map(); // id -> reason
+  for (const manifest of listing.plugins) {
+    if (manifest.enabled === false) continue;
+    const missing = missingServices(manifest, providers);
+    if (missing.length) unavailable.set(manifest.id, `needs ${missing.join(", ")}, which this Mullion does not have (no server)`);
+  }
+  for (let grew = true; grew; ) {
+    grew = false;
+    for (const manifest of listing.plugins) {
+      if (manifest.enabled === false || unavailable.has(manifest.id)) continue;
+      const gone = (manifest.requires || []).filter((id) => unavailable.has(id));
+      if (gone.length) unavailable.set(manifest.id, `requires ${gone.join(", ")}, which cannot load here`), (grew = true);
+    }
+  }
+  for (const manifest of listing.plugins) {
+    if (!unavailable.has(manifest.id)) continue;
+    loadedPlugins.push({ id: manifest.id, status: "unavailable", error: unavailable.get(manifest.id), manifest });
+    console.error(`[mullion] plugin ${manifest.id}: ${unavailable.get(manifest.id)}`);
+  }
+
   const done = new Set();
-  let waiting = listing.plugins.filter((manifest) => manifest.enabled !== false);
+  let waiting = listing.plugins.filter((manifest) => manifest.enabled !== false && !unavailable.has(manifest.id));
   const total = waiting.length;
   onProgress(0, total);
   let progress = true;

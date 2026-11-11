@@ -52,7 +52,8 @@
     "selfApi",
     "paramsFor",
     "defaultFor",
-    "formatValue"
+    "formatValue",
+    "permissionNeeds"
   ],
   "events": [],
   "slots": [],
