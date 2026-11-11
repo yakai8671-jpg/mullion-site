@@ -18,6 +18,8 @@ import historyMeta from "./history/module.json" with { type: "json" };
 import history from "./history/index.js";
 import libraryMeta from "./library/module.json" with { type: "json" };
 import library from "./library/index.js";
+import valuesMeta from "./values/module.json" with { type: "json" };
+import values from "./values/index.js";
 import registryMeta from "./registry/module.json" with { type: "json" };
 import registry from "./registry/index.js";
 import itemsMeta from "./items/module.json" with { type: "json" };
@@ -68,6 +70,7 @@ export const MODULES = [
   [mediaMeta, media],
   [historyMeta, history],
   [libraryMeta, library],
+  [valuesMeta, values],
   [registryMeta, registry],
   [buildMeta, build],
   [itemsMeta, items],

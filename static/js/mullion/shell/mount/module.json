@@ -1,5 +1,6 @@
 {
   "name": "mount",
+  "version": "1.0.0",
   "deps": [
     "page",
     "registry",
@@ -14,7 +15,8 @@
     "bays",
     "hotkeys",
     "i18n",
-    "home"
+    "home",
+    "values"
   ],
   "layer": "screen",
   "api": [

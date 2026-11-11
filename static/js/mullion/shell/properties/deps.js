@@ -25,8 +25,9 @@ export let valueTypeFor;
 export let fetch;
 
 export function connect(apis) {
+  ({ defaultFor, formatValue } = apis.values);
   ({ fetch } = apis.server);
-  ({ ITEM_TYPES, VALUE_TYPES, bindElement, bindProperty, defaultFor, derivesFrom, formatValue, paramsFor, presetSpecOf, presetTypeDef, presetTypeFor, presetTypes, registerValueType, valueTypeFor } = apis.registry);
+  ({ ITEM_TYPES, VALUE_TYPES, bindElement, bindProperty, derivesFrom, paramsFor, presetSpecOf, presetTypeDef, presetTypeFor, presetTypes, registerValueType, valueTypeFor } = apis.registry);
   ({ appSettingValue } = apis.apps);
   ({ getItem } = apis.items);
   ({ registerPortConversion } = apis.ports);

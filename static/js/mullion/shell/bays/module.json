@@ -1,9 +1,11 @@
 {
   "name": "bays",
+  "version": "1.0.0",
   "deps": [
     "layout",
     "items",
-    "i18n"
+    "i18n",
+    "values"
   ],
   "api": [
     "baysHooks",

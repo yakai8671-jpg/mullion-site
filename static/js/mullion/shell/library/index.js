@@ -5,7 +5,7 @@ const api = { ...library };
 
 export default {
   setup(ctx) {
-    connect({ server: ctx.use("server"), media: ctx.use("media") });
+    connect({ values: ctx.use("values"), server: ctx.use("server"), media: ctx.use("media") });
     return { ...api };
   },
 };

@@ -6,7 +6,7 @@ const { connectEvents, ...structure } = structureAll;
 
 export default {
   setup(ctx) {
-    connect({ registry: ctx.use("registry"), items: ctx.use("items"), i18n: ctx.use("i18n") });
+    connect({ values: ctx.use("values"), registry: ctx.use("registry"), items: ctx.use("items"), i18n: ctx.use("i18n") });
     connectEvents(ctx.emitter());
     return { ...tree, ...structure };
   },

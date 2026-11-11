@@ -4,7 +4,7 @@ import { VALUE_ADAPTERS, adaptDescriptor } from "./value-adapters.js";
 
 export default {
   setup(ctx) {
-    connect(ctx.use("registry"));
+    connect(ctx.use("registry"), ctx.use("values"));
     return { API_VERSIONS, buildPlugin, VALUE_ADAPTERS, adaptDescriptor };
   },
 };

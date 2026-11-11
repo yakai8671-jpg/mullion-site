@@ -1,5 +1,6 @@
 {
   "name": "view",
+  "version": "1.0.0",
   "deps": [
     "page",
     "server",
@@ -8,7 +9,8 @@
     "ports",
     "build",
     "layout",
-    "i18n"
+    "i18n",
+    "values"
   ],
   "layer": "screen",
   "api": [

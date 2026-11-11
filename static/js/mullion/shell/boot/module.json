@@ -1,5 +1,6 @@
 {
   "name": "boot",
+  "version": "1.0.0",
   "deps": [
     "page",
     "server",
@@ -19,7 +20,8 @@
     "library",
     "permissions",
     "i18n",
-    "builtins"
+    "builtins",
+    "values"
   ],
   "api": [
     "init",

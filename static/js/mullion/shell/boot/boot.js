@@ -3,6 +3,7 @@
  * the screen (items.actionHost), the page's own add button and file input,
  * and the first load (init). */
 import { APPS, ICON_PICKER_TYPE, ITEM_TYPES, PICKER_ITEM_TYPE, ROOT_ID, actionWindow, adopt, allItems, appDef, appItemOf, appOfWindow, appSettingValue, cancelLaunchKeep, cardSizes, clearBays, clearLinks, coerceHotkeys, collapseOneWindowFrames, commit, controlStates, currentFileName, currentItemId, derivesFrom, eachGroup, eachLeaf, findLeaf, foldedLists, forgetFile, forgetIds, freshRoot, getItem, grants, groupOf, hiddenToolsOf, isStandalone, itemApi, launchNode, layoutRoot, linkSlotsOf, linkedIds, loadLayoutText, mountedItems, noteControl, notify, openingCards, operationsReady, pinOf, portInfo, portLink, portShare, registerAppsHook, registerHolder, registerLayoutHook, registerOperationsHook, registerViewHook, render, reseedFrames, retireItem, saved, scheduleLaunchKeep, scheduleSave, screensOf, serviceBlocker, setItems, setLayoutRoot, setRunText, stageEl, startFrames, startOperations, wireFrames, wireMount, writable, setLayoutReset, catchUp, installBuiltins, registerPickersHook, document, window, settings, applyTranslations, applyTheme } from "./deps.js";
+import { writeValue } from "./deps.js";
 
 // What boot hears of others: their events, through the bridge (setup).
 let on = () => () => {};
@@ -138,8 +139,8 @@ export function install() {
         if (derivesFrom(spec.type, "list")) {
           const held = linkedIds(item, key, spec);
           const alive = held.filter((id) => getItem(id));
-          if (alive.length !== held.length) item.props[key] = alive;
-        } else if (item.props[key] && !getItem(item.props[key])) item.props[key] = null;
+          if (alive.length !== held.length) writeValue(item, key, alive, { by: "boot" });
+        } else if (item.props[key] && !getItem(item.props[key])) writeValue(item, key, null, { by: "boot" });
       }
     }
   });

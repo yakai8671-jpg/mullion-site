@@ -1,5 +1,6 @@
 {
   "name": "pickers",
+  "version": "1.0.0",
   "deps": [
     "page",
     "items",
@@ -9,7 +10,8 @@
     "registry",
     "view",
     "operations",
-    "i18n"
+    "i18n",
+    "values"
   ],
   "layer": "screen",
   "api": [

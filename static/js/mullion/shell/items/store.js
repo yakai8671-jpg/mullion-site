@@ -10,9 +10,11 @@
  * is loaded anew, so a timer or a cache that still names it meets nothing.
  */
 
-let registry; // ITEM_TYPES, defaultFor: handed in by setup (index.js)
+let registry; // ITEM_TYPES: handed in by setup (index.js)
+let values; // defaultFor
 let t; // i18n
-export function connect(r, i18n) {
+export function connect(r, i18n, v) {
+  values = v;
   registry = r;
   t = i18n.t;
 }
@@ -105,12 +107,14 @@ export function getItem(id) {
 export function createItem(type) {
   const def = registry.ITEM_TYPES[type];
   if (!def) throw new Error(`unknown item type: ${type}`);
-  const item = { id: takeItemId(), type, props: {} };
-  items.push(item);
+  // Its values are built before it is anyone's to write (values.writeValue is for live items).
+  const props = {};
   for (const [key, spec] of Object.entries(def.properties || {})) {
     if (spec.read) continue; // lives elsewhere; nothing to seed or persist
-    item.props[key] = registry.defaultFor(spec);
+    props[key] = values.defaultFor(spec);
   }
+  const item = { id: takeItemId(), type, props };
+  items.push(item);
   return item;
 }
 

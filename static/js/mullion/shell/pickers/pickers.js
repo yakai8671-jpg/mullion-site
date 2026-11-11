@@ -1,5 +1,6 @@
 /* pickers: moved out of core.js (docs/wiki/migration.md). */
 import { ICONS, ITEM_TYPES, bindProperty, commit, createItem, currentItemId, eachLeaf, findLeaf, getItem, grants, layoutRoot, portGuide, portInfo, readAddress, screensOf, setScreens, sharePort, truncatePath, currentFileName, layoutText, loadLayoutText, operationsHalted, rememberFile, t, Element, document, getComputedStyle, window, toast } from "./deps.js";
+import { writeValue } from "./deps.js";
 
 // What pickers asks of others (registerPickersHook), while they are core.js:
 //   surface(itemId)            -- what an app shows that can be picked (mount)
@@ -526,8 +527,8 @@ function openWindowSettings(frameId) {
   // Set directly rather than through the properties: they are the shell's
   // to say, and not offered as editors (see the type).
   const screen = createItem(WINDOW_SETTINGS_TYPE, null);
-  screen.props.frame = frameId;
-  screen.props.target = node.type === "group" ? node.appItem || "" : shownBeneathSettings(node);
+  writeValue(screen, "frame", frameId, { by: "pickers" });
+  writeValue(screen, "target", node.type === "group" ? node.appItem || "" : shownBeneathSettings(node), { by: "pickers" });
   if (node.type === "group") {
     setScreens(node, [...screensOf(node), screen.id]);
     commit();

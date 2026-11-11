@@ -1,0 +1,26 @@
+{
+  "name": "values",
+  "version": "1.2.0",
+  "deps": [
+    "registry"
+  ],
+  "api": [
+    "readValue",
+    "writeValue",
+    "defaultFor",
+    "formatValue",
+    "versionOf",
+    "upgradeValue",
+    "packValue",
+    "unpackValue"
+  ],
+  "events": [
+    "changed"
+  ],
+  "slots": [],
+  "fills": [
+    "registry.write",
+    "registry.defaultOf",
+    "registry.format"
+  ]
+}

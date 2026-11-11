@@ -7,7 +7,7 @@ const { connectEvents, registerWithOthers, ...api } = all;
 
 export default {
   setup(ctx) {
-    connect({ page: ctx.use("page"), server: ctx.use("server"), registry: ctx.use("registry"),
+    connect({ values: ctx.use("values"), page: ctx.use("page"), server: ctx.use("server"), registry: ctx.use("registry"),
       items: ctx.use("items"),
       ports: ctx.use("ports"),
       build: ctx.use("build"),

@@ -1,5 +1,6 @@
 {
   "name": "builtins",
+  "version": "1.0.0",
   "deps": [
     "server",
     "registry",
@@ -14,7 +15,8 @@
     "home",
     "ports",
     "properties",
-    "media"
+    "media",
+    "values"
   ],
   "api": [
     "installBuiltin",

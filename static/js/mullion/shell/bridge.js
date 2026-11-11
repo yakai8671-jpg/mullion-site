@@ -12,6 +12,13 @@
  *   ctx.slot(name)           a function another module fills in later
  *   ctx.fill("m.slot", fn)   fill a slot this module declared in fills
  *
+ * A module may say its `version` ("1.2.0": a name gone or changed in its api
+ * is the first number, a name added the second, anything else the third;
+ * tests/api-versions.mjs keeps that honest) and, in `depVersions`, which
+ * versions of a dependency it takes ({"server": "^1.0.0"}); start() checks
+ * those before any setup runs. Ranges: "1.2.3", "^1.2.3", "~1.2.3",
+ * ">=1.2.3", "1" / "1.x" (that major).
+ *
  * What setup returns must name exactly the module's `api`; it is frozen and
  * handed out as it is, so a call is a plain function call (no lookup per
  * call, no replacing at run time). Every problem stops start() with an
@@ -19,6 +26,29 @@
  */
 
 const FIELDS = ["deps", "api", "events", "slots", "fills"];
+
+const VERSION = /^(\d+)\.(\d+)\.(\d+)$/;
+/** [major, minor, patch] of "1.2.3", or null. */
+export function parseVersion(text) {
+  const m = VERSION.exec(String(text ?? ""));
+  return m ? m.slice(1).map(Number) : null;
+}
+const compare = (a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2];
+/** Whether `version` ("1.2.3") is in `range` (see the head of this file); throws on a range it cannot read. */
+export function satisfies(version, range) {
+  const v = parseVersion(version);
+  const r = String(range ?? "").trim();
+  let m;
+  if (!v) return false;
+  if ((m = /^(\d+)(?:\.x)?$/.exec(r))) return v[0] === Number(m[1]);
+  const op = /^(\^|~|>=)?(.*)$/.exec(r);
+  const want = parseVersion(op[2]);
+  if (!want) throw new Error(`bridge: bad version range ${JSON.stringify(range)}`);
+  if (op[1] === ">=") return compare(v, want) >= 0;
+  if (op[1] === "^") return compare(v, want) >= 0 && (want[0] > 0 ? v[0] === want[0] : v[1] === want[1] && (want[1] > 0 || v[2] === want[2]));
+  if (op[1] === "~") return compare(v, want) >= 0 && v[0] === want[0] && v[1] === want[1];
+  return compare(v, want) === 0;
+}
 
 export function createBridge() {
   const defs = new Map(); // name -> { meta, setup }
@@ -35,7 +65,14 @@ export function createBridge() {
       if (!Array.isArray(v) || v.some((x) => typeof x !== "string")) throw new Error(`bridge: ${name}.${f} must be a list of names`);
     }
     if (!impl || typeof impl.setup !== "function") throw new Error(`bridge: ${name} has no setup(ctx)`);
-    const norm = { name };
+    if (meta.version !== undefined && !parseVersion(meta.version)) throw new Error(`bridge: ${name}.version must look like "1.0.0", not ${JSON.stringify(meta.version)}`);
+    const depVersions = meta.depVersions ?? {};
+    if (typeof depVersions !== "object" || Array.isArray(depVersions)) throw new Error(`bridge: ${name}.depVersions must be {module: range}`);
+    for (const [dep, range] of Object.entries(depVersions)) {
+      if (!(meta.deps ?? []).includes(dep)) throw new Error(`bridge: ${name}.depVersions names ${dep}, which is not in its deps`);
+      satisfies("0.0.0", range); // throws on a range it cannot read
+    }
+    const norm = { name, version: meta.version ?? null, depVersions: { ...depVersions } };
     for (const f of FIELDS) norm[f] = [...(meta[f] ?? [])];
     defs.set(name, { meta: Object.freeze(norm), setup: impl.setup });
   }
@@ -115,6 +152,15 @@ export function createBridge() {
   // Returns the API of the one target asked for, or a map name -> API.
   function start(...targets) {
     const names = order(targets.length ? targets : [...defs.keys()]);
+    // Every version asked for, before anything is set up: a module that does
+    // not fit is a reason not to start, named like the other problems.
+    for (const name of names) {
+      for (const [dep, range] of Object.entries(defs.get(name).meta.depVersions)) {
+        const have = defs.get(dep).meta.version;
+        if (!have) throw new Error(`bridge: ${name} needs ${dep} ${range}, but ${dep} says no version`);
+        if (!satisfies(have, range)) throw new Error(`bridge: ${name} needs ${dep} ${range}, but ${dep} is ${have}`);
+      }
+    }
     for (const name of names) {
       if (apis.has(name)) continue;
       const { meta, setup } = defs.get(name);

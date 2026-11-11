@@ -1,5 +1,6 @@
 {
   "name": "frames",
+  "version": "1.0.0",
   "deps": [
     "page",
     "apps",

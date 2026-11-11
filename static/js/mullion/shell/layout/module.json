@@ -1,9 +1,11 @@
 {
   "name": "layout",
+  "version": "1.0.0",
   "deps": [
     "registry",
     "items",
-    "i18n"
+    "i18n",
+    "values"
   ],
   "api": [
     "layoutRoot",

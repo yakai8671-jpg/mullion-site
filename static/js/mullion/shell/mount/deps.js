@@ -109,7 +109,10 @@ export let getComputedStyle;
 export let requestAnimationFrame;
 export let window;
 
+export let writeValue;
+
 export function connect(apis) {
+  ({ writeValue } = apis.values);
   ({ Element, HTMLVideoElement, document, getComputedStyle, requestAnimationFrame, window } = apis.page);
   ({ APPS, CONTROLS, ICONS, ITEM_TYPES, VALUE_TYPES, bindProperty, derivesFrom, grantApi, isStandalone, valueTypeFor } = apis.registry);
   ({ DEFAULT_ITEM_TYPE, allItems, createItem, dropItemsSince, getItem, itemLabel, itemsMark, runAction } = apis.items);

@@ -87,9 +87,12 @@ export let barHas;
 
 export let fetch;
 
+export let writeValue;
+
 export function connect(apis) {
+  ({ writeValue, formatValue } = apis.values);
   ({ fetch } = apis.server);
-  ({ CONTROLS, ICONS, ITEM_TYPES, VALUE_TYPES, derivesFrom, describe, formatValue, grantApi, paramNames, portTypes, presetSpecOf, presetTypeDef, presetTypeFor, presetTypes, registerApp, registerControl, registerItemType, registerSkin, registerValueType, valueTypeFor } = apis.registry);
+  ({ CONTROLS, ICONS, ITEM_TYPES, VALUE_TYPES, derivesFrom, describe, grantApi, paramNames, portTypes, presetSpecOf, presetTypeDef, presetTypeFor, presetTypes, registerApp, registerControl, registerItemType, registerSkin, registerValueType, valueTypeFor } = apis.registry);
   ({ ACCENT_SETTING, APP_SETTINGS, appDef, appList, appSettingValue, captureLaunchLayout, coerceApp, linkOptionsFor, linkSlotsOf, linksOf, putLink, resetApp, setApp, setTypeSetting, typeSettingValue, typeSettingsOf, unlinkApp } = apis.apps);
   ({ DEFAULT_ITEM_TYPE, getItem, itemLabel, itemProperties } = apis.items);
   ({ DIRECTIONS, findLeaf, leafIds } = apis.layout);

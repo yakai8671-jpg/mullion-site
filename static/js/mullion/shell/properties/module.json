@@ -1,5 +1,6 @@
 {
   "name": "properties",
+  "version": "1.0.0",
   "deps": [
     "server",
     "registry",
@@ -8,7 +9,8 @@
     "ports",
     "i18n",
     "media",
-    "library"
+    "library",
+    "values"
   ],
   "api": [
     "TEXT_LANGUAGES",

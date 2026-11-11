@@ -1,7 +1,9 @@
 {
   "name": "build",
+  "version": "1.0.0",
   "deps": [
-    "registry"
+    "registry",
+    "values"
   ],
   "api": [
     "API_VERSIONS",

@@ -16,6 +16,7 @@ export let describe;
 export let describeProperty;
 export let elementIdentity;
 
-export function connect(registry) {
-  ({ APPS, ITEM_TYPES, isStandalone, extendControl, ICONS, paramNames, ACTIONS, ITEM_FACTORIES, bindElementByIdentity, bindProperty, bindSpec, defaultFor, describe, describeProperty, elementIdentity } = registry);
+export function connect(registry, values) {
+  ({ defaultFor } = values);
+  ({ APPS, ITEM_TYPES, isStandalone, extendControl, ICONS, paramNames, ACTIONS, ITEM_FACTORIES, bindElementByIdentity, bindProperty, bindSpec, describe, describeProperty, elementIdentity } = registry);
 }

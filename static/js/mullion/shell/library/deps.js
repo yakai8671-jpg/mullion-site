@@ -3,7 +3,11 @@ export let fetchJSON;
 export let fetch;
 export let locate;
 
+export let packValue;
+export let unpackValue;
+
 export function connect(apis) {
+  ({ packValue, unpackValue } = apis.values);
   ({ fetchJSON, fetch } = apis.server);
   ({ locate } = apis.media);
 }

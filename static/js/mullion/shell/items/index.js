@@ -6,10 +6,12 @@ const { connect, ...api } = store;
 export default {
   setup(ctx) {
     const registry = ctx.use("registry");
-    connect(registry, ctx.use("i18n"));
+    const values = ctx.use("values");
+    connect(registry, ctx.use("i18n"), values);
     const emit = ctx.emitter();
     const actions = createActions({
       registry,
+      values,
       t: ctx.use("i18n").t,
       getItem: api.getItem,
       host: ctx.slot("actionHost"),

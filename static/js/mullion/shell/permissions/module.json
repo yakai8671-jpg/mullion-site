@@ -1,5 +1,6 @@
 {
   "name": "permissions",
+  "version": "1.0.0",
   "deps": [
     "server",
     "media",
@@ -17,7 +18,8 @@
     "operations",
     "i18n",
     "hotkeys",
-    "plugins"
+    "plugins",
+    "values"
   ],
   "api": [
     "familyUses",

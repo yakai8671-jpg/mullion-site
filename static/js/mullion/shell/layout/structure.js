@@ -7,7 +7,7 @@ import {
   claimWindowIds, forgetWindowIds, isContainer, groupContent, countLeaves, eachLeaf, eachGroup, nodeIds,
   findParent, findLeaf, findNodeParent, containsNode, groupOf, replaceNode,
 } from "./tree.js";
-import { APPS, ITEM_TYPES, isStandalone, defaultFor, t, DEFAULT_ITEM_TYPE, MISSING_ITEM_TYPE, allItems, claimItemIds, createItem, forgetItemIds, getItem, removeItems, retireItem, setItems } from "./deps.js";
+import { APPS, ITEM_TYPES, isStandalone, defaultFor, versionOf, upgradeValue, t, DEFAULT_ITEM_TYPE, MISSING_ITEM_TYPE, allItems, claimItemIds, createItem, forgetItemIds, getItem, removeItems, retireItem, setItems } from "./deps.js";
 
 // Which side of the target the new window lands on, and how that maps
 // onto a split node: axis, plus whether the newcomer is child 0 or 1.
@@ -496,6 +496,17 @@ export function describeNode(node) {
 }
 
 // ---- serialization ----------------------------------------------------
+function withVersions(item) {
+  const def = ITEM_TYPES[item.type];
+  const versions = {};
+  for (const [key, spec] of Object.entries((def && def.properties) || {})) {
+    if (spec.read) continue;
+    const version = versionOf(spec);
+    if (version > 1) versions[key] = version;
+  }
+  return Object.keys(versions).length ? { ...item, versions } : item;
+}
+
 export function serialize() {
   return {
     // 4 is the first that can hold a group; 3 and below are read
@@ -503,10 +514,12 @@ export function serialize() {
     version: 4,
     // A parked instance is written back as what it really is, so a layout
     // saved without the plugin installed still restores fully with it.
+    // With each item, the shape its versioned values are in (values.versionOf):
+    // only those past 1, so a layout of unversioned types reads as it always did.
     items: allItems().map((item) =>
       item.missing
-        ? { id: item.id, type: item.missing.type, props: item.missing.props }
-        : item
+        ? { id: item.id, type: item.missing.type, props: item.missing.props, ...(item.missing.versions ? { versions: item.missing.versions } : {}) }
+        : withVersions(item)
     ),
     root: layoutRoot(),
     ...Object.fromEntries(layoutParts.map((part) => [part.key, part.save()])),
@@ -613,18 +626,21 @@ export function validateItems(raw) {
         id: item.id,
         type: MISSING_ITEM_TYPE,
         props: {},
-        missing: { type: item.type, props: item.props ? { ...item.props } : {} },
+        missing: { type: item.type, props: item.props ? { ...item.props } : {}, ...(item.versions ? { versions: { ...item.versions } } : {}) },
       };
     }
 
     // Values are filled in from the schema, so a file may carry only the
     // ones it cares about -- and a property added to the type since it was
-    // written still shows up, with its default.
+    // written still shows up, with its default. One written when its type
+    // was at an older version (`versions`, 1 when not said) is brought up to
+    // the current shape (values.upgradeValue).
     const props = {};
+    const versions = item.versions && typeof item.versions === "object" ? item.versions : {};
     for (const [key, spec] of Object.entries(def.properties || {})) {
       if (spec.read) continue; // backed by an API, never by the file
       const stored = item.props ? item.props[key] : undefined;
-      props[key] = stored === undefined ? defaultFor(spec) : stored;
+      props[key] = stored === undefined ? defaultFor(spec) : upgradeValue(spec, stored, versions[key] ?? 1);
     }
     return { id: item.id, type, props };
   });

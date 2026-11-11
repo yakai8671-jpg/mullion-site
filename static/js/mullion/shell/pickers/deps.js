@@ -29,7 +29,10 @@ export let getComputedStyle;
 export let window;
 
 export let toast;
+export let writeValue;
+
 export function connect(apis) {
+  ({ writeValue } = apis.values);
   ({ Element, document, getComputedStyle, window } = apis.page);
   ({ t } = apis.i18n);
   ({ currentFileName, loadLayoutText, operationsHalted, rememberFile } = apis.operations);

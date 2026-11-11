@@ -57,12 +57,13 @@ export let settings;
 
 export let languages;
 export function connect(apis) {
+  ({ defaultFor } = apis.values);
   ({ settings } = apis.server);
   ({ MAX_NESTING, ROOT_DEFAULT_ITEM, ROOT_ID, commit, contentNode, createGroupNode, createWindowNode, currentItemId, eachGroup, eachLeaf, findLeaf, groupContent, groupOf, isContainer, isPlainObject, knownType, layoutRoot, leafIds, newWindowId, oneWindowLayout, removeWindow, screensOf, singleLayout } = apis.layout);
   ({ DEFAULT_ITEM_TYPE, createItem, getItem } = apis.items);
   ({ allLinks, canLink, canShare, dropLinksAmong, placeLink, portAddress } = apis.ports);
   ({ addBayRecord, allBays, bayRecord, eachStashedGroup, eachStashedLeaf, isSlotLeaf, nextBayId, slotOnly, takeContent } = apis.bays);
-  ({ APPS, ITEM_TYPES, SKINS, bindProperty, defaultFor, derivesFrom, isStandalone } = apis.registry);
+  ({ APPS, ITEM_TYPES, SKINS, bindProperty, derivesFrom, isStandalone } = apis.registry);
   ({ deleteValue, saveValue, savedOfType, savedValue } = apis.library);
   ({ t, languages } = apis.i18n);
 }

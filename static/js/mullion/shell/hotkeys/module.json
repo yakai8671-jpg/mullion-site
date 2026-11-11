@@ -1,5 +1,6 @@
 {
   "name": "hotkeys",
+  "version": "1.0.0",
   "deps": [
     "items",
     "layout",

@@ -18,7 +18,7 @@ const TYPE_KEYS = new Set([
   "id", "label", "icon", "base", "default", "fields", "identity", "format",
   "defaultControl", "params", "sample", "port", "portAccepts", "portReceive",
   "portKeep", "portKeeps", "list", "preview", "groups", "storable", "presetNew",
-  "stash", "shareFrom", "defaults",
+  "stash", "shareFrom", "defaults", "version",
 ]);
 
 const LIST_KEYS = new Set([
@@ -32,7 +32,7 @@ const HOOK_FUNCTIONS = new Set([
   "defaultValue", "coerce", "format", "portRead", "portWrite", "portPut",
   "portKindOf", "portText", "portGroup", "portNodes", "presetName",
   "presetEditor", "presetPreview", "coerceList", "fromWords", "fromBytes",
-  "dataNodes",
+  "dataNodes", "migrate",
 ]);
 
 const HOOK_TABLES = new Set(["methods", "supplies", "yields", "portFacets"]);

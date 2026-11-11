@@ -1,8 +1,10 @@
 {
   "name": "items",
+  "version": "1.0.0",
   "deps": [
     "registry",
-    "i18n"
+    "i18n",
+    "values"
   ],
   "api": [
     "allItems",

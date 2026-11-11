@@ -1,5 +1,6 @@
 {
   "name": "apps",
+  "version": "1.0.0",
   "deps": [
     "server",
     "layout",
@@ -8,7 +9,8 @@
     "bays",
     "registry",
     "library",
-    "i18n"
+    "i18n",
+    "values"
   ],
   "api": [
     "cancelLaunchKeep",

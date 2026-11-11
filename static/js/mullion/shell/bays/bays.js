@@ -1,5 +1,6 @@
 /* bays: moved out of core.js (docs/wiki/migration.md). */
 import { commit, containsNode, currentItemId, eachGroup, eachLeaf, findLeaf, findParent, groupContent, groupOf, isContainer, layoutRoot, newWindowId, nodeIds, ratioOf, removeWindow, replaceNode, setLayoutRoot, splitNode, splitWindow, validateNode, registerPart, registerHolder, registerLayoutHook, claimWindowIds, screensOf, createItem, getItem, itemIcon, itemLabel, t } from "./deps.js";
+import { writeValue } from "./deps.js";
 
 // What bays says: "change" with { touched } after a bay or a sash changed,
 // { sash: { frame, ahead, wasShut } } after another sash of a bay on screen
@@ -131,7 +132,7 @@ export function slotOnly(node) {
 
 export function slotLeaf(bayId) {
   const item = createItem(BAY_SLOT_TYPE);
-  item.props.bay = bayId;
+  writeValue(item, "bay", bayId, { by: "bays" });
   return { type: "leaf", id: newWindowId(), path: [item.id] };
 }
 
@@ -467,7 +468,7 @@ export function normalizeBays() {
     if (!isSlotLeaf(leaf)) return;
     const frame = bayOf(leaf.id);
     if (!frame) drop.push(leaf.id);
-    else getItem(leaf.path[0]).props.bay = frame.bay;
+    else writeValue(getItem(leaf.path[0]), "bay", frame.bay, { by: "bays" });
   });
   for (const frame of frames) {
     if (groupContent(frame).type === "split") {

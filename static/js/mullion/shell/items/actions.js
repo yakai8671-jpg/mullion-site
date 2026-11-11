@@ -9,8 +9,9 @@
 import { createActionRuntime } from "./action-runtime.js";
 import { createControlActions } from "./control-actions.js";
 
-export function createActions({ registry, t, getItem, host, emit }) {
-  const { ITEM_TYPES, bindProperty, defaultFor, grantApi } = registry;
+export function createActions({ registry, values, t, getItem, host, emit }) {
+  const { ITEM_TYPES, bindProperty, grantApi } = registry;
+  const { defaultFor } = values;
   const refresh = () => emit("change", { cause: "action" });
   const titled = (options) => ({ ...options, title: options?.title ? t(options.title) : "" });
 

@@ -18,7 +18,7 @@
  * from another tab arrives over the same BroadcastChannel the profile uses.
  */
 
-import { fetchJSON, fetch, locate } from "./deps.js";
+import { fetchJSON, fetch, locate, packValue, unpackValue } from "./deps.js";
 
 const cache = { saved: [], loaded: false };
 const channel = typeof globalThis.BroadcastChannel === "function" ? new globalThis.BroadcastChannel("mullion-library") : null;
@@ -34,17 +34,35 @@ export function watchLibrary(fn) {
 }
 
 // ---- reading (synchronous, off the cache) -----------------------------
+// A value whose type is past version 1 is kept wrapped with the version it was
+// written at (values.packValue); it is read unwrapped and in the current shape
+// (values.unpackValue). The library loads before the plugins, so a row of a
+// type not registered yet is read as it is and brought up to date once it is.
+// Nothing is done while no row is wrapped.
+const current = new WeakMap(); // stored row -> row as read
+function rowOf(row) {
+  const done = current.get(row);
+  if (done) return done;
+  const { value, known } = unpackValue(row.type, row.value);
+  const out = value === row.value ? row : { ...row, value };
+  if (known) current.set(row, out);
+  return out;
+}
+const rows = () => (cache.wrapped ? cache.saved.map(rowOf) : cache.saved);
+const isWrapped = (v) => Boolean(v) && typeof v === "object" && !Array.isArray(v) && Number.isInteger(v.$v) && "value" in v;
+
 export function saved() {
-  return cache.saved;
+  return rows();
 }
 
 export function savedOfType(type) {
-  return type ? cache.saved.filter((one) => one.type === type) : cache.saved;
+  return type ? rows().filter((one) => one.type === type) : rows();
 }
 
 export function savedValue(id) {
   if (id === null || id === undefined) return null;
-  return cache.saved.find((one) => one.id === Number(id)) || null;
+  const row = cache.saved.find((one) => one.id === Number(id));
+  return row ? (cache.wrapped ? rowOf(row) : row) : null;
 }
 
 // Which types have anything saved, and how much. The library manager and
@@ -67,6 +85,7 @@ export async function loadLibrary() {
   try {
     const body = await fetchJSON("/api/store/saved");
     cache.saved = body.saved || [];
+    cache.wrapped = cache.saved.some((row) => isWrapped(row.value));
     cache.loaded = true;
   } catch (error) {
     // A library that will not load is not a reason to lose the layout: the
@@ -151,10 +170,10 @@ export async function saveValue({ id = null, type, name, value }) {
   value = await keepServed(value);
   const body = await fetchJSON("/api/store/saved/save", {
     method: "POST",
-    body: { id, type, name, value },
+    body: { id, type, name, value: packValue(type, value) },
   });
   await refresh();
-  return body.saved;
+  return body.saved ? rowOf(body.saved) : body.saved;
 }
 
 export async function deleteValue(id) {

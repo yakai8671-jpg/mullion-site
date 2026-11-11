@@ -55,10 +55,11 @@ export let fetch;
 
 export let languages;
 export function connect(apis) {
+  ({ formatValue } = apis.values);
   ({ fetch } = apis.server);
   ({ ResizeObserver, document, getComputedStyle, requestAnimationFrame, window } = apis.page);
   ({ t, languages } = apis.i18n);
-  ({ CONTROLS, ICONS, ITEM_TYPES, VALUE_TYPES, describeProperty, formatValue, registerControl } = apis.registry);
+  ({ CONTROLS, ICONS, ITEM_TYPES, VALUE_TYPES, describeProperty, registerControl } = apis.registry);
   ({ TEXT_LANGUAGES, blobToDataUrl, describeImage, formatAxis, formatBytes, imageFacts, optionsOf, pickLanguage } = apis.properties);
   ({ locate } = apis.media);
   ({ animateCardResize, buildCardHead, cardIsShrunk, closeHint, fitCardHead, foldIcon, hasCardSize, hintButton, listCard, makePortBadge, openPopup, paintCardTools, paintStatusRow, setCardShrunk, setCardSizeClass, syncPortBadge } = apis.view);

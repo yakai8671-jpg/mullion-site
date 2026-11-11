@@ -30,7 +30,10 @@ export let itemIcon;
 export let itemLabel;
 export let t;
 
+export let writeValue;
+
 export function connect(apis) {
+  ({ writeValue } = apis.values);
   ({ commit, containsNode, currentItemId, eachGroup, eachLeaf, findLeaf, findParent, groupContent, groupOf, isContainer, layoutRoot, newWindowId, nodeIds, ratioOf, removeWindow, replaceNode, setLayoutRoot, splitNode, splitWindow, validateNode, registerPart, registerHolder, registerLayoutHook, claimWindowIds, screensOf } = apis.layout);
   ({ createItem, getItem, itemIcon, itemLabel } = apis.items);
   ({ t } = apis.i18n);

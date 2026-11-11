@@ -134,13 +134,14 @@ export let qs;
 export let settings;
 
 export function connect(apis) {
+  ({ formatValue } = apis.values);
   ({ fetchJSON, qs, settings } = apis.server);
   ({ locate } = apis.media);
   ({ deleteValue, libraryLoaded, saveValue, savedOfType, savedTypes, savedValue } = apis.library);
   ({ grants } = apis.grants);
   ({ DEFAULT_ITEM_TYPE, allItems, cancelAction, createItem, getItem, itemProperties, runAction } = apis.items);
   ({ DIRECTIONS, checkContent, commit, contentNode, countGroups, countLeaves, createGroupNode, createWindowNode, currentItemId, findLeaf, groupOf, groupWindows, layoutRoot, layoutText, moveWindow, newWindowId, removeWindow, splitWindow } = apis.layout);
-  ({ APPS, CONTROLS, ITEM_TYPES, VALUE_TYPES, bindProperty, bindSpec, formatValue, paramNames, presetTypes, registerBaseApi, registerPermission } = apis.registry);
+  ({ APPS, CONTROLS, ITEM_TYPES, VALUE_TYPES, bindProperty, bindSpec, paramNames, presetTypes, registerBaseApi, registerPermission } = apis.registry);
   ({ APP_SETTINGS, addApp, appDef, appLayoutTree, appList, appOfWindow, appSettingValue, captureApp, captureLaunchLayout, chosenLaunchLayout, coerceApp, defaultItemFor, defaultLeafBeside, duplicateApp, fitLaunched, launchLayoutOf, launchNode, linksInto, linksOf, removeApp, resetApp, runningApps, setApp, setAppSetting, setChosenLaunchLayout, setGroupDefault } = apis.apps);
   ({ activateSash, addBay, addSash, bayList, nextSash, orderSashes, prevSash, removeBay, removeSash, renameBay, renameSash, setBaySlide, unplaceBay, unregisterFromSash } = apis.bays);
   ({ isLinkedInto, portKind, sharedInfo, unlinkPort } = apis.ports);

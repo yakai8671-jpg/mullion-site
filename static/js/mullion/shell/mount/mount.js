@@ -1,5 +1,6 @@
 /* mount: moved out of core.js (docs/wiki/migration.md). */
 import { APPS, CONTROLS, DEFAULT_ITEM_TYPE, ENFORCE_HEADER_NAMES, ENFORCE_KNOWN_PARAMS, ENFORCE_LIST_CARD_AT_START, ICONS, ITEM_TYPES, NODES, ROOT_ID, VALUE_TYPES, WINDOW_SETTINGS_TYPE, allItems, appDef, appItemOf, appOfWindow, applyTint, bayAxisOf, bindProperty, canLink, canMove, canShare, captureOperation, controlDescriptor, createItem, currentItemId, derivesFrom, designProblem, designProblems, dropItemsSince, eachGroup, eachLeaf, findLeaf, focusedWindow, getItem, grantApi, groupLabel, headerNameProblem, headerNames, iconEl, isSlotLeaf, isStandalone, isTyping, itemLabel, itemsMark, kindAt, layoutRoot, linkPort, linksOf, listCardProblem, listCardsFound, movePort, named, newWindowId, noteControl, openScreen, operationsReady, orderHead, outerAppFrame, paintExpanded, paintStatusRow, pastePort, portGuide, portLabel, portSpec, portValue, readAddress, readPort, refreshAppChrome, registerFramesHook, registerOperationsHook, registerPickersHook, registerViewHook, renderNodes, resolveHotkeyAddress, routeBetween, routeFor, row, runAction, samePort, scheduleFitPropRows, scheduleSave, sectionToolsProblem, setBuildingType, setDesignHandler, setExpanded, setUnnamedSink, sharePort, splitWindow, stageEl, stepsOf, syncLinkBadge, syncLinks, t, teardownTree, tintOf, truncatePath, unknownParams, unknownParamsProblem, unnamedCardsIn, valueTypeFor, windowEl, writable, Element, HTMLVideoElement, document, getComputedStyle, requestAnimationFrame, window } from "./deps.js";
+import { writeValue } from "./deps.js";
 
 // What mount hears of others: their events, through the bridge (setup).
 let on = () => () => {};
@@ -972,11 +973,11 @@ function bodyProblems({ drawn = false } = {}) {
         const seed = sample && "default" in sample ? sample.default : undefined;
         // Nothing in it: no value, or only lists with nothing in them.
         const bare = (v) => v === undefined || v === null || v === "" || (Array.isArray(v) ? !v.length : typeof v === "object" && Object.values(v).every(bare));
-        if (!bare(seed) && bare(spec.default)) item.props[key] = JSON.parse(JSON.stringify(seed));
+        if (!bare(seed) && bare(spec.default)) writeValue(item, key, JSON.parse(JSON.stringify(seed)), { by: "mount" });
       }
       if (pass === 1) {
         for (const [key, spec] of Object.entries(def.properties || {})) {
-          if (!spec.read && !spec.link && derivesFrom(spec.type, "boolean")) item.props[key] = true;
+          if (!spec.read && !spec.link && derivesFrom(spec.type, "boolean")) writeValue(item, key, true, { by: "mount" });
         }
       }
       const ctx = headlessCtx(item, def);

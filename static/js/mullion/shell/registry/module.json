@@ -1,5 +1,6 @@
 {
   "name": "registry",
+  "version": "2.0.0",
   "deps": [
     "i18n"
   ],
@@ -51,11 +52,13 @@
     "grantApi",
     "selfApi",
     "paramsFor",
-    "defaultFor",
-    "formatValue",
     "permissionNeeds"
   ],
   "events": [],
-  "slots": [],
+  "slots": [
+    "write",
+    "defaultOf",
+    "format"
+  ],
   "fills": []
 }

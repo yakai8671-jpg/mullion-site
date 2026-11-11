@@ -37,9 +37,10 @@ export let language;
 export let settings;
 
 export function connect(apis) {
+  ({ formatValue } = apis.values);
   ({ settings } = apis.server);
   ({ MutationObserver, ResizeObserver, cancelAnimationFrame, document, getComputedStyle, requestAnimationFrame, window } = apis.page);
-  ({ CONTROLS, ICONS, ITEM_TYPES, formatValue, paramNames, describe: describeSpec } = apis.registry);
+  ({ CONTROLS, ICONS, ITEM_TYPES, paramNames, describe: describeSpec } = apis.registry);
   ({ actionStatus, cancelAction, controlActions, getItem, itemProperties, runAction } = apis.items);
   ({ kindAt, linkOf, portInfo, portIsEntry, portLink, portShare, portSpec, stepsOf, unlinkPort, writable, portLabel } = apis.ports);
   ({ adaptDescriptor } = apis.build);

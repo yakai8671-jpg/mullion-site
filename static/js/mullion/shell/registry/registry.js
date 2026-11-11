@@ -10,8 +10,13 @@
 // to it. "core" is what the shell's own registrations get.
 // i18n, handed in by setup (index.js): the translation tables the checks read.
 let i18n = null;
-export function connect(translations) {
+// What a property does with a value is the values module's (it depends on
+// this one, so it fills these slots rather than being asked for): write a live
+// item's value, a type's default, a value as text.
+let slots = null;
+export function connect(translations, valueSlots) {
   i18n = translations;
+  slots = valueSlots;
 }
 
 let registrationSource = null;
@@ -148,10 +153,10 @@ const BASE_METHODS = {
     // A spec may redirect the write elsewhere (app settings) or record a
     // consequence of it (a document becoming unsaved).
     if (p.params.write) p.params.write(p.api, coerced, p.item);
-    else p.item.props[p.key] = coerced;
+    else slots.write(p.item, p.key, coerced, { by: "property" });
     return coerced;
   },
-  format: (p) => formatValue({ type: p.params.type, params: p.params, value: p.get() }),
+  format: (p) => slots.format({ type: p.params.type, params: p.params, value: p.get() }),
 
   // A property inside this one's value. The value type declares them:
   //
@@ -171,7 +176,7 @@ const BASE_METHODS = {
     return bindWithin(p, name, spec, {
       read: () => {
         const value = own(p.get())[name];
-        return value === undefined ? defaultFor(spec) : value;
+        return value === undefined ? slots.defaultOf(spec) : value;
       },
       write: (value) => p.set({ ...own(p.get()), [name]: value }),
     });
@@ -300,6 +305,13 @@ export function registerValueType(name, def) {
     throw new Error(`value type "${name}" needs a defaultValue()`);
   }
   if (!merged.defaultControl) throw new Error(`value type "${name}" needs a defaultControl`);
+  // Which shape its values are in (shell/values: versionOf, upgradeValue).
+  if (merged.version !== undefined && !(Number.isInteger(merged.version) && merged.version >= 1)) {
+    throw new Error(`value type "${name}": version must be a whole number from 1`);
+  }
+  if (merged.version > 1 && typeof merged.migrate !== "function") {
+    throw new Error(`value type "${name}" is at version ${merged.version} and needs a migrate(value, from, params)`);
+  }
 
   VALUE_TYPES[name] = {
     icon: ICONS.value,
@@ -985,16 +997,5 @@ export function paramsFor(spec) {
   return extra ? { ...given, each: { ...extra, ...spec.each } } : given;
 }
 
-export function defaultFor(spec) {
-  const def = valueTypeFor(spec);
-  if (!def) throw new Error(`unknown value type: ${spec.type}`);
-  return def.defaultValue(paramsFor(spec));
-}
-
-export function formatValue(descriptor) {
-  const def = valueTypeFor({ ...(descriptor.params || {}), type: descriptor.type });
-  if (!def) return String(descriptor.value);
-  const params = paramsFor({ ...(descriptor.params || {}), type: descriptor.type });
-  return def.format ? def.format(descriptor.value, params) : String(descriptor.value);
-}
+// defaultFor and formatValue are the values module's (shell/values).
 

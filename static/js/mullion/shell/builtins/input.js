@@ -1,6 +1,7 @@
 /* Input Test -- one property of every built-in type, plus a widget. */
 
 import { formatValue, registerItemType } from "./deps.js";
+import { writeValue } from "./deps.js";
 import { APP_SETTINGS, DEFAULT_ITEM_TYPE, DIRECTIONS, NODES, appSettingValue, itemProperties, pickedType, refreshAll, row, t } from "./deps.js";
 
 // What this file registers, once the modules it uses are handed in (index.js).
@@ -92,7 +93,7 @@ export function install() {
                 label: t("mu.action.clearSketch"),
                 title: t("mu.action.clearSketchTitle"),
                 run: () => {
-                  item.props.sketch = [];
+                  writeValue(item, "sketch", [], { by: "input" });
                   refreshAll();
                 },
               },

@@ -87,7 +87,10 @@ export let settings;
 export let applyTranslations;
 export let applyTheme;
 export let toast;
+export let writeValue;
+
 export function connect(apis) {
+  ({ writeValue } = apis.values);
   ({ fetchJSON, settings } = apis.server);
   ({ document, window } = apis.page);
   ({ installBuiltins } = apis.builtins);

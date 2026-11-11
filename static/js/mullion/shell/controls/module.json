@@ -1,5 +1,6 @@
 {
   "name": "controls",
+  "version": "1.0.0",
   "deps": [
     "page",
     "server",
@@ -11,7 +12,8 @@
     "apps",
     "mount",
     "ports",
-    "pickers"
+    "pickers",
+    "values"
   ],
   "layer": "screen",
   "api": [
