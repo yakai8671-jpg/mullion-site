@@ -44,6 +44,7 @@ export let hotkeyCombo;
 export let hotkeyTargetLabel;
 export let iconEl;
 export let iconMarkup;
+export let titlebarMarkup;
 export let isContainer;
 export let isSlotLeaf;
 export let isStandalone;
@@ -112,15 +113,32 @@ export let window;
 
 export let escapeHtml;
 export let applyTranslations;
+export let CUT_EPS;
+export let opposite;
+export let fullCuts;
+export let seamSegments;
+export let edgeFrames;
+export let splitAt;
+export let isolateSegment;
+export let swapNode;
+export let ancestorsOf;
+export let ratioAt;
+export let snapRatio;
+
+export let appItemsAround;
+
+export let CSS;
+
 export function connect(apis) {
-  ({ ResizeObserver, document, getComputedStyle, requestAnimationFrame, window } = apis.page);
-  ({ APP_SETTINGS, appDef, appOfWindow, appSettingValue, closeWindow, defaultItemFor, defaultItemIn, fitLaunched, itemOfWindow, launchAppNode, launchNode, linkOptionsFor, putLink, registerAppsHook, scheduleLaunchKeep } = apis.apps);
+  ({ CUT_EPS, opposite, fullCuts, seamSegments, edgeFrames, splitAt, isolateSegment, swapNode, ancestorsOf, ratioAt, snapRatio } = apis.seams);
+  ({ ResizeObserver, document, getComputedStyle, requestAnimationFrame, window, CSS } = apis.page);
+  ({ APP_SETTINGS, appDef, appOfWindow, appSettingValue, closeWindow, defaultItemFor, defaultItemIn, fitLaunched, itemOfWindow, launchAppNode, launchNode, linkOptionsFor, putLink, registerAppsHook, scheduleLaunchKeep, appItemsAround } = apis.apps);
   ({ BAY_SLIDES, activeSash, bayFrame, bayList, bayOf, bayRecord, isSlotLeaf, needBay, nextSash, normalizeBays, prevSash, putInSlot, registerBaysHook, registerInBay, removeBay, takeContent } = apis.bays);
   ({ DEFAULT_ITEM_TYPE, getItem, itemIcon, itemLabel, readonlyProp } = apis.items);
   ({ DIRECTIONS, ROOT_DEFAULT_ITEM, checkContent, commit, commitPath, containsNode, countLeaves, currentItemId, describeNode, eachLeaf, findLeaf, findNodeParent, findParent, frameRoot, groupContent, groupOf, groupWindow, groupWindows, isContainer, knownType, layoutRoot, leafIds, moveWindow, newWindowId, placedNode, pruneItems, ratioOf, repairPaths, replaceNode, screensOf, setLayoutRoot, setScreens, settleLayout, splitWindow } = apis.layout);
   ({ HOTKEY_ACTIONS, hotkeyCombo, hotkeyTargetLabel, outerAppFrame, outerAppFrames, registerHotkeysHook, resolveHotkeyAddress, stashedNode } = apis.hotkeys);
   ({ ICONS, ITEM_TYPES, isStandalone } = apis.registry);
-  ({ MOTION_EASE, TITLE_GAP, flushFits, iconEl, iconMarkup, lessMotion, motionMs, openTitleMenu, pendingHeads, portGuide, registerViewHook, scheduleFitPropRows, escapeHtml, applyTranslations } = apis.view);
+  ({ MOTION_EASE, TITLE_GAP, flushFits, iconEl, iconMarkup, lessMotion, motionMs, openTitleMenu, pendingHeads, portGuide, registerViewHook, scheduleFitPropRows, escapeHtml, applyTranslations, titlebarMarkup } = apis.view);
   ({ WINDOW_SETTINGS_TYPE, openWindowSettings, registerPickersHook, setIcon } = apis.pickers);
   ({ language, t } = apis.i18n);
   ({ redoOperation, registerOperationsHook, scheduleSave, undoOperation } = apis.operations);

@@ -1,3 +1,5 @@
 {
-  "type": "chain.app"
+  "type": "chain.app",
+  "home": "utility",
+  "homeOrder": 100
 }

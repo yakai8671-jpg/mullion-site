@@ -1,6 +1,6 @@
 {
   "name": "boot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "deps": [
     "page",
     "server",
@@ -28,7 +28,6 @@
     "resetLayout",
     "layoutFileName",
     "startupProblems",
-    "showStartupProblems",
     "followProfileQuery"
   ],
   "events": [],

@@ -1,5 +1,7 @@
 {
   "type": "apps.list",
+  "home": "mullion",
+  "homeOrder": 90,
   "layout": {
     "children": [
       "self"

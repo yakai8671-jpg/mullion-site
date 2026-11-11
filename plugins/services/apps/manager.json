@@ -1,5 +1,7 @@
 {
   "type": "services.manager",
+  "home": "mullion",
+  "homeOrder": 110,
   "layout": {
     "children": [
       "self"

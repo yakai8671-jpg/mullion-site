@@ -14,7 +14,7 @@ const { core } = startShell();
 const library = core;
 const properties = { ...core, groupOf: core.propertyGroupOf };
 const registry = core;
-const { init, showStartupProblems, startupProblems, followProfileQuery, loadPlugins, loadedPlugins, loadLibrary, watchLibrary } = core;
+const { init, showProblemPage, startupProblems, followProfileQuery, loadPlugins, loadedPlugins, loadLibrary, watchLibrary } = core;
 
 // The framework surface, in one place. This is what step 04 will hand to a
 // plugin module, and what a console has to poke at a running shell.
@@ -77,7 +77,7 @@ window.Mullion.startupProblems = problems;
 if (problems.length) {
   problems.forEach((one) => console.error(`[mullion] ${one.source}: ${one.message}`));
   core.halt();
-  const show = () => showStartupProblems(problems);
+  const show = () => showProblemPage(problems);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", show);
   else show();
 } else {
@@ -86,7 +86,7 @@ if (problems.length) {
   core.onDesignProblem((found) => {
     core.halt();
     window.Mullion.startupProblems = found;
-    showStartupProblems(found);
+    showProblemPage(found);
   });
   // The screen goes once the first layout is drawn; if drawing it fails, it says so.
   const start = () => init().then(loading.finish, (error) => {

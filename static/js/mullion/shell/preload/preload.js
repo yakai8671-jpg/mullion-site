@@ -17,6 +17,8 @@ export function preloadOf(scope = globalThis) {
     preloadedSettings: () => scope.__MU_SETTINGS__ || {},
     /** "standalone" when the page runs without the Mullion server (server/standalone.js), else "server". */
     preloadedBackend: () => (scope.__MU_BACKEND__ === "standalone" ? "standalone" : "server"),
+    /** problem.js's restart button maker, (section, labels) => void, or null without it. */
+    preloadedProblemRestart: () => (typeof scope.muProblemRestart === "function" ? scope.muProblemRestart : null),
     /** The languages one can choose, [{ value, label }], or null without the table. */
     preloadedLanguages: () => scope.BW_LANGUAGES || null,
     /** The page's translation tables by language, or null without the table. */

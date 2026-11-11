@@ -1,5 +1,7 @@
 {
   "type": "tagdict.viewer",
+  "home": "prompt",
+  "homeOrder": 60,
   "layout": {
     "dir": "row",
     "ratio": 0.5,

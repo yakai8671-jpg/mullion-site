@@ -1,5 +1,7 @@
 {
   "type": "stage.scene",
+  "home": "other",
+  "homeOrder": 10,
   "layout": {
     "children": ["self"]
   }

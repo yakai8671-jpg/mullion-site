@@ -1,3 +1,5 @@
 {
-  "type": "scratch.board"
+  "type": "scratch.board",
+  "home": "utility",
+  "homeOrder": 90
 }

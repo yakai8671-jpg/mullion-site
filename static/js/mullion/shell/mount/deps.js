@@ -111,13 +111,15 @@ export let window;
 
 export let writeValue;
 
+export let screensOf;
+
 export function connect(apis) {
   ({ writeValue } = apis.values);
   ({ Element, HTMLVideoElement, document, getComputedStyle, requestAnimationFrame, window } = apis.page);
   ({ APPS, CONTROLS, ICONS, ITEM_TYPES, VALUE_TYPES, bindProperty, derivesFrom, grantApi, isStandalone, valueTypeFor } = apis.registry);
   ({ DEFAULT_ITEM_TYPE, allItems, createItem, dropItemsSince, getItem, itemLabel, itemsMark, runAction } = apis.items);
   ({ ENFORCE_HEADER_NAMES, ENFORCE_KNOWN_PARAMS, ENFORCE_LIST_CARD_AT_START, NODES, controlDescriptor, designProblem, designProblems, headerNameProblem, headerNames, iconEl, listCardProblem, listCardsFound, named, orderHead, paintStatusRow, portGuide, registerViewHook, renderNodes, row, scheduleFitPropRows, sectionToolsProblem, setBuildingType, setDesignHandler, setUnnamedSink, syncLinkBadge, teardownTree, unknownParams, unknownParamsProblem, unnamedCardsIn } = apis.view);
-  ({ ROOT_ID, currentItemId, eachGroup, eachLeaf, findLeaf, layoutRoot, newWindowId, splitWindow, truncatePath } = apis.layout);
+  ({ ROOT_ID, currentItemId, eachGroup, eachLeaf, findLeaf, layoutRoot, newWindowId, splitWindow, truncatePath, screensOf } = apis.layout);
   ({ WINDOW_SETTINGS_TYPE, openScreen, registerPickersHook } = apis.pickers);
   ({ appDef, appItemOf, appOfWindow, linksOf } = apis.apps);
   ({ applyTint, bayAxisOf, focusedWindow, groupLabel, isTyping, paintExpanded, refreshAppChrome, registerFramesHook, setExpanded, stageEl, tintOf, windowEl } = apis.frames);

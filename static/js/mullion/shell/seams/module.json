@@ -1,0 +1,23 @@
+{
+  "name": "seams",
+  "version": "1.0.1",
+  "deps": [
+    "layout"
+  ],
+  "api": [
+    "CUT_EPS",
+    "opposite",
+    "fullCuts",
+    "seamSegments",
+    "edgeFrames",
+    "splitAt",
+    "isolateSegment",
+    "swapNode",
+    "ancestorsOf",
+    "ratioAt",
+    "snapRatio"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

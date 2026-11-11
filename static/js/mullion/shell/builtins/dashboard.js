@@ -12,11 +12,12 @@
  */
 
 import { ICONS, registerApp, registerItemType } from "./deps.js";
-import { NODES, defaultHomeGroups, homeGroups, openScreen, t } from "./deps.js";
+import { defaultHomeGroups, homeGroups } from "./home.js";
+import { NODES, openScreen, t } from "./deps.js";
 
 // What this file registers, once the modules it uses are handed in (index.js).
 export function install() {
-  registerApp("dashboard");
+  registerApp("dashboard", { home: "mullion", homeOrder: 10 });
   registerItemType("dashboard", {
     label: "mu.item.dashboard",
     standalone: true,

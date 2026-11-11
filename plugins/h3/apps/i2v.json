@@ -1,5 +1,7 @@
 {
   "type": "h3.i2v",
+  "home": "video",
+  "homeOrder": 30,
   "layout": {
     "dir": "row",
     "ratio": 0.5,

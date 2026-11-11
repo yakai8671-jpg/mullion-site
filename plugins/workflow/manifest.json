@@ -47,6 +47,7 @@
   "permissions": [
     "store:read",
     "store:write",
+    "clipboard:write",
     "comfy:run",
     "ollama:run",
     "layout:place",

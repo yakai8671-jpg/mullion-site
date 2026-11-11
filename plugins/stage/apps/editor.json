@@ -1,5 +1,7 @@
 {
   "type": "panorama.editor",
+  "home": "image",
+  "homeOrder": 40,
   "name": "stage.app.name",
   "layout": {
     "dir": "row",

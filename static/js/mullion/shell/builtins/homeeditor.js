@@ -11,7 +11,8 @@
  */
 
 import { describe, registerItemType, registerValueType } from "./deps.js";
-import { NODES, appDef, appList, defaultHomeGroups, homeGroups, openValuePicker, setHomeGroups, t } from "./deps.js";
+import { defaultHomeGroups, homeGroups, setHomeGroups } from "./home.js";
+import { NODES, appDef, appList, openValuePicker, t } from "./deps.js";
 
 // Home's groups as they are now: the edited ones, or Home as it comes.
 const current = () => homeGroups() || defaultHomeGroups();

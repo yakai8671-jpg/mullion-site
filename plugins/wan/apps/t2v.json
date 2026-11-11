@@ -1,5 +1,7 @@
 {
   "type": "wan.t2v",
+  "home": "video",
+  "homeOrder": 10,
   "props": {
     "size": [
       832,

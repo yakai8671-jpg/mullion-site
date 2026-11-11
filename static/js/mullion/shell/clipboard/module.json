@@ -1,0 +1,15 @@
+{
+  "name": "clipboard",
+  "version": "1.0.0",
+  "layer": "screen",
+  "deps": [
+    "page"
+  ],
+  "api": [
+    "available",
+    "writeText"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

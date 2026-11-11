@@ -1,5 +1,7 @@
 {
   "type": "i2p.app",
+  "home": "prompt",
+  "homeOrder": 10,
   "layout": {
     "dir": "row",
     "ratio": 0.55,

@@ -1,0 +1,24 @@
+{
+  "name": "parts",
+  "version": "1.0.0",
+  "layer": "screen",
+  "deps": [
+    "page",
+    "i18n",
+    "registry",
+    "properties",
+    "view",
+    "apps",
+    "mount"
+  ],
+  "api": [
+    "applyButton",
+    "diffChildren",
+    "emptyGuide",
+    "setValue",
+    "stepperButton"
+  ],
+  "events": [],
+  "slots": [],
+  "fills": []
+}

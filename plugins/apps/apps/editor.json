@@ -1,5 +1,7 @@
 {
   "type": "apps.editor",
+  "home": "mullion",
+  "homeOrder": 100,
   "layout": {
     "children": [
       "self"

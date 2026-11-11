@@ -16,5 +16,9 @@ export function pageOf(scope = globalThis) {
     getComputedStyle: scope.getComputedStyle ? (el, pseudo) => scope.getComputedStyle(el, pseudo) : undefined,
     Element: scope.Element,
     HTMLVideoElement: scope.HTMLVideoElement,
+    // CSS.escape for a value put in a selector; where the page is; what the browser offers (the clipboard: shell/clipboard).
+    CSS: scope.CSS,
+    location: scope.location,
+    navigator: scope.navigator,
   };
 }

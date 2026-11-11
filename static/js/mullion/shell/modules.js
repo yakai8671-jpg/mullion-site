@@ -34,20 +34,24 @@ import baysMeta from "./bays/module.json" with { type: "json" };
 import bays from "./bays/index.js";
 import appsMeta from "./apps/module.json" with { type: "json" };
 import apps from "./apps/index.js";
-import homeMeta from "./home/module.json" with { type: "json" };
-import home from "./home/index.js";
 import operationsMeta from "./operations/module.json" with { type: "json" };
 import operations from "./operations/index.js";
 import pickersMeta from "./pickers/module.json" with { type: "json" };
 import pickers from "./pickers/index.js";
 import hotkeysMeta from "./hotkeys/module.json" with { type: "json" };
 import hotkeys from "./hotkeys/index.js";
+import seamsMeta from "./seams/module.json" with { type: "json" };
+import seams from "./seams/index.js";
 import framesMeta from "./frames/module.json" with { type: "json" };
 import frames from "./frames/index.js";
 import mountMeta from "./mount/module.json" with { type: "json" };
 import mount from "./mount/index.js";
 import propertiesMeta from "./properties/module.json" with { type: "json" };
 import properties from "./properties/index.js";
+import clipboardMeta from "./clipboard/module.json" with { type: "json" };
+import clipboard from "./clipboard/index.js";
+import partsMeta from "./parts/module.json" with { type: "json" };
+import parts from "./parts/index.js";
 import controlsMeta from "./controls/module.json" with { type: "json" };
 import controls from "./controls/index.js";
 import pluginsMeta from "./plugins/module.json" with { type: "json" };
@@ -79,13 +83,15 @@ export const MODULES = [
   [viewMeta, view],
   [baysMeta, bays],
   [appsMeta, apps],
-  [homeMeta, home],
   [operationsMeta, operations],
   [pickersMeta, pickers],
   [hotkeysMeta, hotkeys],
+  [seamsMeta, seams],
   [framesMeta, frames],
   [mountMeta, mount],
   [propertiesMeta, properties],
+  [clipboardMeta, clipboard],
+  [partsMeta, parts],
   [controlsMeta, controls],
   [pluginsMeta, plugins],
   [permissionsMeta, permissions],

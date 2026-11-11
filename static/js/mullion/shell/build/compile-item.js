@@ -1880,28 +1880,28 @@ export function compileActionButtons(value, path, actions, at, env, { header = f
   const bound = (given) => Boolean(refs) && isBind(given);
   const text = (given, optional) => (optional && given === undefined) || typeof given === "string" || bound(given);
   return value.map((button, index) => {
-    const location = `${path}[${index}]`;
+    const where = `${path}[${index}]`;
     if (!isObject(button) || typeof button.key !== "string" || !button.key || keys.has(button.key) ||
         !text(button.label, false) || !text(button.title, true) ||
         (header && !(bound(button.icon) || (typeof button.icon === "string" && button.icon))) ||
         (button.visible !== undefined && typeof button.visible !== "boolean" && !bound(button.visible)) ||
         (button.disabled !== undefined && typeof button.disabled !== "boolean" && !bound(button.disabled)) ||
         !Object.keys(button).every((key) => allowed.includes(key))) {
-      at(location, "expected a button with a unique key, label and action");
+      at(where, "expected a button with a unique key, label and action");
       return () => null;
     }
     const resolved = Object.create(null);
     for (const field of ["label", "title", "icon", "visible", "disabled"]) {
       if (!bound(button[field])) continue;
       const ref = refs.reference(button[field].bind);
-      if (!ref) at(`${location}.${field}`, `"${button[field].bind}" is not a property or element field`);
+      if (!ref) at(`${where}.${field}`, `"${button[field].bind}" is not a property or element field`);
       else resolved[field] = ref;
     }
     if (Object.hasOwn(button, "after") && !anchors.includes(button.after)) {
-      at(`${location}.after`, anchors.length ? `must name a base tool (${anchors.join(", ")})` : "this slot does not support tool positioning");
+      at(`${where}.after`, anchors.length ? `must name a base tool (${anchors.join(", ")})` : "this slot does not support tool positioning");
     }
     keys.add(button.key);
-    const run = compileActionRef(button.action, `${location}.action`, actions, at, env);
+    const run = compileActionRef(button.action, `${where}.action`, actions, at, env);
     return (item, api, scope) => {
       const read = (field) => resolved[field] ? refs.binding(resolved[field], item, api, scope).property.get() : button[field];
       if (button.visible !== undefined && read("visible") !== true) return null;

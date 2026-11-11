@@ -1,3 +1,5 @@
 {
-  "type": "hotkeys.manager"
+  "type": "hotkeys.manager",
+  "home": "mullion",
+  "homeOrder": 50
 }

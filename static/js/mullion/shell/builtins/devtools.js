@@ -19,7 +19,7 @@ const SCREENS = ["catalog", "pluginstatus", "propcatalog", "controlcatalog", "in
 
 // What this file registers, once the modules it uses are handed in (index.js).
 export function install() {
-  registerApp("devtools");
+  registerApp("devtools", { home: "mullion", homeOrder: 120 });
   registerItemType("devtools", {
     label: "mu.item.devtools",
     standalone: true,

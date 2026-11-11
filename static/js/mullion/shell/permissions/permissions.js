@@ -5,7 +5,7 @@
  * can add namespaces of its own with registerPermission().
  */
 
-import { deleteValue, libraryLoaded, saveValue, savedOfType, savedTypes, savedValue, currentFileName, fetchJSON, locate, qs, settings } from "./deps.js";
+import { deleteValue, libraryLoaded, saveValue, savedOfType, savedTypes, savedValue, currentFileName, fetchJSON, locate, qs, settings, writeText } from "./deps.js";
 import { grants } from "./deps.js";
 import { allItems, getItem as itemById, layoutRoot } from "./deps.js";
 import { APPS, CONTROLS, ITEM_TYPES, VALUE_TYPES, bindProperty, bindSpec, formatValue, presetTypes, registerPermission, registerBaseApi, paramNames } from "./deps.js";
@@ -81,6 +81,7 @@ const NEEDS = {
   "services:read": ["services"], "services:write": ["services"],
   "reddit:read": ["reddit"],
   "app:control": ["control"],
+  "clipboard:write": [],
 };
 
 function actionTarget(ctx, itemId, name) {
@@ -734,6 +735,9 @@ export function install() {
     // Saved values, by type or by id. There is nothing structural to ask
     // about any more -- no drawers to enumerate -- so this is the whole of
     // reading the library: what is saved of a type, and what one of them is.
+    // The system clipboard (shell/clipboard): writeText resolves true or false.
+    "clipboard:write": () => ({ writeText }),
+
     "store:read": () => ({
       saved: (type) => savedOfType(type),
       value: (id) => savedValue(id),

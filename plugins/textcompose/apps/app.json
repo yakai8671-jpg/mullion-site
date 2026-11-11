@@ -1,3 +1,5 @@
 {
-  "type": "compose.app"
+  "type": "compose.app",
+  "home": "utility",
+  "homeOrder": 70
 }

@@ -1,3 +1,5 @@
 {
-  "type": "prompt.assembler"
+  "type": "prompt.assembler",
+  "home": "prompt",
+  "homeOrder": 30
 }

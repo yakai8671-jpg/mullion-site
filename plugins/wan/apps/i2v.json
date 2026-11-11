@@ -1,5 +1,7 @@
 {
   "type": "wan.i2v",
+  "home": "video",
+  "homeOrder": 20,
   "props": {
     "size": [
       832,

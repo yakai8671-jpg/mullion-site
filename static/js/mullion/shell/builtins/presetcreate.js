@@ -85,7 +85,7 @@ async function setDraftForKind(item, ctx, kind, value) {
 
 // What this file registers, once the modules it uses are handed in (index.js).
 export function install() {
-  registerApp("presetcreate");
+  registerApp("presetcreate", { home: "mullion", homeOrder: 70 });
   registerItemType("presetcreate", {
     label: "mu.item.presetcreate",
     standalone: true,

@@ -1,5 +1,7 @@
 {
   "type": "character.editor",
+  "home": "other",
+  "homeOrder": 20,
   "defaultItem": "character.editor",
   "layout": {
     "dir": "row",

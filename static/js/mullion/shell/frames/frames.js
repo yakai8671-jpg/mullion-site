@@ -1,5 +1,6 @@
 /* frames: moved out of core.js (docs/wiki/migration.md). */
-import { APP_SETTINGS, BAY_SLIDES, DEFAULT_ITEM_TYPE, DIRECTIONS, HOTKEY_ACTIONS, ICONS, ITEM_TYPES, MOTION_EASE, ROOT_DEFAULT_ITEM, TITLE_GAP, WINDOW_SETTINGS_TYPE, activeSash, appDef, appOfWindow, appSettingValue, bayFrame, bayList, bayOf, bayRecord, checkContent, closeWindow, commit, commitPath, containsNode, countLeaves, currentItemId, defaultItemFor, defaultItemIn, describeNode, eachLeaf, findLeaf, findNodeParent, findParent, fitLaunched, flushFits, frameRoot, getItem, groupContent, groupOf, groupWindow, groupWindows, hotkeyCombo, hotkeyTargetLabel, iconEl, iconMarkup, isContainer, isSlotLeaf, isStandalone, itemIcon, itemLabel, itemOfWindow, knownType, language, launchAppNode, launchNode, layoutRoot, leafIds, lessMotion, linkOptionsFor, motionMs, moveWindow, needBay, newWindowId, nextSash, normalizeBays, openTitleMenu, openWindowSettings, outerAppFrame, outerAppFrames, pendingHeads, placedNode, portGuide, prevSash, pruneItems, putInSlot, putLink, ratioOf, readonlyProp, redoOperation, registerAppsHook, registerBaysHook, registerHotkeysHook, registerInBay, registerOperationsHook, registerPickersHook, registerViewHook, removeBay, repairPaths, replaceNode, resolveHotkeyAddress, saved, scheduleFitPropRows, scheduleLaunchKeep, scheduleSave, screensOf, setIcon, setLayoutRoot, setScreens, settleLayout, splitWindow, stashedNode, syncLinks, t, takeContent, undoOperation, ResizeObserver, document, getComputedStyle, requestAnimationFrame, window, escapeHtml, applyTranslations } from "./deps.js";
+import { APP_SETTINGS, BAY_SLIDES, DEFAULT_ITEM_TYPE, DIRECTIONS, HOTKEY_ACTIONS, ICONS, ITEM_TYPES, MOTION_EASE, ROOT_DEFAULT_ITEM, TITLE_GAP, WINDOW_SETTINGS_TYPE, activeSash, appDef, appOfWindow, appSettingValue, bayFrame, bayList, bayOf, bayRecord, checkContent, closeWindow, commit, commitPath, containsNode, countLeaves, currentItemId, defaultItemFor, defaultItemIn, describeNode, eachLeaf, findLeaf, findNodeParent, findParent, fitLaunched, flushFits, frameRoot, getItem, groupContent, groupOf, groupWindow, groupWindows, hotkeyCombo, hotkeyTargetLabel, iconEl, iconMarkup, titlebarMarkup, isContainer, isSlotLeaf, isStandalone, itemIcon, itemLabel, itemOfWindow, knownType, language, launchAppNode, launchNode, layoutRoot, leafIds, lessMotion, linkOptionsFor, motionMs, moveWindow, needBay, newWindowId, nextSash, normalizeBays, openTitleMenu, openWindowSettings, outerAppFrame, outerAppFrames, pendingHeads, placedNode, portGuide, prevSash, pruneItems, putInSlot, putLink, ratioOf, readonlyProp, redoOperation, registerAppsHook, registerBaysHook, registerHotkeysHook, registerInBay, registerOperationsHook, registerPickersHook, registerViewHook, removeBay, repairPaths, replaceNode, resolveHotkeyAddress, saved, scheduleFitPropRows, scheduleLaunchKeep, scheduleSave, screensOf, setIcon, setLayoutRoot, setScreens, settleLayout, splitWindow, stashedNode, syncLinks, t, takeContent, undoOperation, ResizeObserver, document, getComputedStyle, requestAnimationFrame, window, escapeHtml, applyTranslations, appItemsAround, CSS } from "./deps.js";
+import { CUT_EPS, opposite, fullCuts, seamSegments, edgeFrames, splitAt, isolateSegment, swapNode, ancestorsOf, ratioAt, snapRatio } from "./deps.js";
 
 // What frames hears of others: their events, through the bridge (setup).
 let on = () => () => {};
@@ -53,7 +54,7 @@ function wireFrames() {
       resizing.from === null
         ? ratioAt(pos, resizing)
         : Math.min(0.98, Math.max(0.02, resizing.startRatio + ratioAt(pos, resizing) - resizing.from));
-    const { ratio, snapped } = snapRatio(at, resizing.inner, resizing.targets);
+    const { ratio, snapped } = snapRatio(at, resizing.inner, resizing.targets, { snapDistance: SNAP_DISTANCE, minPane: MIN_PANE });
     resizing.ratio = ratio;
     paintResize(resizing.overlay, resizing.node, ratio, snapped);
     // The line is all that moves while the windows are too many to follow it:
@@ -899,14 +900,11 @@ function buildFrame(node, context, middle) {
   // Focusable so the browser can move focus here, but out of the tab order:
   // tabbing should walk the controls inside a window, not the frames.
   el.tabIndex = -1;
-  el.innerHTML = `
-    <div class="mu-titlebar">
-      <span class="mu-drag-handle" draggable="true" title="${escapeHtml(
-        t("mu.win.drag")
-      )}">${iconMarkup("drag")}</span>
-      <span class="mu-window-id">${escapeHtml(node.id)}</span>
-      ${middle}
-      <span class="mu-title-actions">
+  el.innerHTML = titlebarMarkup({
+    id: node.id,
+    middle,
+    dragTitle: t("mu.win.drag"),
+    actions: `
         <button class="mu-icon-button action-contract" type="button"${node.expanded ? "" : " hidden"} title="${escapeHtml(
           t("mu.win.contract")
         )}">${iconMarkup("contractCard")}</button>
@@ -936,9 +934,8 @@ function buildFrame(node, context, middle) {
         )}">${iconMarkup("collapse")}</button>
         <button class="mu-icon-button action-delete" type="button" title="${escapeHtml(
           node.type === "group" ? t("mu.win.closeGroup") : t("mu.win.close")
-        )}">${iconMarkup("close")}</button>
-      </span>
-    </div>`;
+        )}">${iconMarkup("close")}</button>`,
+  });
   return el;
 }
 
@@ -2258,59 +2255,11 @@ function expandToward(id, direction) {
 // -- two windows on the left, one on the right, where moving half the seam
 // would make an L-shape -- the seam has one segment and behaves as before.
 
-const CUT_EPS = 0.001; // ratios are floats; two cuts this close are one cut
+// The seam geometry (CUT_EPS, fullCuts, splitAt, isolateSegment, ...) is shell/seams.
 
-function opposite(dir) {
-  return dir === "row" ? "col" : "row";
-}
 
-// Where a cut of direction `dir` runs edge to edge across `node`, as
-// fractions of node's extent. A col split cuts horizontally, a row split
-// vertically; a cut crosses a split of the other direction only if both of
-// its children have that same cut, which is what the intersection is.
-// A group is a solid rectangle like a leaf: nothing inside it reaches an
-// edge, because its tabs are stacked rather than laid out.
-function fullCuts(node, dir) {
-  if (!node || node.type !== "split") return [];
-  const ratio = ratioOf(node);
-  if (node.dir === dir) {
-    return [
-      ...fullCuts(node.children[0], dir).map((cut) => cut * ratio),
-      ratio,
-      ...fullCuts(node.children[1], dir).map((cut) => ratio + cut * (1 - ratio)),
-    ];
-  }
-  const other = fullCuts(node.children[1], dir);
-  return fullCuts(node.children[0], dir).filter((cut) =>
-    other.some((cut2) => Math.abs(cut2 - cut) <= CUT_EPS)
-  );
-}
 
-// The pieces a seam is drawn in: one per band between consecutive cuts that
-// cross both sides. One piece means the seam cannot be broken up.
-function seamSegments(node) {
-  const stops = [0, ...fullCuts(node, opposite(node.dir)), 1];
-  const segments = [];
-  for (let i = 0; i < stops.length - 1; i += 1) segments.push([stops[i], stops[i + 1]]);
-  return segments;
-}
 
-// The windows that touch one edge of a subtree, over a band of the seam's
-// length (fractions of the cross axis, as seamSegments gives them): the
-// subtree's last (`edge` "end") or first ("start") windows along `dir`. A
-// window or a group is one frame; a split along the axis offers its near
-// child; a split across it offers both, each for the part of the band it
-// covers.
-function edgeFrames(node, dir, edge, from, to) {
-  if (!node) return [];
-  if (node.type !== "split") return [node];
-  if (node.dir === dir) return edgeFrames(node.children[edge === "end" ? 1 : 0], dir, edge, from, to);
-  const ratio = ratioOf(node);
-  const found = [];
-  if (from < ratio - CUT_EPS) found.push(...edgeFrames(node.children[0], dir, edge, from / ratio, Math.min(to, ratio) / ratio));
-  if (to > ratio + CUT_EPS) found.push(...edgeFrames(node.children[1], dir, edge, (Math.max(from, ratio) - ratio) / (1 - ratio), (to - ratio) / (1 - ratio)));
-  return found;
-}
 
 // Whether a band of a split's seam divides anything: a seam is drawn where an
 // open window is beside it. Between two bars there is nothing to divide -- a
@@ -2330,102 +2279,8 @@ function markQuietBands(node, segEls) {
   }
 }
 
-// Cut a subtree in two along a line that crosses it completely. Leaves are
-// reused rather than copied, so window ids and item paths survive.
-function splitAt(node, dir, pos) {
-  if (node.type !== "split") throw new Error("cannot cut a window");
-  const ratio = ratioOf(node);
-  if (node.dir === dir) {
-    if (Math.abs(pos - ratio) <= CUT_EPS) return [node.children[0], node.children[1]];
-    if (pos < ratio) {
-      const [before, after] = splitAt(node.children[0], dir, pos / ratio);
-      return [
-        before,
-        // `after` covers [pos, ratio] of a piece that runs to 1.
-        { type: "split", dir, ratio: (ratio - pos) / (1 - pos), children: [after, node.children[1]] },
-      ];
-    }
-    const [before, after] = splitAt(node.children[1], dir, (pos - ratio) / (1 - ratio));
-    return [
-      { type: "split", dir, ratio: ratio / pos, children: [node.children[0], before] },
-      after,
-    ];
-  }
-  // A cut across the other direction cuts both children at the same place.
-  const [a0, b0] = splitAt(node.children[0], dir, pos);
-  const [a1, b1] = splitAt(node.children[1], dir, pos);
-  return [
-    { type: "split", dir: node.dir, ratio, children: [a0, a1] },
-    { type: "split", dir: node.dir, ratio, children: [b0, b1] },
-  ];
-}
 
-// Rewrite `node` so the band between `from` and `to` of its seam is a split
-// of its own. Returns the replacement and, inside it, the node the drag is
-// now against.
-function isolateSegment(node, from, to) {
-  const across = opposite(node.dir);
-  const ratio = ratioOf(node);
 
-  // Each side of the seam is cut into up to three bands: above, the one
-  // being grabbed, below.
-  const slice = (child) => {
-    let rest = child;
-    let before = null;
-    let after = null;
-    if (from > CUT_EPS) [before, rest] = splitAt(rest, across, from);
-    if (to < 1 - CUT_EPS) [rest, after] = splitAt(rest, across, (to - from) / (1 - from));
-    return [before, rest, after];
-  };
-  const [before0, middle0, after0] = slice(node.children[0]);
-  const [before1, middle1, after1] = slice(node.children[1]);
-
-  const band = (left, right) => ({ type: "split", dir: node.dir, ratio, children: [left, right] });
-  const target = band(middle0, middle1);
-
-  const parts = [];
-  if (before0) parts.push({ size: from, node: band(before0, before1) });
-  parts.push({ size: to - from, node: target });
-  if (after0) parts.push({ size: 1 - to, node: band(after0, after1) });
-
-  // Stack the bands back up, right-leaning, with each ratio the band's
-  // share of what is left below it.
-  let stacked = parts[parts.length - 1];
-  for (let i = parts.length - 2; i >= 0; i -= 1) {
-    const part = parts[i];
-    stacked = {
-      size: part.size + stacked.size,
-      node: {
-        type: "split",
-        dir: across,
-        ratio: part.size / (part.size + stacked.size),
-        children: [part.node, stacked.node],
-      },
-    };
-  }
-  return { replacement: stacked.node, target };
-}
-
-// Where a split node sits, by identity. findParent() only knows leaves,
-// and the surgery above swaps out an interior node.
-function swapNode(target, replacement) {
-  if (layoutRoot() === target) {
-    setLayoutRoot(replacement);
-    return true;
-  }
-  const walk = (node) => {
-    if (!isContainer(node)) return false;
-    for (let i = 0; i < node.children.length; i += 1) {
-      if (node.children[i] === target) {
-        node.children[i] = replacement;
-        return true;
-      }
-      if (walk(node.children[i])) return true;
-    }
-    return false;
-  };
-  return walk(layoutRoot());
-}
 
 // ---- resizing --------------------------------------------------------
 // A split's measurements for the length of a drag: how long it is, how much
@@ -2441,9 +2296,6 @@ function seamGeometry(ctx, segEl) {
   return { horizontal, rect, size, seam, inner: Math.max(1, size - seam) };
 }
 
-function ratioAt(position, geom) {
-  return (position - geom.seam / 2) / geom.inner;
-}
 
 // Every seam elsewhere in the layout that runs the same way as this one, as
 // a fraction of the split being dragged. Lining a seam up with one of these
@@ -2476,32 +2328,6 @@ function alignmentTargets(ctx, geom) {
   return targets;
 }
 
-// The magnet: snap to the best target within SNAP_DISTANCE, then clamp so
-// neither pane collapses.
-//
-// A seam beats a percentage outright, not merely on a tie. They are usually
-// a couple of pixels apart -- a neighbour sitting at 50.4% next to the 50%
-// guide -- and with the nearer one winning, the round number would keep
-// stealing the drag and the two seams could never be made to meet, which is
-// the whole point of the magnet. Between two seams, the nearer wins.
-function snapRatio(raw, inner, targets) {
-  let ratio = raw;
-  let snapped = null;
-  let best = Infinity;
-  for (const target of targets) {
-    const distance = Math.abs(raw - target.ratio) * inner;
-    if (distance > SNAP_DISTANCE) continue;
-    const beatsKind = snapped === null || (target.align && !snapped.align);
-    const sameKind = snapped !== null && target.align === snapped.align;
-    if (beatsKind || (sameKind && distance < best)) {
-      best = distance;
-      ratio = target.ratio;
-      snapped = target;
-    }
-  }
-  const min = Math.min(0.5, MIN_PANE / inner);
-  return { ratio: Math.min(Math.max(ratio, min), 1 - min), snapped };
-}
 
 // The seams to line up with, drawn like the percentage guides but dotted,
 // and thrown away when the drag ends.
@@ -2597,17 +2423,6 @@ function applyRatio(childEls, ratio, node) {
   });
 }
 
-// The splits from the root down to `target`, nearest last. Null when the
-// node is not in the tree.
-function ancestorsOf(target, node = layoutRoot(), trail = []) {
-  if (!node || node === target) return node === target ? trail : null;
-  if (node.type === "leaf") return null;
-  for (const child of node.children) {
-    const found = ancestorsOf(target, child, [...trail, node]);
-    if (found) return found;
-  }
-  return null;
-}
 
 // A seam with a bar on one side has nothing of its own to divide. But
 // between two open windows --  A | bar | B  -- it is B's edge, and moving it

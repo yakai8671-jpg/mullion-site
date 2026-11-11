@@ -19,7 +19,8 @@
     "i18n",
     "hotkeys",
     "plugins",
-    "values"
+    "values",
+    "clipboard"
   ],
   "api": [
     "familyUses",

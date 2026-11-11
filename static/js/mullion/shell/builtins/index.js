@@ -39,7 +39,7 @@ function install(file) {
 
 export default {
   setup(ctx) {
-    connect({ values: ctx.use("values"), server: ctx.use("server"), registry: ctx.use("registry"), apps: ctx.use("apps"), items: ctx.use("items"), layout: ctx.use("layout"), view: ctx.use("view"), mount: ctx.use("mount"), i18n: ctx.use("i18n"), frames: ctx.use("frames"), pickers: ctx.use("pickers"), home: ctx.use("home"), ports: ctx.use("ports"), properties: ctx.use("properties"), media: ctx.use("media") });
+    connect({ values: ctx.use("values"), server: ctx.use("server"), registry: ctx.use("registry"), apps: ctx.use("apps"), items: ctx.use("items"), layout: ctx.use("layout"), view: ctx.use("view"), mount: ctx.use("mount"), i18n: ctx.use("i18n"), frames: ctx.use("frames"), pickers: ctx.use("pickers"), ports: ctx.use("ports"), properties: ctx.use("properties"), media: ctx.use("media") });
 
     // The built-in items are the page's: boot installs them all (installBuiltins);
     // the Node tests take only those they need (installBuiltin).

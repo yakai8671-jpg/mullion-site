@@ -1,3 +1,5 @@
 {
-  "type": "propgroup.app"
+  "type": "propgroup.app",
+  "home": "utility",
+  "homeOrder": 80
 }

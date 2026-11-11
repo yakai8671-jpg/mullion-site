@@ -6,7 +6,8 @@
  *
  *   - Top-level keys: `type` (required, naming an item declared by this plugin),
  *     `name`, `icon`, `layout`, `props`, `defaultItem`, `keep`,
- *     `excludeHistory`, `hotkeys`.
+ *     `excludeHistory`, `hotkeys`, `home` (the Home group it sits in: "image",
+ *     "utility", ...), `homeOrder` (its place there, smaller first).
  *   - `layout`: 2-way splits (`{ dir, ratio, children }`), `"self"`,
  *     `{ self: true, collapsed }`, `{ add, tag, props, collapsed }`,
  *     `{ app, tag, collapsed }`, `{ bay: { name, active, sashes }, tag }`,
@@ -28,7 +29,7 @@
 import { APPS, ITEM_TYPES, isStandalone } from "./registry.js";
 
 const APP_DECLARATION_KEYS = new Set([
-  "type", "name", "icon", "layout", "props", "defaultItem", "keep", "excludeHistory", "hotkeys",
+  "type", "name", "icon", "layout", "props", "defaultItem", "keep", "excludeHistory", "hotkeys", "home", "homeOrder",
 ]);
 const TAG_RE = /^[A-Za-z0-9_]+$/;
 const HOTKEY_KEY_RE = /^(?:ctrl\+)?(?:alt\+)?(?:shift\+)?(?:[a-z0-9]|F[1-46-9]|F10)$/i;
@@ -337,6 +338,12 @@ export function compileApp(data, { items, declared, declaredApps = new Map(), va
   }
   if (data.icon !== undefined && (typeof data.icon !== "string" || !data.icon)) {
     at("icon", "must be a non-empty icon name");
+  }
+  if (data.home !== undefined && (typeof data.home !== "string" || !/^[a-z][a-z0-9-]*$/.test(data.home))) {
+    at("home", "must be the id of a Home group (lower case, like \"image\")");
+  }
+  if (data.homeOrder !== undefined && !Number.isFinite(data.homeOrder)) {
+    at("homeOrder", "must be a number");
   }
   if (data.excludeHistory !== undefined && typeof data.excludeHistory !== "boolean") {
     at("excludeHistory", "must be true or false");

@@ -1,3 +1,5 @@
 {
-  "type": "speech.irodori"
+  "type": "speech.irodori",
+  "home": "audio",
+  "homeOrder": 20
 }

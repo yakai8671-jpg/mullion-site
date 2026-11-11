@@ -1,5 +1,7 @@
 {
   "type": "bseditor.cells",
+  "home": "utility",
+  "homeOrder": 30,
   "name": "bseditor.app.name",
   "layout": {
     "dir": "row",

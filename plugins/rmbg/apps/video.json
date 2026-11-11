@@ -1,3 +1,5 @@
 {
-  "type": "rmbg.video"
+  "type": "rmbg.video",
+  "home": "video",
+  "homeOrder": 40
 }

@@ -1,3 +1,5 @@
 {
-  "type": "pose2img.scene"
+  "type": "pose2img.scene",
+  "home": "image",
+  "homeOrder": 60
 }

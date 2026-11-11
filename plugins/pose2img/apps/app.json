@@ -1,5 +1,7 @@
 {
   "type": "pose2img.app",
+  "home": "image",
+  "homeOrder": 50,
   "layout": {
     "dir": "row",
     "ratio": 0.6,

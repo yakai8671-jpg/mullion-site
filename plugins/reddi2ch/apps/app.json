@@ -1,5 +1,7 @@
 {
   "type": "reddi2ch.app",
+  "home": "other",
+  "homeOrder": 30,
   "defaultItem": "reddi2ch.app",
   "layout": {
     "dir": "row",

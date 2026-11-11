@@ -1,3 +1,5 @@
 {
-  "type": "qwenpe.app"
+  "type": "qwenpe.app",
+  "home": "prompt",
+  "homeOrder": 40
 }

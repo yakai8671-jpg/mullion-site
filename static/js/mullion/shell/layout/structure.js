@@ -649,6 +649,15 @@ export function validateItems(raw) {
 
 // Drop path entries whose item is gone, and never leave a window with
 // nothing to show.
+// What a window shows when nothing of its own is left: apps' to say (it depends
+// on layout, so it fills this slot: layout.defaultLeafBeside).
+let defaultLeafBeside = () => {
+  throw new Error("layout: defaultLeafBeside asked before apps filled it");
+};
+export function connectSlots(slots) {
+  defaultLeafBeside = slots.defaultLeafBeside;
+}
+
 export function repairPaths() {
   eachLeaf(layoutRoot(), (leaf) => {
     leaf.path = leaf.path.filter((itemId) => {

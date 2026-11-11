@@ -13,7 +13,9 @@
     "mount",
     "ports",
     "pickers",
-    "values"
+    "values",
+    "parts",
+    "clipboard"
   ],
   "layer": "screen",
   "api": [

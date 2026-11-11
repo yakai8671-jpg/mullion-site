@@ -1,3 +1,5 @@
 {
-  "type": "speech.voicevox"
+  "type": "speech.voicevox",
+  "home": "audio",
+  "homeOrder": 10
 }

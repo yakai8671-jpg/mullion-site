@@ -1,5 +1,7 @@
 {
   "type": "t2i.app",
+  "home": "image",
+  "homeOrder": 10,
   "layout": {
     "dir": "row",
     "ratio": 0.5,

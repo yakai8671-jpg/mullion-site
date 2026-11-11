@@ -1,5 +1,7 @@
 {
   "type": "imageedit.app",
+  "home": "image",
+  "homeOrder": 20,
   "layout": {
     "dir": "row",
     "ratio": 0.5,

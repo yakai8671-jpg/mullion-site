@@ -31,9 +31,11 @@ export let window;
 export let toast;
 export let writeValue;
 
+export let CSS;
+
 export function connect(apis) {
   ({ writeValue } = apis.values);
-  ({ Element, document, getComputedStyle, window } = apis.page);
+  ({ Element, document, getComputedStyle, window, CSS } = apis.page);
   ({ t } = apis.i18n);
   ({ currentFileName, loadLayoutText, operationsHalted, rememberFile } = apis.operations);
   ({ createItem, getItem } = apis.items);

@@ -1,3 +1,5 @@
 {
-  "type": "bays.manager"
+  "type": "bays.manager",
+  "home": "mullion",
+  "homeOrder": 60
 }

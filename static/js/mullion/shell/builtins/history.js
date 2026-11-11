@@ -50,7 +50,7 @@ export function install() {
       "mu.history.hint": "「適用」で選んだ履歴を現在の状態にします。このタブの直近100件を再読み込みまで保持します。アプリ一覧で除外を設定でき、変更すると現在の状態から履歴を開始します。除外アプリの値とカード表示は現在の状態を保ち、ウィンドウ間の配置とサイズは履歴に従って復元します。ファイル、保存済みプリセット、全体設定、外部ジョブは対象外です。Ctrl/Cmd+Z：元に戻す、Ctrl+Y または Ctrl/Cmd+Shift+Z：やり直す。入力欄では文字編集のアンドゥを使います。",
     },
   });
-  registerApp("history", { excludeHistory: true });
+  registerApp("history", { home: "mullion", homeOrder: 40, excludeHistory: true });
   registerItemType("history", {
     label: "mu.history.title",
     standalone: true,

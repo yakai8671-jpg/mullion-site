@@ -1,5 +1,7 @@
 {
   "type": "h3.builder",
+  "home": "prompt",
+  "homeOrder": 50,
   "layout": {
     "dir": "col",
     "ratio": 0.55,

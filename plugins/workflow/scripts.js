@@ -1,7 +1,7 @@
 /* Workflow declarative scripts */
 
 import { declareRunApp, registerAppKit } from "./appkit.js";
-import { registerRunner, runAppKit, appEmbed, useComfyView } from "./runner.js";
+import { registerRunner, runAppKit, appEmbed, useComfyView, useClipboard } from "./runner.js";
 import { registerTemplates, TOOLS } from "./template.js";
 import { registerReadiness } from "./readiness.js";
 
@@ -131,6 +131,7 @@ export const itemFactories = {
 export let types;
 export function initialize(api) {
 useComfyView(api.granted("comfy:run").viewUrl);
+useClipboard(api.granted("clipboard:write").writeText);
 const harness = {
   core: api.core,
   describe: api.describe,

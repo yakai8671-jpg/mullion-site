@@ -1,3 +1,5 @@
 {
-  "type": "workflow.history"
+  "type": "workflow.history",
+  "home": "mullion",
+  "homeOrder": 80
 }

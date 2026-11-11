@@ -91,6 +91,12 @@ let comfyView = null;
 export function useComfyView(viewUrl) {
   comfyView = viewUrl;
 }
+
+// The clipboard is clipboard:write's (handed in by initialize, scripts.js).
+let clipboardWrite = null;
+export function useClipboard(writeText) {
+  clipboardWrite = writeText;
+}
 const comfyAddress = (ref) => (comfyView && ref && ref.filename ? comfyView(ref) : "");
 export const resultAddress = (one) => (one && one.src) || comfyAddress((one && one.ref) || {});
 
@@ -1625,7 +1631,7 @@ export function registerRunner(fw, template, readiness) {
         event.stopPropagation();
         // No feedback beyond the icon: a copy that worked is its own
         // confirmation, and one that did not throws.
-        navigator.clipboard.writeText(el.__text || "").catch(() => {});
+        if (clipboardWrite) clipboardWrite(el.__text || "");
       });
       const clear = cardAction("clear", "close");
       clear.classList.add("action-delete");
@@ -1820,7 +1826,7 @@ export function registerRunner(fw, template, readiness) {
       el.__parts = { ...parts, edit, presets, copy, view };
       copy.addEventListener("click", (event) => {
         event.stopPropagation();
-        navigator.clipboard.writeText(el.__text || "").catch(() => {});
+        if (clipboardWrite) clipboardWrite(el.__text || "");
       });
       body.classList.add("workflow-card-text");
       fw.controls["workflow.promptpreview"].update(el, desc);

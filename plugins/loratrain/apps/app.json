@@ -1,3 +1,5 @@
 {
-  "type": "loratrain.app"
+  "type": "loratrain.app",
+  "home": "image",
+  "homeOrder": 80
 }

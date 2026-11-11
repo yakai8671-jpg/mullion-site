@@ -18,7 +18,6 @@ export let captureLaunchLayout;
 export let closeScreen;
 export let coerceApp;
 export let coerceImageList;
-export let defaultHomeGroups;
 export let derivesFrom;
 export let describe;
 export let diskAddress;
@@ -26,7 +25,6 @@ export let findLeaf;
 export let formatValue;
 export let getItem;
 export let grantApi;
-export let homeGroups;
 export let iconNames;
 export let inferredAppOf;
 export let itemLabel;
@@ -65,7 +63,6 @@ export let resetApp;
 export let revealItem;
 export let row;
 export let setApp;
-export let setHomeGroups;
 export let setKindNodes;
 export let setToolShown;
 export let setTypeSetting;
@@ -89,10 +86,14 @@ export let fetch;
 
 export let writeValue;
 
+export let settings;
+
+export let APPS;
+
 export function connect(apis) {
   ({ writeValue, formatValue } = apis.values);
-  ({ fetch } = apis.server);
-  ({ CONTROLS, ICONS, ITEM_TYPES, VALUE_TYPES, derivesFrom, describe, grantApi, paramNames, portTypes, presetSpecOf, presetTypeDef, presetTypeFor, presetTypes, registerApp, registerControl, registerItemType, registerSkin, registerValueType, valueTypeFor } = apis.registry);
+  ({ fetch, settings } = apis.server);
+  ({ APPS, CONTROLS, ICONS, ITEM_TYPES, VALUE_TYPES, derivesFrom, describe, grantApi, paramNames, portTypes, presetSpecOf, presetTypeDef, presetTypeFor, presetTypes, registerApp, registerControl, registerItemType, registerSkin, registerValueType, valueTypeFor } = apis.registry);
   ({ ACCENT_SETTING, APP_SETTINGS, appDef, appList, appSettingValue, captureLaunchLayout, coerceApp, linkOptionsFor, linkSlotsOf, linksOf, putLink, resetApp, setApp, setTypeSetting, typeSettingValue, typeSettingsOf, unlinkApp } = apis.apps);
   ({ DEFAULT_ITEM_TYPE, getItem, itemLabel, itemProperties } = apis.items);
   ({ DIRECTIONS, findLeaf, leafIds } = apis.layout);
@@ -101,7 +102,6 @@ export function connect(apis) {
   ({ t, registerTranslations } = apis.i18n);
   ({ TITLE_TOOLS, TITLE_TOOL_ICONS, reopenApp, revealItem, setToolShown, toolShown, windowEl, barHas } = apis.frames);
   ({ closeScreen, iconNames, openScreen, openValuePicker, rememberPickerView, rememberedPickerView, shownBeneathSettings } = apis.pickers);
-  ({ defaultHomeGroups, homeGroups, setHomeGroups } = apis.home);
   ({ portConvert, portInfo, portLabel, registerPortConversion, unlinkPort } = apis.ports);
   ({ candidatesFor, coerceImageList, groupOf: propertyGroupOf } = apis.properties);
   ({ diskAddress, mediaOfName } = apis.media);

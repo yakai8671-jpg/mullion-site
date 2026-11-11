@@ -1,5 +1,7 @@
 {
   "type": "yue2.app",
+  "home": "audio",
+  "homeOrder": 30,
   "defaultItem": "yue2.app",
   "layout": {
     "dir": "row",

@@ -1,5 +1,7 @@
 {
   "type": "files.browser",
+  "home": "utility",
+  "homeOrder": 40,
   "layout": {
     "dir": "row",
     "ratio": 0.5,

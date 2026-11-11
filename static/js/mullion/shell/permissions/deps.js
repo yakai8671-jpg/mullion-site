@@ -133,7 +133,10 @@ export let locate;
 export let qs;
 export let settings;
 
+export let writeText;
+
 export function connect(apis) {
+  ({ writeText } = apis.clipboard);
   ({ formatValue } = apis.values);
   ({ fetchJSON, qs, settings } = apis.server);
   ({ locate } = apis.media);

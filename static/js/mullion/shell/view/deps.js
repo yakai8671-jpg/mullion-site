@@ -36,7 +36,10 @@ export let window;
 export let language;
 export let settings;
 
+export let preloadedProblemRestart;
+
 export function connect(apis) {
+  ({ preloadedProblemRestart } = apis.preload);
   ({ formatValue } = apis.values);
   ({ settings } = apis.server);
   ({ MutationObserver, ResizeObserver, cancelAnimationFrame, document, getComputedStyle, requestAnimationFrame, window } = apis.page);

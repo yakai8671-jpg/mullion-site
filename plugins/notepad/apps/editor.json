@@ -1,3 +1,5 @@
 {
-  "type": "notepad.editor"
+  "type": "notepad.editor",
+  "home": "utility",
+  "homeOrder": 10
 }

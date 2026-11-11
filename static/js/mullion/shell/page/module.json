@@ -1,6 +1,6 @@
 {
   "name": "page",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "deps": [],
   "api": [
     "document",
@@ -11,7 +11,10 @@
     "ResizeObserver",
     "getComputedStyle",
     "Element",
-    "HTMLVideoElement"
+    "HTMLVideoElement",
+    "CSS",
+    "location",
+    "navigator"
   ],
   "events": [],
   "slots": [],

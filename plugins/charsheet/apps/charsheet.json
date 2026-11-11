@@ -1,3 +1,5 @@
 {
-  "type": "charsheet.app"
+  "type": "charsheet.app",
+  "home": "image",
+  "homeOrder": 70
 }

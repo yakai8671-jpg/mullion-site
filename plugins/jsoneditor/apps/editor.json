@@ -1,3 +1,5 @@
 {
-  "type": "jsoneditor.editor"
+  "type": "jsoneditor.editor",
+  "home": "utility",
+  "homeOrder": 20
 }

@@ -1,3 +1,5 @@
 {
-  "type": "clock.face"
+  "type": "clock.face",
+  "home": "utility",
+  "homeOrder": 50
 }

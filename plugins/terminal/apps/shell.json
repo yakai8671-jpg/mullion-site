@@ -1,4 +1,6 @@
 {
   "type": "terminal.shell",
+  "home": "utility",
+  "homeOrder": 60,
   "hotkeys": [{ "key": "ctrl+l", "at": "self", "action": "clear" }]
 }

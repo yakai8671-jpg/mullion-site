@@ -54,10 +54,22 @@ export let window;
 export let fetch;
 
 export let languages;
+export let applyButton;
+export let diffChildren;
+export let emptyGuide;
+export let setValue;
+export let stepperButton;
+
+export let location;
+
+export let writeText;
+
 export function connect(apis) {
+  ({ writeText } = apis.clipboard);
+  ({ applyButton, diffChildren, emptyGuide, setValue, stepperButton } = apis.parts);
   ({ formatValue } = apis.values);
   ({ fetch } = apis.server);
-  ({ ResizeObserver, document, getComputedStyle, requestAnimationFrame, window } = apis.page);
+  ({ ResizeObserver, document, getComputedStyle, requestAnimationFrame, window, location } = apis.page);
   ({ t, languages } = apis.i18n);
   ({ CONTROLS, ICONS, ITEM_TYPES, VALUE_TYPES, describeProperty, registerControl } = apis.registry);
   ({ TEXT_LANGUAGES, blobToDataUrl, describeImage, formatAxis, formatBytes, imageFacts, optionsOf, pickLanguage } = apis.properties);

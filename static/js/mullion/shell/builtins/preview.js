@@ -213,7 +213,7 @@ export function install() {
     return src ? [{ id: "0", src }] : [];
   });
   setKindNodes(kindNodes);
-  registerApp("preview");
+  registerApp("preview", { home: "mullion", homeOrder: 30 });
   registerItemType("preview", {
     label: "mu.item.preview",
     standalone: true,

@@ -6,7 +6,7 @@ import { APP_SETTINGS, DEFAULT_ITEM_TYPE, DIRECTIONS, NODES, appSettingValue, it
 
 // What this file registers, once the modules it uses are handed in (index.js).
 export function install() {
-  registerApp("settings");
+  registerApp("settings", { home: "mullion", homeOrder: 20 });
   registerItemType("settings", {
       label: "mu.item.settings",
       standalone: true,

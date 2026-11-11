@@ -1,5 +1,7 @@
 {
   "type": "yue2.editor",
+  "home": "audio",
+  "homeOrder": 40,
   "name": "yue2.app.edit",
   "defaultItem": "yue2.editor",
   "layout": {

@@ -1,5 +1,5 @@
 /* pickers: moved out of core.js (docs/wiki/migration.md). */
-import { ICONS, ITEM_TYPES, bindProperty, commit, createItem, currentItemId, eachLeaf, findLeaf, getItem, grants, layoutRoot, portGuide, portInfo, readAddress, screensOf, setScreens, sharePort, truncatePath, currentFileName, layoutText, loadLayoutText, operationsHalted, rememberFile, t, Element, document, getComputedStyle, window, toast } from "./deps.js";
+import { ICONS, ITEM_TYPES, bindProperty, commit, createItem, currentItemId, eachLeaf, findLeaf, getItem, grants, layoutRoot, portGuide, portInfo, readAddress, screensOf, setScreens, sharePort, truncatePath, currentFileName, layoutText, loadLayoutText, operationsHalted, rememberFile, t, Element, document, getComputedStyle, window, toast, CSS } from "./deps.js";
 import { writeValue } from "./deps.js";
 
 // What pickers asks of others (registerPickersHook), while they are core.js:

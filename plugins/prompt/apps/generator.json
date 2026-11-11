@@ -1,3 +1,5 @@
 {
-  "type": "prompt.generator"
+  "type": "prompt.generator",
+  "home": "prompt",
+  "homeOrder": 20
 }
